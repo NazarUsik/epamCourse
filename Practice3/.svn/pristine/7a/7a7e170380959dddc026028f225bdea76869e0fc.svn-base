@@ -1,0 +1,129 @@
+package ua.nure.usik.practice3;
+
+public class Part5 {
+    private final static String LINE = " --> ";
+    private final static int NUM = 100;
+
+    static int decSubNum(char dec1, char dec2, int i, char[] ch) {
+        ch[i++] = dec1;
+        ch[i++] = dec2;
+        return i;
+    }
+
+    static int numDec(char ch1, int num, int i, char[] ch) {
+        for (int j = 0; j < num; j++) {
+            ch[i++] = ch1;
+        }
+        return i;
+    }
+
+    public static String decimal2Roman(int x) {
+        final int DEC = 90;
+        final int HES = 40;
+
+        char[] ch = new char[NUM + 1];
+        int startNum = 0;
+        if (x <= 0) {
+            System.out.println("Invalid num");
+            return null;
+        }
+        while (x != 0) {
+            if (x >= NUM) {
+                if (x < (NUM * 4)) {
+                    startNum = numDec('C', x / NUM, startNum, ch);
+                    x = x % NUM;
+                } else {
+                    startNum = decSubNum('C', 'D', startNum, ch);
+                    x = x % NUM;
+                }
+            } else if (x >= (NUM/2)) {
+                if (x < DEC) {
+                    startNum = numDec('L', x / (NUM / 2), startNum, ch);
+                    x = x % (NUM/2);
+                } else {
+                    startNum = decSubNum('X', 'C', startNum, ch);
+                    x = x % 10;
+                }
+            } else if (x >= 10) {
+                if (x < HES) {
+                    startNum = numDec('X', x / (NUM / 10), startNum, ch);
+                    x = x % 10;
+                } else {
+                    startNum = decSubNum('X', 'L', startNum, ch);
+                    x = x % 10;
+                }
+            } else if (x >= 5) {
+                if (x < 9) {
+                    startNum = numDec('V', x / 5, startNum, ch);
+                    x = x % 5;
+                } else {
+                    startNum = decSubNum('I', 'X', startNum, ch);
+                    x = 0;
+                }
+            } else if (x >= 1) {
+                if (x < 4) {
+                    startNum = numDec('I', x, startNum, ch);
+                    x = 0;
+                } else {
+                    startNum = decSubNum('I', 'V', startNum, ch);
+                    x = 0;
+                }
+            }
+        }
+
+        StringBuilder retStr = new StringBuilder();
+        for (int j = 0; j < startNum; j++) {
+            retStr.append(ch[j]);
+        }
+
+        return retStr.toString();
+    }
+
+
+    public static int roman2Decimal(String s) {
+        int intToRes = 0;
+
+        int i = 0;
+        while (i < s.length()) {
+            int s1 = romChar(s.charAt(i));
+            if (i + 1 < s.length()) {
+                int s2 = romChar(s.charAt(i + 1));
+                if (s1 >= s2) {
+                    intToRes = intToRes + s1;
+                } else {
+                    intToRes = intToRes + s2 - s1;
+                    i++;
+                }
+            } else {
+                intToRes = intToRes + s1;
+                i++;
+            }
+            i++;
+        }
+
+        return intToRes;
+    }
+
+    static int romChar(char r) {
+        if (r == 'I') {
+            return 1;
+        }
+        if (r == 'V') {
+            return NUM / 20;
+        }
+        if (r == 'X') {
+            return NUM / 10;
+        }
+        if (r == 'L') {
+            return NUM / 2;
+        }
+        return 100;
+    }
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= NUM; i++) {
+            System.out.println(i + LINE + decimal2Roman(i)
+                    + LINE + roman2Decimal(decimal2Roman(i)));
+        }
+    }
+}

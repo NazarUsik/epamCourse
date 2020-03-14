@@ -1,0 +1,19 @@
+CREATE TABLE USERS
+(
+    user_id SERIAL NOT NULL PRIMARY KEY,
+    login   VARCHAR(15)
+);
+
+CREATE TABLE TEAMS
+(
+    team_id SERIAL NOT NULL PRIMARY KEY,
+    name    VARCHAR(15)
+);
+
+CREATE TABLE USERS_TEAMS
+(
+    user_id SMALLINT NOT NULL,
+    team_id SMALLINT NOT NULL
+        REFERENCES TEAMS (team_id)
+            ON DELETE CASCADE
+);

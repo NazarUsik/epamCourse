@@ -1,0 +1,54 @@
+package ua.nure.usik.practice4.part4;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ReadFile implements Iterable<String> {
+    private static final String regex = "(?m)(?U)([A-ZА-Я].+\\.)";
+    private String text;
+
+    public ReadFile(String path) throws IOException {
+        this.text = readFile(path);
+    }
+
+    private static String readFile(String path) throws IOException {
+        StringBuilder str = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(path), StandardCharsets.UTF_8));
+        String text;
+        while((text = reader.readLine())!=null){
+            str.append(text).append('\n');
+        }
+        reader.close();
+        return str.toString().trim();
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return new IteratorImpl();
+    }
+
+    class IteratorImpl implements Iterator<String> {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return matcher.find();
+        }
+
+        @Override
+        public String next() {
+            return matcher.group();
+        }
+    }
+
+}

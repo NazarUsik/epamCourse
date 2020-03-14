@@ -1,0 +1,56 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+import ua.nure.usik.practice6.part1.WordContainer;
+
+import java.util.*;
+
+public class WordContainerWithArrow {
+    private HashMap<Integer, WordWithArrow> words;
+    private int number;
+
+    public WordContainerWithArrow() {
+        words = new HashMap<>();
+    }
+
+
+    public void add(Word word) {
+        for (Map.Entry<Integer, WordWithArrow> w : words.entrySet()) {
+            if (w.getValue().equals(word)) {
+                w.getValue().increaseFrequency();
+                return;
+            }
+        }
+        words.put(++number, (WordWithArrow) word);
+        //sortToFrequency();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<Map.Entry<Integer, WordWithArrow>> arrayList = new ArrayList<>();
+
+        for (Map.Entry<Integer, WordWithArrow> w : words.entrySet()) {
+            if (w.getValue().getFrequency() >= 3) {
+                arrayList.add(w);
+            }
+        }
+
+        Map.Entry<Integer, WordWithArrow> last = arrayList.get(arrayList.size() - 1);
+        int i = arrayList.size()-1;
+        while (i > 1) {
+            arrayList.remove(i--);
+        }
+
+        Collections.reverse(arrayList);
+
+        for (i = 0; i < arrayList.size(); i++) {
+            Map.Entry<Integer, WordWithArrow> w = arrayList.get(i);
+            if(i == 1){
+                stringBuilder.append(last.getValue().toString()).append('\n');
+            }
+            stringBuilder.append(w.getValue().toString()).append('\n');
+        }
+        return stringBuilder.toString();
+    }
+}

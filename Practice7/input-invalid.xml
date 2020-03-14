@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Input XML document. This XML is valid against Test.xsd XML schema-->
+
+<p7:Guns xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p7="http://nure.ua/usik/p7"
+		xsi:schemaLocation="http://nure.ua/test/p7 input.xsd" >
+		
+	<Gun>
+		<Model>M16</Model>
+		<Handy>Two_handed</Handy>
+		<Origin>USA</Origin>
+		<Material>Metal-Plastic</Material>
+		<TTC>
+			<LongRange>Medium</LongRange>
+			<SightingRange>800</SightingRange>
+			<ClipAvailability>true</ClipAvailability>
+			<OpticsAvailability>true</OpticsAvailability>
+		</TTC>
+	</Gun>
+
+	<Gun>
+		<Model>Desert Eagle</Model>
+		<Handy>One_handed</Handy>
+		<Origin>USA-Israel</Origin>
+		<Material>Metal-Plastic</Material>
+		<TTC>
+			<LongRange>Close</LongRange>
+			<SightingRange>200</SightingRange>
+			<ClipAvailability>true</ClipAvailability>
+			<OpticsAvailability>false</OpticsAvailability>
+		</TTC>
+	</Gun>
+	
+	<Gun>
+		<Model>AK-47</Model>
+		<Handy>Two_handed</Handy>
+		<Origin>USSR</Origin>
+		<Material>Metal-Wood</Material>
+		<TTC>
+			<LongRange>Close</LongRange>
+			<SightingRange>800</SightingRange>
+			<ClipAvailability>true</ClipAvailability>
+			<OpticsAvailability>false</OpticsAvailability>
+		</TTC>
+	</Gun>
+</p7:Guns>

@@ -1,0 +1,16 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+
+public class WordWithArrow extends Word {
+    private static final String ARROW = " ==> ";
+
+    public WordWithArrow(String content) {
+        super(content);
+    }
+
+    @Override
+    public String toString() {
+            return getContent() + ARROW + getFrequency();
+    }
+}

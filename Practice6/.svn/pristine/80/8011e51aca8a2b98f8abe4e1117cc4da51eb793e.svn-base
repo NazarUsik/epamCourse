@@ -1,0 +1,29 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+import ua.nure.usik.practice6.part1.WordContainer;
+
+import java.util.ArrayList;
+
+public class WordContainerForLength extends WordContainer<Word> {
+    private static final String ARROW = " ==> ";
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        ArrayList<Word> words = getWords();
+        for (int i = 0; i < 3; i++) {
+            Word w = words.get(i);
+            stringBuilder.append(w.getContent()).append(ARROW).append(w.getContent().length()).append('\n');
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    protected void sortToFrequency() {
+        getWords().sort((o1, o2) -> o2.getContent().length() == o1.getContent().length() ?
+                o1.getContent().compareTo(o2.getContent()) :
+                o2.getContent().length() - o1.getContent().length());
+    }
+}

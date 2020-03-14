@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  XML schema -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://nure.ua/usik/p7"
+            xmlns:tns="http://nure.ua/usik/p7">
+
+    <xsd:element name="Guns">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Gun" type="tns:Gun" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="Gun">
+        <xsd:sequence>
+            <xsd:element name="Model" type="xsd:string"/>
+            <xsd:element name="Handy">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Two_handed"/>
+						<xsd:enumeration value="One_handed"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+            <xsd:element name="Origin" type="xsd:string"/>
+            <xsd:element name="Material" type="xsd:string"/>
+            <xsd:element name="TTC" type="tns:TTC"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TTC" mixed="true">
+       	<xsd:sequence>
+			<xsd:element name="LongRange">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Close"/>
+						<xsd:enumeration value="Medium"/>
+						<xsd:enumeration value="Long"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="SightingRange" type="xsd:int"/>
+			<xsd:element name="ClipAvailability" type="xsd:boolean" default="true"/>
+			<xsd:element name="OpticsAvailability" type="xsd:boolean" default="false"/>
+		</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,23 @@
+package ua.nure.usik.practice4.part5;
+
+import java.util.Scanner;
+
+public class Part5 {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+            String[] mas = sc.nextLine().split(" ");
+            if (mas[0].equals("stop")) {
+                break;
+            }
+
+            try {
+                System.out.println(Translator.translate(mas[0], mas[1]));
+            } catch (IndexOutOfBoundsException ex){
+                System.out.println("No such values");
+            }
+        }
+        sc.close();
+    }
+}

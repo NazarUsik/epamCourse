@@ -1,0 +1,71 @@
+package ua.nure.usik.practice7.util;
+
+import ua.nure.usik.practice7.constants.Constants;
+import ua.nure.usik.practice7.controller.DOMController;
+import ua.nure.usik.practice7.entity.Gun;
+import ua.nure.usik.practice7.entity.Guns;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+
+public class Sorter {
+
+	// //////////////////////////////////////////////////////////
+	// these are comparators
+	// //////////////////////////////////////////////////////////
+
+	/**
+	 * Sorts questions by model
+	 */
+	public static final Comparator<Gun> SORT_GUNS_BY_MODEL = Comparator.comparing(Gun::getModel);
+
+	/**
+	 * Sorts questions by origin
+	 */
+	public static final Comparator<Gun> SORT_GUNS_BY_ORIGIN = Comparator.comparing(Gun::getOrigin);
+
+	/**
+	 * Sorts questions by sighting range.
+	 */
+	public static final Comparator<Gun> SORT_GUNS_BY_SIGHTING_RANGE =
+			Comparator.comparingInt(o -> Integer.parseInt(o.getTtc().getSightingRange()));
+
+	// //////////////////////////////////////////////////////////
+	// these methods take Test object and sort it
+	// with according comparator
+	// //////////////////////////////////////////////////////////
+
+	public static final void sortGunsByModel(Guns guns) {
+		Collections.sort(guns.getGunList(), SORT_GUNS_BY_MODEL);
+	}
+
+	public static final void sortGunsByOrigin(Guns guns) {
+		Collections.sort(guns.getGunList(), SORT_GUNS_BY_ORIGIN);
+	}
+
+	public static final void sortGunsBySightingRange(Guns guns) {
+		Collections.sort(guns.getGunList(),  SORT_GUNS_BY_SIGHTING_RANGE);
+	}
+
+	public static void main(String[] args) throws Exception {
+		// Test.xml --> Test object
+		DOMController domController = new DOMController(
+				Constants.VALID_XML_FILE);
+		domController.parse(false);
+		Guns guns = domController.getGuns();
+
+		System.out.println("====================================");
+		System.out.println(guns);
+		System.out.println("====================================");
+
+		System.out.println("====================================");
+		Sorter.sortGunsByModel(guns);
+		System.out.println(guns);
+		System.out.println("====================================");
+
+		System.out.println("====================================");
+		Sorter.sortGunsByModel(guns);
+		System.out.println(guns);
+	}
+}

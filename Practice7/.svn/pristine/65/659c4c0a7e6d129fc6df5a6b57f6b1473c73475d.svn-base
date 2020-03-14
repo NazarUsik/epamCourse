@@ -1,0 +1,158 @@
+package ua.nure.usik.practice7.controller;
+
+import org.xml.sax.helpers.DefaultHandler;
+import ua.nure.usik.practice7.constants.Constants;
+import ua.nure.usik.practice7.constants.Names;
+import ua.nure.usik.practice7.entity.Gun;
+import ua.nure.usik.practice7.entity.Guns;
+import ua.nure.usik.practice7.entity.TTC;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.EndElement;
+import javax.xml.transform.stream.StreamSource;
+
+public class STAXController extends DefaultHandler {
+
+    private String xmlFileName;
+
+    // main container
+    private Guns guns;
+
+    public Guns getGuns() {
+        return guns;
+    }
+
+    public STAXController(String xmlFileName) {
+        this.xmlFileName = xmlFileName;
+    }
+
+    /**
+     * Parses XML document with StAX (based on event reader). There is no validation during the
+     * parsing.
+     */
+    public void parse() throws XMLStreamException {
+
+        Gun gun = null;
+        TTC ttc = null;
+
+        // current element name holder
+        String currentElement = null;
+
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+
+        factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, true);
+
+        XMLEventReader reader = factory.createXMLEventReader(
+                new StreamSource(xmlFileName));
+
+        while (reader.hasNext()) {
+            XMLEvent event = reader.nextEvent();
+
+            // skip any empty content
+            if (event.isCharacters() && event.asCharacters().isWhiteSpace()) {
+                continue;
+            }
+
+            // handler for start tags
+            if (event.isStartElement()) {
+                StartElement startElement = event.asStartElement();
+                currentElement = startElement.getName().getLocalPart();
+
+                if (Names.GUNS.equals(currentElement)) {
+                    guns = new Guns();
+                    continue;
+                }
+
+                if (Names.GUN.equals(currentElement)) {
+                    gun = new Gun();
+                    continue;
+                }
+
+                if (Names.TTC.equals(currentElement)) {
+                    ttc = new TTC();
+                }
+            }
+
+            // handler for contents
+            if (event.isCharacters()) {
+                Characters characters = event.asCharacters();
+
+                if (Names.MODEL.equals(currentElement)) {
+                    gun.setModel(characters.getData());
+                    continue;
+                }
+
+                if (Names.HANDY.equals(currentElement)) {
+                    gun.setHandy(characters.getData());
+                    continue;
+                }
+
+                if (Names.ORIGIN.equals(currentElement)) {
+                    gun.setOrigin(characters.getData());
+                    continue;
+                }
+
+                if (Names.MATERIAL.equals(currentElement)) {
+                    gun.setMaterial(characters.getData());
+                    continue;
+                }
+
+                if (Names.LONG_RANGE.equals(currentElement)) {
+                    ttc.setLongRange(characters.getData());
+                    continue;
+                }
+
+                if (Names.SIGHTING_RANGE.equals(currentElement)) {
+                    ttc.setSightingRange(characters.getData());
+                    continue;
+                }
+
+                if (Names.CLIP_AVAILABILITY.equals(currentElement)) {
+                    ttc.setClipAvailability(characters.getData());
+                    continue;
+                }
+
+                if (Names.OPTICS_AVAILABILITY.equals(currentElement)) {
+                    ttc.setOpticsAvailability(characters.getData());
+                    continue;
+                }
+
+            }
+
+            // handler for end tags
+            if (event.isEndElement()) {
+                EndElement endElement = event.asEndElement();
+                String localName = endElement.getName().getLocalPart();
+
+                if (ttc != null) {
+                    gun.setTtc(ttc);
+                }
+
+                if (Names.GUN.equals(localName)) {
+                    guns.getGunList().add(gun);
+                }
+            }
+        }
+        reader.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        // try to parse (valid) XML file (success)
+        STAXController staxContr = new STAXController(Constants.VALID_XML_FILE);
+        staxContr.parse(); // <-- do parse (success)
+
+        // obtain container
+        Guns guns = staxContr.getGuns();
+
+        // we have Guns object at this point:
+        System.out.println("====================================");
+        System.out.print("Here is the guns: \n" + guns);
+        System.out.println("====================================");
+    }
+}

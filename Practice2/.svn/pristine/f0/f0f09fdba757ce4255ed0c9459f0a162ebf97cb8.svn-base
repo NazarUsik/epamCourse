@@ -1,0 +1,124 @@
+package ua.nure.usik.practice2;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class ArrayImpl implements Array {
+    private Object[] container;
+    private int length;
+
+    public ArrayImpl() {
+        container = new Object[100];
+        length = 0;
+    }
+
+    @Override
+    public void add(Object element) {
+        if (container.length <= length) {
+            Object[] tmp = container;
+            container = new Object[tmp.length * 2];
+            if (tmp.length >= 0) System.arraycopy(tmp, 0, container, 0, tmp.length);
+        }
+        container[length] = element;
+        ++length;
+    }
+
+    @Override
+    public void set(int index, Object element) {
+        if (container[index] != null)
+            container[index] = element;
+        else throw new NullPointerException();
+    }
+
+    @Override
+    public Object get(int index) {
+        if (container[index] != null)
+            return container[index];
+        throw new NullPointerException();
+    }
+
+    @Override
+    public int indexOf(Object element) {
+        for (int i = 0; i < container.length; ++i) {
+            if (container[i] == element)
+                return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public void remove(int index) {
+        if (container[index] != null) {
+            int numMoved = length - index - 1;
+            if (numMoved > 0) {
+                System.arraycopy(container, index + 1, container, index, numMoved);
+            }
+            container[--length] = null;
+        } else throw new NoSuchElementException();
+    }
+
+    @Override
+    public void clear() {
+        container = new Object[100];
+        length = 0;
+    }
+
+    @Override
+    public int size() {
+        return length;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append('[');
+        for (int i = 0; i < length; i++) {
+            Object o = container[i];
+            if (o != null) {
+                str.append(o);
+                if (i != length - 1)
+                    str.append(", ");
+            }
+        }
+        str.append(']');
+        return str.toString();
+    }
+
+    @Override
+    public Iterator<Object> iterator() {
+        return new IteratorImpl();
+    }
+
+    class IteratorImpl implements Iterator<Object> {
+        int cursor;
+        int lastRet = -1;
+
+        @Override
+        public void remove() {
+            if (lastRet < 0)
+                throw new IllegalStateException();
+            ArrayImpl.this.remove(lastRet);
+            cursor = lastRet;
+            lastRet = -1;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cursor != length;
+        }
+
+        @Override
+        public Object next() {
+            int i = cursor;
+            if (i >= length)
+                throw new NoSuchElementException();
+            Object[] elementData = container;
+            cursor = i + 1;
+            return elementData[lastRet = i];
+        }
+    }
+
+    public static void main(String... s) {
+       ArrayTests.main(null);
+    }
+}

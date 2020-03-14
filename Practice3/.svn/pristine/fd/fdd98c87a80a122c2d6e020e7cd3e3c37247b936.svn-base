@@ -1,0 +1,286 @@
+package ua.nure.usik.practice3;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Part1 {
+    private static final String ARROW = " ==>";
+    private static final int NUM = 1000;
+
+    public static String readFile(String path) {
+        String res = null;
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(path));
+            res = new String(bytes);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return res;
+    }
+
+    public static String convert1(String input) {
+        StringBuilder finale = new StringBuilder();
+        Pattern patternToSplit = Pattern.compile(";");
+        String[] str = patternToSplit.split(input);
+
+        for (int i = 0; i < str.length; i++) {
+            if ((i % 2 == 0) && (i != str.length - 1) && str[i] != null) {
+                finale.append(str[i]).append(": ");
+
+            } else if (i % 2 == 0 && str[i] != null) {
+                finale.append(str[i]);
+
+            }
+        }
+
+        Pattern pattern = Pattern.compile("\\b[A-Z].*?\\b");
+        Matcher matcher = pattern.matcher(finale);
+        int[] start = new int[2];
+        int[] end = new int[2];
+        int j = 0;
+        while (matcher.find()) {
+            start[j] = matcher.start();
+            end[j++] = matcher.end();
+        }
+
+        finale.delete(start[0], end[1]);
+        finale.deleteCharAt(0);
+        return finale.toString();
+    }
+
+    public static String convert2(String input) {
+        Pattern patternToSplit = Pattern.compile(";");
+        String[] namesArr = patternToSplit.split(input);
+        String[] finale = new String[namesArr.length - namesArr.length / 2 - 2];
+
+        String regex = "\\w+([.\\-_]?\\w+)*@\\w+([.\\-_]?\\w+)*\\.\\w{2,4}";
+        Pattern patternMail = Pattern.compile(regex);
+        Matcher matcher = patternMail.matcher(input);
+
+        String[] mails = new String[namesArr.length - 1];
+        int i = 0;
+        while (matcher.find()) {
+            mails[i++] = matcher.group();
+        }
+
+
+        i = 0;
+        for (int j = 2; j < namesArr.length; j++) {
+            if (j % 2 == 1) {
+                finale[i++] = namesArr[j];
+            }
+        }
+
+        String[] names = finale;
+
+        for (int i1 = 0; i1 < names.length; i1++) {
+            String name = names[i1];
+            StringBuilder nam = new StringBuilder();
+            StringBuilder surName = new StringBuilder();
+            int chIndex = 0;
+            char ch = name.charAt(chIndex);
+            while (ch != ' ') {
+                nam.append(ch);
+                ch = name.charAt(++chIndex);
+            }
+            ch = name.charAt(++chIndex);
+            while (chIndex < name.length() - 1) {
+                surName.append(ch);
+                ch = name.charAt(++chIndex);
+            }
+            surName.append(ch);
+            names[i1] = surName.toString() + " " + nam.toString();
+        }
+
+        for (i = 0; i < finale.length; i++) {
+            finale[i] = finale[i] + " (email: " + mails[i] + ')';
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String strings : finale) {
+            ret.append(strings).append('\n');
+        }
+
+        return ret.toString();
+    }
+
+    public static String convert3(String input) {
+
+        Pattern pattern = Pattern.compile("[A-ZА-Я].*?;\\w\\w+([.\\-]?\\w+)*@");
+        String[] namesDomains = pattern.split(input);
+        StringBuilder resultStr = new StringBuilder(splitToNameDomains(namesDomains));
+
+
+        namesDomains = resultStr.toString().split("[;\n]");
+        pattern = Pattern.compile("\\w+([.-]?\\w+)*\\.\\w{2,4}");
+        Matcher matcher = pattern.matcher(input);
+
+        String[] tmp = namesDomains;
+        namesDomains = new String[tmp.length - 3];
+        System.arraycopy(tmp, 3, namesDomains, 0, namesDomains.length);
+
+        String[] strDomains = new String[namesDomains.length];
+        int index = 0;
+        if (matcher.find()) {
+            do {
+                strDomains[index++] = matcher.group();
+            } while (matcher.find());
+        }
+
+        String[] strTmp = strDomains;
+        strDomains = new String[index];
+        System.arraycopy(strTmp, 0, strDomains, 0, index);
+
+        strDomains = check(strDomains);
+
+
+        return sortToDomain(strDomains, namesDomains);
+    }
+
+    private static String[] check(String[] input) {
+        String[] strDomains = input;
+        int i = 0;
+        while (i < strDomains.length) {
+            int j = 0;
+            while (j < strDomains.length) {
+                if (strDomains[i].equals(strDomains[j]) && i != j) {
+                    strDomains[i] = null;
+                    break;
+                }
+                j++;
+            }
+            i++;
+        }
+
+
+        int index = 0;
+
+        i = 0;
+        int strDomainsLength = strDomains.length;
+        while (i < strDomainsLength) {
+            String s = strDomains[i];
+            if (s != null) {
+                index++;
+            }
+            i++;
+        }
+
+
+        String[] strTmp = strDomains;
+        strDomains = new String[index];
+        index = 0;
+
+        i = 0;
+        while (i < strTmp.length) {
+            String s = strTmp[i];
+            if (s != null) {
+                strDomains[index++] = s;
+            }
+            i++;
+        }
+
+        return strDomains;
+    }
+
+    private static String splitToNameDomains(String[] namesDomains) {
+        StringBuilder resultStr = new StringBuilder();
+
+        int i = 0;
+        while (i < namesDomains.length) {
+            String s = namesDomains[i];
+            if (!s.isEmpty()) {
+                resultStr.append(s);
+            }
+            i++;
+        }
+
+        return resultStr.toString();
+    }
+
+    private static String sortToDomain(String[] strDomains, String[] namesDomains) {
+        String[] r = new String[strDomains.length];
+
+        int i = 0;
+        while (i < r.length) {
+            r[i] = strDomains[i] + ARROW;
+            i++;
+        }
+
+
+        int checkInt = namesDomains.length / 2;
+
+
+        i = 0;
+        while (i < namesDomains.length) {
+            if (i % 2 == 0) {
+                String strIDom = namesDomains[i + 1];
+                String strIName = namesDomains[i];
+                int i1 = 0;
+                while (i1 < strDomains.length) {
+
+                    if (strIDom.equals(strDomains[i1]) && i < checkInt - 1) {
+                        if (checkInt > 3) {
+                            r[i1] += " " + strIName + ",";
+                        } else {
+                            r[i1] += " " + strIName;
+                        }
+                    } else if (strIDom.equals(strDomains[i1])) {
+                        r[i1] += " " + strIName;
+                    }
+                    i1++;
+                }
+            }
+            i++;
+        }
+
+        return convertArrToString(r, checkInt);
+    }
+
+    private static String convertArrToString(String[] nameDomains, int checkInt){
+        StringBuilder resultStr = new StringBuilder();
+        if (checkInt > 3) {
+            int i = nameDomains.length - 1;
+            while (i >= 0) {
+                String s = nameDomains[i];
+                resultStr.append(s).append('\n');
+                i--;
+            }
+        } else {
+            for (String s : nameDomains) {
+                resultStr.append(s).append('\n');
+            }
+        }
+
+        return resultStr.toString();
+    }
+
+    public static String convert4(String input) {
+        Pattern patternToSplit = Pattern.compile("\n");
+        String[] namesArr = patternToSplit.split(input);
+        String[] finale = new String[namesArr.length];
+
+        int i = 1;
+        finale[0] = namesArr[0] + ";Password\n";
+        for (int i1 = 1; i1 < namesArr.length; i1++) {
+            String s = namesArr[i1];
+            finale[i++] = s + ";" + (int) ((Math.random() * (NUM * 9)) + NUM) + "\n";
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String strings : finale) {
+            ret.append(strings);
+        }
+        return ret.toString();
+    }
+
+    public static void main(String[] s) {
+        String input = Part1.readFile("part1.txt");
+        System.out.println(convert1(input));
+        System.out.println(convert2(input));
+        System.out.println(convert3(input));
+        System.out.println(convert4(input));
+    }
+}

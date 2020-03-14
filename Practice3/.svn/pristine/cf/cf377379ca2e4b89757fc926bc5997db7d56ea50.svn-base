@@ -1,0 +1,88 @@
+package ua.nure.usik.practice3;
+
+public class Part2 {
+    public static String convert(String input) {
+        String[] words = input.split("[ '\\-\n_.,]");
+
+        int minLength = words[0].length();
+        int maxLength = words[0].length();
+
+        for(String word : words) {
+            if(word.length() < minLength && !word.isEmpty()) {
+                minLength = word.length();
+            }
+            if(word.length() > maxLength) {
+                maxLength = word.length();
+            }
+        }
+
+        String[] minWords = new String[words.length];
+        String[] maxWords = new String[words.length];
+
+        int iMin = 0;
+        int iMax = 0;
+        for(String word : words) {
+            if(word.length() == minLength) {
+                minWords[iMin++] = word;
+            }
+            else if(word.length() == maxLength) {
+                maxWords[iMax++] = word;
+            }
+        }
+
+        String[] minWordArray = new String[iMin];
+        String[] maxWordsArray = new String[iMax];
+        System.arraycopy(minWords, 0, minWordArray, 0, iMin);
+        System.arraycopy(maxWords, 0, maxWordsArray, 0, iMax);
+
+        for (int i = 0; i < minWordArray.length; i++) {
+            for (int j = 0; j < minWordArray.length; j++) {
+                if (minWordArray[i].equals(minWordArray[j]) && i != j) {
+                    minWordArray[i] = " ";
+                    break;
+                }
+            }
+        }
+
+        {
+            int j = 0;
+            while (j < maxWordsArray.length) {
+                for (int k = 0; k < maxWordsArray.length; k++) {
+                    if (maxWordsArray[j].equals(maxWordsArray[k]) && j != k) {
+                        maxWordsArray[j] = " ";
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+
+        StringBuilder str = new StringBuilder("Min: ");
+        int j = 0;
+        while (j < minWordArray.length) {
+            String se = minWordArray[j];
+            if (!se.equals(" ") && j < minWordArray.length-1) {
+                str.append(se).append(", ");
+            } else if (!se.equals(" ")){
+                str.append(se).append('\n');
+            }
+            j++;
+        }
+
+        str.append("Max: ");
+        for (int i = 0; i < maxWordsArray.length; i++) {
+            String se = maxWordsArray[i];
+            if (!se.equals(" ") && i < maxWordsArray.length-1) {
+                str.append(se).append(", ");
+            } else if (!se.equals(" ")){
+                str.append(se);
+            }
+        }
+
+        return str.toString();
+    }
+
+    public static void main(String[] s){
+        System.out.println(convert(Part1.readFile("part2.txt")));
+    }
+}

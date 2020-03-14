@@ -1,0 +1,33 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+import ua.nure.usik.practice6.part1.WordContainer;
+
+import java.util.ArrayList;
+
+public class WordContainerForLength extends WordContainer<Word> {
+    private static final String ARROW = " ==> ";
+    private static final int N = 2;
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        ArrayList<Word> words = getWords();
+        Word w1 = words.get(0);
+        Word w2 = words.get(1);
+        Word w3 = words.get(N);
+        stringBuilder.append(w1.getContent()).append(ARROW).append(w1.getContent().length()).append('\n');
+        stringBuilder.append(w3.getContent()).append(ARROW).append(w3.getContent().length()).append('\n');
+        stringBuilder.append(w2.getContent()).append(ARROW).append(w2.getContent().length()).append('\n');
+
+        return stringBuilder.toString();
+    }
+
+    @Override
+    protected void sortToFrequency() {
+        getWords().sort((o1, o2) -> o2.getContent().length() == o1.getContent().length() ?
+                o2.getContent().compareTo(o1.getContent()) :
+                o2.getContent().length() - o1.getContent().length());
+    }
+}

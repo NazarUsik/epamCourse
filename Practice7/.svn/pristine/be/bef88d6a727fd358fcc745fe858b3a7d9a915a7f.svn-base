@@ -1,0 +1,27 @@
+package ua.nure.usik.practice7.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Guns {
+    private List<Gun> guns;
+
+    public List<Gun> getGuns() {
+        if (guns == null) {
+            guns = new ArrayList<>();
+        }
+        return guns;
+    }
+
+    @Override
+    public String toString() {
+        if (guns == null || guns.isEmpty()) {
+            return "Guns contains no instances\n";
+        }
+        StringBuilder result = new StringBuilder();
+        for (Gun gun : guns) {
+            result.append(gun).append('\n');
+        }
+        return result.toString();
+    }
+}

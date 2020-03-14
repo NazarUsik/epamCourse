@@ -1,0 +1,25 @@
+package ua.nure.usik.practice6.part1;
+
+import java.util.Scanner;
+
+public class Part1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        WordContainer<Word> words = new WordContainer<>();
+        String word;
+
+        while (in.hasNext()) {
+            word = in.next();
+
+            if (!word.equals("stop")) {
+                words.add(new Word(word));
+            } else {
+                break;
+            }
+        }
+
+
+        //
+        System.out.println(words);
+    }
+}

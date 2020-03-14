@@ -1,0 +1,85 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+
+import java.util.*;
+
+public class Part61 {
+
+    private static class WordWithArrow extends Word implements Comparable<WordWithArrow> {
+
+        public WordWithArrow(String content) {
+            super(content);
+        }
+
+        @Override
+        public String toString() {
+            return super.getContent() + " ==> " + super.getFrequency();
+        }
+
+        @Override
+        public int compareTo(WordWithArrow o) {
+            return super.getContent().compareTo(o.getContent());
+        }
+    }
+
+    private static class Frequency {
+
+    }
+
+    public static void main(String[] s) {
+        Scanner in = Part6.in;
+
+        HashMap<WordWithArrow, Integer> words = new HashMap<>();
+        String word;
+        Frequency frequancy = new Frequency();
+
+        int i = 0;
+        while (in.hasNext()) {
+            word = in.next().trim();
+            boolean check = true;
+            for (Map.Entry<WordWithArrow, Integer> entry : words.entrySet()) {
+                if (entry.getKey().getContent().compareTo(word) == 0) {
+                    //entry.setValue(entry.getValue() + 1);
+                    entry.getKey().increaseFrequency();
+                    check = false;
+                    break;
+                }
+            }
+            if(check) {
+                words.put(new WordWithArrow(word), ++i);
+            }
+        }
+
+        TreeMap<WordWithArrow, Integer> tree = new TreeMap<>(Collections.reverseOrder());
+        tree.putAll(words);
+
+        LinkedList<WordWithArrow> result = new LinkedList<>();
+        for (int j = 0; j < 3; j++) {
+            result.add(findMax(tree));
+        }
+        result.sort(Collections.reverseOrder());
+        System.out.println(result);
+    }
+
+    private static WordWithArrow findMax(TreeMap<WordWithArrow, Integer> treeWords){
+        WordWithArrow max = new WordWithArrow("");
+        for (Map.Entry<WordWithArrow, Integer> current : treeWords.entrySet()) {
+            if(current.getKey().getFrequency() == max.getFrequency()){
+                int minValue = current.getValue();
+                for(Map.Entry<WordWithArrow, Integer> maxEntry: treeWords.entrySet()){
+                    if(maxEntry.getValue() < minValue && maxEntry.getKey().getFrequency() == current.getKey().getFrequency()){
+                        minValue = maxEntry.getValue();
+                    }
+                }
+                if(current.getValue() <= minValue){
+                    max = current.getKey();
+                }
+            } else if(current.getKey().getFrequency() > max.getFrequency()){
+                max = current.getKey();
+            }
+        }
+        treeWords.remove(max);
+        return max;
+    }
+}

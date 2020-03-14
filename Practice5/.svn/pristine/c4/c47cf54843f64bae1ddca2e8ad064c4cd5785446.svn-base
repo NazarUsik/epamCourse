@@ -1,0 +1,45 @@
+package ua.nure.usik.practice5;
+
+public class Part6 {
+    private static final Object M = new Object();
+
+    private static class Worker extends Thread {
+
+        public Worker() throws InterruptedException {
+            start();
+            join(10);
+        }
+
+        @Override
+        public void run() {
+            synchronized (M) {
+                    try {
+                        M.wait();
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread t = new Worker();
+        Thread t2;
+
+        synchronized (M) {
+            M.notify();
+            System.out.println(t.getState());
+        }
+
+        t2 = new Worker();
+        System.out.println(t2.getState());
+        System.out.println(t.getState());
+
+        synchronized (M) {
+            M.notifyAll();
+            t.interrupt();
+            t2.interrupt();
+        }
+    }
+}
