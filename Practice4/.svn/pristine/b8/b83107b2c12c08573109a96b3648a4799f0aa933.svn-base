@@ -1,0 +1,75 @@
+package ua.nure.usik.practice4;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ReadFile implements Iterable<String> {
+    private static final String ENCODING = "CP1251";
+    private String text;
+
+    public ReadFile(String path) throws IOException {
+        this.text = readFile(path);
+    }
+
+    private enum Regex{
+        STRING_REGEX("(?m)(?U)([A-ZА-Я].+\\.)");
+
+        private String regex;
+
+        Regex(String regex) {
+            this.regex = regex;
+        }
+
+        public String getRegex() {
+            return regex;
+        }
+    }
+
+    private static String readFile(String path) throws IOException {
+        StringBuilder str = new StringBuilder();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(path), ENCODING));
+        String text;
+        while((text = reader.readLine())!=null){
+            str.append(text).append(System.lineSeparator());
+        }
+        reader.close();
+        return str.toString().replaceAll("\\r\\n", " ").
+                replaceAll("\\.\\s", ".\n").replaceAll("\\s\\s", " ").trim();
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return new IteratorImpl();
+    }
+
+    class IteratorImpl implements Iterator<String> {
+        private Pattern pattern = Pattern.compile(Regex.STRING_REGEX.getRegex());
+        private Matcher matcher = pattern.matcher(text);
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return matcher.find();
+        }
+
+        @Override
+        public String next() {
+            if(matcher.group() == null){
+                throw new NoSuchElementException();
+            }
+            return matcher.group();
+        }
+    }
+
+}

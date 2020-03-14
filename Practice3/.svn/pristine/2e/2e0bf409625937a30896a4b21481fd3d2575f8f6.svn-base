@@ -1,0 +1,45 @@
+package ua.nure.usik.practice3;
+
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Part4 {
+    public static String toHexString(byte[] hash) {
+        BigInteger number = new BigInteger(1, hash);
+        StringBuilder hexString = new StringBuilder(number.toString(16));
+
+        while (hexString.length() < 32) {
+            hexString.insert(0, '0');
+        }
+
+        return hexString.toString();
+    }
+
+    public static String hash(String input, String algorithm) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance(algorithm);
+        return toHexString(digest.digest(input.getBytes(StandardCharsets.UTF_8))).toUpperCase();
+    }
+
+    public static void main(String[] args){
+        try {
+            System.out.println(hash("asdf", "MD5"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("No such algorithm");
+        }
+
+        try {
+            System.out.println(hash("asdf", "M5"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("No such algorithm");
+        }
+
+        try {
+            System.out.println(hash("asdf", "SHA-256"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("No such algorithm");
+        }
+    }
+
+}

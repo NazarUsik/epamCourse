@@ -1,0 +1,85 @@
+package ua.nure.usik.practice6.part6;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Part6 {
+    private static String path;
+    private static String task;
+
+    public static void main(String[] args) throws FileNotFoundException {
+        if (args == null) {
+            throw new NullPointerException();
+        }
+        if (args[0].equals("--input") || args[0].equals("-i")) {
+            path = args[1];
+        } else {
+            throw new IllegalArgumentException();
+        }
+        if (args[2].equals("--task") || args[2].equals("-t")) {
+            task = args[3];
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        switchTask();
+    }
+
+    private static void switchTask() throws FileNotFoundException {
+        Scanner in = new Scanner(new File(path));
+        switch (task) {
+            case "frequency": {
+                frequencyTask(in);
+                break;
+            }
+            case "length": {
+                lengthTask(in);
+                break;
+            }
+            case "duplicates": {
+                duplicatesTask(in);
+                break;
+            }
+            default: {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    private static void frequencyTask(Scanner in) {
+        WordContainerWithArrow words = new WordContainerWithArrow();
+        String word;
+
+        while (in.hasNext()) {
+            word = in.next();
+            words.add(new WordWithArrow(word));
+        }
+
+        System.out.print(words);
+    }
+
+    private static void lengthTask(Scanner in) {
+        WordContainerForLength words = new WordContainerForLength();
+        String word;
+
+        while (in.hasNext()) {
+            word = in.next();
+            words.add(new WordWithArrow(word));
+        }
+
+        System.out.print(words);
+    }
+
+    private static void duplicatesTask(Scanner in) {
+        WordContainerForDubl words = new WordContainerForDubl();
+        String word;
+
+        while (in.hasNext()) {
+            word = in.next();
+            words.add(new WordWithArrow(word));
+        }
+
+        System.out.print(words);
+    }
+}

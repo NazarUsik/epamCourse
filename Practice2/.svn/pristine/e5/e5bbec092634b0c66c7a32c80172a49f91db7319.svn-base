@@ -1,0 +1,119 @@
+package ua.nure.usik.practice2;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+
+public class StackImpl implements Stack {
+    private Object[] container;
+    private int length;
+
+    public StackImpl() {
+        container = new Object[100];
+        length = 0;
+    }
+
+    @Override
+    public void push(Object element) {
+        if (container.length <= length) {
+            Object[] tmp = container;
+            container = new Object[tmp.length * 2];
+            if (tmp.length >= 0) System.arraycopy(tmp, 0, container, 0, tmp.length);
+        }
+        container[length] = element;
+        length++;
+    }
+
+    @Override
+    public Object pop() {
+        if (length >= 0) {
+            Object o = container[length - 1];
+            container[length - 1] = null;
+            length--;
+            return o;
+        }
+        throw new NoSuchElementException();
+    }
+
+    @Override
+    public Object top() {
+        if (length >= 0)
+            return container[length - 1];
+        throw new NoSuchElementException();
+    }
+
+    @Override
+    public void clear() {
+        container = new Object[100];
+        length = 0;
+    }
+
+    @Override
+    public int size() {
+        return length;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append('[');
+        for (int i = 0; i < length; i++) {
+            Object o = container[i];
+            if (o != null) {
+                str.append(o);
+                if (i != length - 1)
+                    str.append(", ");
+            }
+        }
+        str.append(']');
+        return str.toString();
+    }
+
+    public void remove(int index) {
+        if (container[index] != null) {
+            int numMoved = length - index - 1;
+            if (numMoved > 0) {
+                System.arraycopy(container, index + 1, container, index, numMoved);
+            }
+            container[--length] = null;
+        } else throw new NoSuchElementException();
+    }
+
+    @Override
+    public Iterator<Object> iterator() {
+        return new Itr();
+    }
+
+    class Itr implements Iterator<Object> {
+        int cursor = length - 1;
+        int last = -1;
+
+        @Override
+        public void remove() {
+            if (last < 0)
+                throw new IllegalStateException();
+            StackImpl.this.remove(last);
+            cursor = last-1;
+            last = -1;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cursor < length && cursor >= 0;
+        }
+
+        @Override
+        public Object next() {
+            int i = cursor;
+            if (i > length)
+                throw new NoSuchElementException();
+            cursor = i - 1;
+            return container[last = i];
+        }
+
+    }
+
+    static public void main(String ...s){
+        StackTests.main(null);
+    }
+}

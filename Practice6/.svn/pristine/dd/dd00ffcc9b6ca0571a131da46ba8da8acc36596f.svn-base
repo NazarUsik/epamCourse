@@ -1,0 +1,85 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class WordContainerWithArrow {
+    private ArrayList<WordWithArrow> words;
+
+    public WordContainerWithArrow() {
+        words = new ArrayList<>();
+    }
+
+
+    public void add(Word word) {
+        for (WordWithArrow w : words) {
+            if (w.equals(word)) {
+                w.increaseFrequency();
+                return;
+            }
+        }
+        words.add((WordWithArrow) word);
+    }
+
+    @Override
+    public String toString() {
+        convert(words);
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (WordWithArrow w : words) {
+            stringBuilder.append(w.toString()).append('\n');
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private static void convert(ArrayList<WordWithArrow> words) {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<WordWithArrow> arrayList = new ArrayList<>();
+
+        for (WordWithArrow w : words) {
+            if (w.getFrequency() >= 2) {
+                arrayList.add(w);
+            }
+        }
+
+        WordWithArrow last = arrayList.get(arrayList.size() - 1);
+        boolean check = last.getFrequency() >= 3;
+        int i = arrayList.size() - 1;
+        while (i > 1) {
+            arrayList.remove(i--);
+        }
+
+        if (check) {
+            Collections.reverse(arrayList);
+
+            for (i = 0; i < arrayList.size(); i++) {
+               WordWithArrow w = arrayList.get(i);
+                if (i == 1) {
+                    stringBuilder.append(last.toString()).append('\n');
+                }
+                stringBuilder.append(w.toString()).append('\n');
+            }
+        } else {
+            stringBuilder.append(last.toString()).append('\n');
+            for (i = 0; i < arrayList.size(); i++) {
+                WordWithArrow w = arrayList.get(i);
+                stringBuilder.append(w.toString()).append('\n');
+            }
+        }
+
+        String[] strArr = stringBuilder.toString().split("\n");
+        WordWithArrow[] withArrows = new WordWithArrow[strArr.length];
+        words.clear();
+        for (i = 0; i < strArr.length; i++) {
+            String s = strArr[i];
+            String[] sToWord = s.split(" ==> ");
+            withArrows[i] = new WordWithArrow(sToWord[0]);
+            withArrows[i].setFrequency(Integer.parseInt(sToWord[1]));
+            words.add(withArrows[i]);
+        }
+    }
+}

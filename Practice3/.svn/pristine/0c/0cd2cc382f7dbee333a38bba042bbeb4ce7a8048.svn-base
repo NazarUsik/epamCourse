@@ -1,0 +1,178 @@
+package ua.nure.usik.practice3;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Part1 {
+    private final static String ARROW = " ==>";
+
+    public static String readFile(String path) {
+        String res = null;
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(path));
+            res = new String(bytes);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return res;
+    }
+
+    public static String convert1(String input) {
+        StringBuilder finale = new StringBuilder();
+        Pattern patternToSplit = Pattern.compile(";");
+        String[] str = patternToSplit.split(input);
+
+        for (int i = 0; i < str.length; i++) {
+            if ((i % 2 == 0) && (i != str.length - 1)) {
+                finale.append(str[i]).append(": ");
+            } else if (i % 2 == 0) {
+                finale.append(str[i]);
+            }
+        }
+        return finale.toString();
+    }
+
+    public static String convert2(String input) {
+        Pattern patternToSplit = Pattern.compile(";");
+        String[] namesArr = patternToSplit.split(input);
+        String[] finale = new String[namesArr.length - namesArr.length / 2 - 1];
+
+        String regex = "\\w+([.\\-_]?\\w+)*@\\w+([.\\-_]?\\w+)*\\.\\w{2,4}";
+        Pattern patternMail = Pattern.compile(regex);
+        Matcher matcher = patternMail.matcher(input);
+
+        String[] mails = new String[namesArr.length];
+        int i = 0;
+        while (matcher.find()) {
+            mails[i++] = matcher.group();
+        }
+
+
+        i = 0;
+        for (int j = 0; j < namesArr.length; j++) {
+            if (j % 2 == 1) {
+                finale[i++] = namesArr[j];
+            }
+        }
+
+        for (i = 0; i < finale.length; i++) {
+            finale[i] = finale[i] + " (email: " + mails[i] + ')';
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String strings : finale) {
+            ret.append(strings).append('\n');
+        }
+        return ret.toString();
+    }
+
+    public static String convert3(String input) {
+
+        Pattern pattern = Pattern.compile("[A-ZА-Я].*?;\\w\\w+([.\\-]?\\w+)*@");
+        String[] namesDomains = pattern.split(input);
+        StringBuilder resultStr = new StringBuilder();
+
+        for (String s : namesDomains) {
+            if (!s.isEmpty()) {
+                resultStr.append(s);
+            }
+        }
+
+        namesDomains = resultStr.toString().split("[;\n]");
+        pattern = Pattern.compile("\\w+([.-]?\\w+)*\\.\\w{2,4}");
+        Matcher matcher = pattern.matcher(input);
+
+        String[] strDomains = new String[namesDomains.length];
+        int index = 0;
+        while (matcher.find()) {
+            strDomains[index++] = matcher.group();
+        }
+
+        String[] strTmp = strDomains;
+        strDomains = new String[index];
+        System.arraycopy(strTmp, 0, strDomains, 0, index);
+
+
+        {
+            for (int i = 0; i < strDomains.length; i++) {
+                for (int j = 0; j < strDomains.length; j++) {
+                    if (strDomains[i].equals(strDomains[j]) && i != j) {
+                        strDomains[i] = null;
+                        break;
+                    }
+                }
+            }
+        }
+
+        index = 0;
+        for (String s : strDomains) {
+            if (s != null) {
+                index++;
+            }
+        }
+
+        strTmp = strDomains;
+        strDomains = new String[index];
+        index = 0;
+        for (String s : strTmp) {
+            if (s != null) {
+                strDomains[index++] = s;
+            }
+        }
+
+
+        String[] r = new String[strDomains.length];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = strDomains[i] + ARROW;
+        }
+
+        for (int i = 0; i < namesDomains.length; i++) {
+            if (i % 2 == 0) {
+                String strIDom = namesDomains[i + 1];
+                String strIName = namesDomains[i];
+                for (int i1 = 0; i1 < strDomains.length; i1++) {
+                    if (strIDom.equals(strDomains[i1]) && i < namesDomains.length / 2 - 1) {
+                        r[i1] += " " + strIName + ",";
+                    } else if (strIDom.equals(strDomains[i1])) {
+                        r[i1] += " " + strIName;
+                    }
+                }
+            }
+        }
+
+        resultStr = new StringBuilder();
+        for (String s : r) {
+            resultStr.append(s).append('\n');
+        }
+
+        return resultStr.toString();
+    }
+
+    public static String convert4(String input) {
+        Pattern patternToSplit = Pattern.compile("\n");
+        String[] namesArr = patternToSplit.split(input);
+        String[] finale = new String[namesArr.length];
+
+        int i = 0;
+        for (String s : namesArr) {
+            finale[i++] = s + ";" + (int) ((Math.random() * 900 + 100) * 10) + "\n";
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String strings : finale) {
+            ret.append(strings);
+        }
+        return ret.toString();
+    }
+
+    public static void main(String[] s) {
+        String input = Part1.readFile("part1.txt");
+        System.out.println(convert1(input));
+        System.out.println(convert2(input));
+        System.out.println(convert3(input));
+        System.out.println(convert4(input));
+    }
+}

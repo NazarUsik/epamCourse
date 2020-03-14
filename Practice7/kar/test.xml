@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Input XML document. This XML is valid against Test.xsd XML schema-->
+
+<p7:Sites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:p7="http://nure.ua/ohol/p7"
+         xsi:schemaLocation="http://nure.ua/ohol/p7  input2.xsd" >
+    <Site>
+        <Title>Site</Title>
+        <Type>
+            <Advert>
+                <p7:Email></Email>
+                <p7:AllovedNews></AllovedNews>
+                <p7:AllowedArchive></AllowedArchive>
+                <p7:AllowedVote>
+                    <p7:true>
+                        <p7:anonymous></anonymous>
+                        <p7:authorized></authorized>
+                    </true>
+                    <p7:false></false>
+                </AllowedVote>
+                <p7:isFreeToDownload></isFreeToDownload>
+            </Advert>
+        </Type>
+       
+    </Site>
+</p7:Sites>

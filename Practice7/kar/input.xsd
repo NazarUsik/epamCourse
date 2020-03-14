@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  XML schema -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://nure.ua/ohol/p7"
+            xmlns:tns="http://nure.ua/ohol/p7">
+
+    <xsd:element name="Sites">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Site" type="tns:typeSite" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="typeSite">
+        <xsd:sequence>
+            <xsd:element name="Title" type="xsd:string"/>
+            <xsd:element name="Type" type="typePages"/>
+            <xsd:element name="Authorize" type="xsd:boolean"/>
+            <xsd:element name="Chars" type="typeChars"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="typePages">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Advert"/>
+            <xsd:enumeration value="News"/>
+            <xsd:enumeration value="Portal"/>
+            <xsd:enumeration value="Mirror"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="Advert" type="xsd:string" default="Advert"/>
+
+    <xsd:complexType name="typeChars">
+        <xsd:sequence>
+            <xsd:element name="Email" type="xsd:boolean">
+                <xsd:simpleType>
+                    <xsd:restriction base="tns:typePages">
+                        <xsd:pattern value="(Portal)|(News)|(Mirror)"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
+

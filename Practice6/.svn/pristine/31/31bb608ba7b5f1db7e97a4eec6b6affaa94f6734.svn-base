@@ -1,0 +1,31 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.Word;
+import ua.nure.usik.practice6.part1.WordContainer;
+
+import java.util.ArrayList;
+
+public class WordContainerForDubl extends WordContainer<Word> {
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        ArrayList<Word> words = getWords();
+        int i = 0;
+        for (Word w : words) {
+            if (i >= 3) {
+                break;
+            }
+            if (w.getFrequency() > 1) {
+                stringBuilder.append(w.getContent().toUpperCase()).append('\n');
+                i++;
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    protected void sortToFrequency() {
+
+    }
+}

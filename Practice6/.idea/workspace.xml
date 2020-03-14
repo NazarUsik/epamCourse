@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6235469a-bef7-44bc-8925-db6ceacf626a" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Practice6" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Y5ZOD1UqRz1oL58Hv97KOkGhi9" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last.edited.regexp" value="Sample Text" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager" selected="Application.Demo">
+    <configuration name="Demo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.practice6.Demo" />
+      <module name="Practice6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.practice6.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Part5" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.practice6.part5.Part5" />
+      <module name="Practice6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.practice6.part5.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Part61" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.practice6.part6.Part61" />
+      <module name="Practice6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.practice6.part6.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Part62$WordContainerForLength" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.practice6.part6.Part62$WordContainerForLength" />
+      <module name="Practice6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.practice6.part6.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Part62" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.practice6.part6.Part62" />
+      <module name="Practice6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.practice6.part6.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Demo" />
+        <item itemvalue="Application.Part5" />
+        <item itemvalue="Application.Part62" />
+        <item itemvalue="Application.Part62$WordContainerForLength" />
+        <item itemvalue="Application.Part61" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Nazar\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6235469a-bef7-44bc-8925-db6ceacf626a" name="Default Changelist" comment="" />
+      <created>1582234381933</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582234381933</updated>
+      <workItem from="1582234384690" duration="4000" />
+      <workItem from="1582234457986" duration="60000" />
+      <workItem from="1582234646765" duration="2234000" />
+      <workItem from="1582450764556" duration="12856000" />
+      <workItem from="1582543168839" duration="1411000" />
+      <workItem from="1582628912224" duration="714000" />
+      <workItem from="1582722990995" duration="624000" />
+      <workItem from="1582725510904" duration="305000" />
+      <workItem from="1582798946876" duration="1236000" />
+      <workItem from="1582823545921" duration="6919000" />
+      <workItem from="1582916827646" duration="9215000" />
+      <workItem from="1582926076709" duration="90000" />
+      <workItem from="1582976605005" duration="8072000" />
+      <workItem from="1583167918137" duration="14000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser" timestamp="1582925660453">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1582925660453" />
+    <state x="523" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582830623192">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="523" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.864@0.0.1536.864" timestamp="1582830623192" />
+    <state x="549" y="173" key="FileChooserDialogImpl" timestamp="1582823571737">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="549" y="173" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1582823571737" />
+    <state width="1493" height="180" key="GridCell.Tab.0.bottom" timestamp="1583003907036">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="180" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1583003907036" />
+    <state width="1493" height="180" key="GridCell.Tab.0.center" timestamp="1583003907036">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="180" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1583003907036" />
+    <state width="1493" height="180" key="GridCell.Tab.0.left" timestamp="1583003907036">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="180" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1583003907035" />
+    <state width="1493" height="180" key="GridCell.Tab.0.right" timestamp="1583003907036">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="180" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1583003907036" />
+    <state width="1493" height="268" key="GridCell.Tab.1.bottom" timestamp="1582920448010">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="268" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1582920448010" />
+    <state width="1493" height="268" key="GridCell.Tab.1.center" timestamp="1582920448010">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="268" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1582920448010" />
+    <state width="1493" height="268" key="GridCell.Tab.1.left" timestamp="1582920448009">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="268" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1582920448009" />
+    <state width="1493" height="268" key="GridCell.Tab.1.right" timestamp="1582920448010">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="268" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1582920448010" />
+    <state x="403" y="102" key="SettingsEditor" timestamp="1582926052901">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="403" y="102" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1582926052901" />
+    <state x="490" y="173" width="540" height="524" key="StructurePopup" timestamp="1582480521886">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="490" y="173" width="540" height="524" key="StructurePopup/0.0.1536.864@0.0.1536.864" timestamp="1582480521886" />
+    <state x="498" y="325" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1582234485208">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="498" y="325" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.864@0.0.1536.864" timestamp="1582234485208" />
+    <state x="209" y="52" key="new project wizard" timestamp="1582625227963">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="209" y="52" key="new project wizard/0.0.1536.864@0.0.1536.864" timestamp="1582625227963" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1582829181975">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1582829181975" />
+  </component>
+</project>

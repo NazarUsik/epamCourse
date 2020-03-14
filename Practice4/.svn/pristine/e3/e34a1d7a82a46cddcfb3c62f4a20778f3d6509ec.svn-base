@@ -1,0 +1,108 @@
+package ua.nure.usik.practice4;
+
+import java.io.*;
+import java.nio.file.Paths;
+import java.security.SecureRandom;
+import java.util.Scanner;
+
+public class Part2 {
+    private static final int N = 10;
+    private static final String ARROW = "==> ";
+    private static final String ENCODING = "CP1251";
+
+    private static void randomFillArray(int[] array) {
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt(50);
+        }
+    }
+
+    private static int[] createArray() {
+        int[] array = new int[N];
+        randomFillArray(array);
+        return array;
+    }
+
+    private static void writeArrayToFile(int[] array, String nameFile) {
+        String str = convertArrayToString(array);
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(nameFile + ".txt")))) {
+            writer.write(str);
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        }
+    }
+
+    private static int[] readFromFileInArray(String nameFile) {
+        int[] array = new int[N];
+        try (Scanner in = new Scanner(Paths.get(nameFile + ".txt"), ENCODING)) {
+            int j = 0;
+            while (in.hasNext()) {
+                array[j++] = in.nextInt();
+            }
+        } catch (IOException ex) {
+            System.out.println("IOException in main");
+        }
+
+        return array;
+    }
+
+
+    private static void sortArray(int[] array, int leftBorder, int rightBorder) {
+        int leftMarker = leftBorder;
+        int rightMarker = rightBorder;
+        int pivot = array[(leftMarker + rightMarker) / 2];
+        do {
+            while (array[leftMarker] < pivot) {
+                leftMarker++;
+            }
+            while (array[rightMarker] > pivot) {
+                rightMarker--;
+            }
+            if (leftMarker <= rightMarker) {
+                if (leftMarker < rightMarker) {
+                    int tmp = array[leftMarker];
+                    array[leftMarker] = array[rightMarker];
+                    array[rightMarker] = tmp;
+                }
+                leftMarker++;
+                rightMarker--;
+            }
+        } while (leftMarker <= rightMarker);
+
+        if (leftMarker < rightBorder) {
+            sortArray(array, leftMarker, rightBorder);
+        }
+        if (leftBorder < rightMarker) {
+            sortArray(array, leftBorder, rightMarker);
+        }
+    }
+
+    private static String convertArrayToString(int[] array){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i < array.length - 1) {
+                builder.append(array[i]).append(' ');
+            } else {
+                builder.append(array[i]);
+            }
+        }
+        return builder.toString();
+    }
+
+    public static void main(String[] s) {
+        int[] array = createArray();
+        writeArrayToFile(array, "part2");
+
+        int[] arrayToSort = readFromFileInArray("part2");
+        sortArray(arrayToSort, 0, arrayToSort.length - 1);
+
+        writeArrayToFile(arrayToSort, "part2_sorted");
+
+        System.out.print("input  " + ARROW);
+        System.out.println(convertArrayToString(array));
+
+        System.out.print("output " + ARROW);
+        System.out.println(convertArrayToString(arrayToSort));
+    }
+}

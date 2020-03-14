@@ -1,0 +1,5 @@
+The class should parse the text file and return sentences from the file. Under the sentence
+understand the sequence that starts with a capital letter
+and ends with a point.
+Take the source file small by
+size. Just a few lines and a few sentences.

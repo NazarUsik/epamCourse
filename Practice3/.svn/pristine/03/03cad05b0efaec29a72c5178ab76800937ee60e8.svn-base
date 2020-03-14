@@ -1,0 +1,26 @@
+package ua.nure.usik.practice3;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Part3 {
+
+    public static String convert(String input) {
+        StringBuffer stringBuffer = new StringBuffer(input);
+        Pattern pattern = Pattern.compile("\\b\\p{L}{3}");
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            Character firstChar = new Character(stringBuffer.charAt(matcher.start()));
+            if (Character.isLowerCase(firstChar)) {
+                stringBuffer.setCharAt(matcher.start(), Character.toUpperCase(firstChar));
+            } else {
+                stringBuffer.setCharAt(matcher.start(), Character.toLowerCase(firstChar));
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static void main(String[] s) {
+        System.out.println(convert(Part1.readFile("part3.txt")));
+    }
+}

@@ -1,0 +1,19 @@
+package ua.nure.usik.practice6.part6;
+
+import ua.nure.usik.practice6.part1.WordContainer;
+
+import java.util.ArrayList;
+
+public class WordContainerWithArrow extends WordContainer<WordWithArrow> {
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        ArrayList<WordWithArrow> words = getWords();
+        for (int i = 0; i < 3; i++) {
+            WordWithArrow w = words.get(i);
+            stringBuilder.append(w.toString()).append('\n');
+        }
+        return stringBuilder.toString();
+    }
+}

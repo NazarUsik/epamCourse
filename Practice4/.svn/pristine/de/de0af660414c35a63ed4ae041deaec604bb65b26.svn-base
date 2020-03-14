@@ -1,0 +1,52 @@
+package ua.nure.usik.practice4;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ConverterString {
+    private static final String cyrlRegex = "\\b[а-яёіїєА-Я]{1,}";
+    private static final String latnRegex = "\\b[a-zA-Z]{1,}";
+
+    private String text;
+
+    public ConverterString(String path) throws IOException {
+        text = ua.nure.usik.practice4.Converter.readFile(path);
+    }
+
+    private String convertText(String reg) {
+        StringBuilder sb = new StringBuilder();
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(text);
+        while (m.find()) {
+            sb.append(m.group().trim()).append(" ");
+        }
+        return sb.toString();
+    }
+
+    public String typeConverter(String type) {
+        String retStr = "";
+        switch (type) {
+            case "Latn": {
+                retStr = "Latn: " + convertText(latnRegex);
+                break;
+            }
+            case "latn": {
+                retStr = "latn: " + convertText(latnRegex);
+                break;
+            }
+            case "Cyrl": {
+                retStr = "Cyrl: " + convertText(cyrlRegex);
+                break;
+            }
+            case "cyrl": {
+                retStr = "cyrl: " + convertText(cyrlRegex);
+                break;
+            }
+            default: {
+                System.out.print("Incorrect input");
+            }
+        }
+        return retStr.trim();
+    }
+}

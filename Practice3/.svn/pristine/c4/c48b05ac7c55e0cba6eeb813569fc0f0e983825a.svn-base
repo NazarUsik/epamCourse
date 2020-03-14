@@ -1,0 +1,53 @@
+package ua.nure.usik.practice3;
+
+public class Part3 {
+    public static String convert(String input) {
+        String[] strings = input.split("\n");
+        String[][] words = new String[100][];
+        int i = 0;
+        for (String s : strings) {
+            words[i++] = s.split("[ \\-_]");
+
+        }
+
+        String[][] tmp = words;
+        words = new String[i][];
+        System.arraycopy(tmp, 0, words, 0, i);
+
+        for (int j = 0; j < words.length; j++) {
+            for (int k = 0; k < words[j].length; k++) {
+                String word = words[j][k];
+                String newWord = null;
+                if (word.toCharArray().length >= 3) {
+                    if (Character.toUpperCase(word.charAt(0)) == word.charAt(0)) {
+                        newWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
+                    } else {
+                        newWord = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+                    }
+                }
+                if (newWord != null) {
+                    words[j][k] = newWord;
+                }
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+        for(String[] s: words){
+            for (int i1 = 0; i1 < s.length; i1++) {
+                String s2 = s[i1];
+                if(i1 < s.length -1) {
+                    str.append(s2).append(" ");
+                } else {
+                    str.append(s2);
+                }
+            }
+            str.append('\n');
+        }
+
+        return str.toString();
+    }
+
+    public static void main(String[] s){
+        System.out.println(convert(Part1.readFile("part3.txt")));
+    }
+}

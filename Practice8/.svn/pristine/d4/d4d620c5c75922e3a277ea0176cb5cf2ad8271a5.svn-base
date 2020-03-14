@@ -1,0 +1,232 @@
+package ua.nure.usik.practice8.db;
+
+import ua.nure.usik.practice8.db.entity.Team;
+import ua.nure.usik.practice8.db.entity.User;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
+
+public class DBManager {
+
+    private static final String URL_PROP = "app.properties";
+
+    private static DBManager dbManager;
+
+    private Connection connection;
+
+    private static String getProperties(String propName) throws IOException {
+        File file = new File(URL_PROP);
+
+        Properties properties = new Properties();
+        properties.load(new FileReader(file));
+
+        return properties.getProperty(propName);
+    }
+
+    public static DBManager getInstance() {
+        if (dbManager == null) {
+            return new DBManager();
+        }
+
+        return dbManager;
+    }
+
+
+    private DBManager() {
+
+        try {
+            connection = DriverManager.getConnection(getProperties("connection.url"),
+                    getProperties("connection.user"),
+                    getProperties("connection.pass"));
+            String queryDelete = readQuery("src/ua/nure/usik/practice8/sql/delete-table.sql");
+            String queryInsert = readQuery("src/ua/nure/usik/practice8/sql/start-insert.sql");
+            connection.createStatement().executeUpdate(queryDelete);
+            connection.createStatement().executeUpdate(queryInsert);
+        } catch (SQLException | IOException e) {
+            System.out.println("Connection failed");
+        }
+
+    }
+
+    private static String readQuery(String path) {
+        StringBuilder builder = new StringBuilder();
+        try {
+            Scanner in = new Scanner(new File(path));
+            while (in.hasNextLine()) {
+                builder.append(in.nextLine()).append('\n');
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return builder.toString().trim();
+    }
+
+    public void insertUser(User user) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (LOGIN) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, user.getLogin());
+        preparedStatement.executeUpdate();
+
+        try (ResultSet result = preparedStatement.getGeneratedKeys()) {
+            if (result.next()) {
+                user.setId(result.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+    }
+
+
+    public List<User> findAllUsers() throws SQLException {
+        List<User> users = new LinkedList<>();
+
+        ResultSet result = connection.createStatement().executeQuery("SELECT * FROM USERS");
+
+        while (result.next()) {
+            User user = User.createUser(result.getString(2));
+            user.setId(result.getInt(1));
+            users.add(user);
+        }
+
+        return users;
+    }
+
+
+    public void insertTeam(Team team) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO TEAMS (NAME) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, team.getName());
+        preparedStatement.executeUpdate();
+
+        try (ResultSet result = preparedStatement.getGeneratedKeys()) {
+            if (result.next()) {
+                team.setId(result.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+    }
+
+
+    public List<Team> findAllTeams() throws SQLException {
+        List<Team> teams = new LinkedList<>();
+
+        ResultSet result = connection.createStatement().executeQuery("SELECT * FROM TEAMS");
+
+        while (result.next()) {
+            Team team = Team.createTeam(result.getString(2));
+            team.setId(result.getInt(1));
+            teams.add(team);
+        }
+
+        return teams;
+    }
+
+    public User getUser(String login) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement
+                ("SELECT * FROM USERS WHERE LOGIN = ?");
+        statement.setString(1, login);
+        statement.execute();
+        ResultSet result = statement.executeQuery();
+        result.next();
+        User user = User.createUser(result.getString(2));
+        user.setId(result.getInt(1));
+        return user;
+    }
+
+    public Team getTeam(String name) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement
+                ("SELECT * FROM TEAMS WHERE NAME = ?");
+        statement.setString(1, name);
+        statement.execute();
+        ResultSet result = statement.executeQuery();
+        result.next();
+        Team team = Team.createTeam(result.getString(2));
+        team.setId(result.getInt(1));
+        return team;
+    }
+
+    public void setTeamsForUser(User user, Team... teams) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement
+                ("INSERT INTO USERS_TEAMS (USER_ID, TEAM_ID) VALUES (?, ?)");
+        preparedStatement.setInt(1, user.getId());
+        connection.setAutoCommit(false);
+
+        for (Team team : teams) {
+            preparedStatement.setInt(2, team.getId());
+            try {
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                connection.rollback();
+            }
+        }
+
+        connection.commit();
+    }
+
+
+    public List<?> getUserTeams(User user) throws SQLException {
+        List<Team> teams = new LinkedList<>();
+
+        PreparedStatement statement = connection.prepareStatement
+                ("SELECT USERS_TEAMS.TEAM_ID FROM USERS_TEAMS WHERE USERS_TEAMS.USER_ID = ?");
+        statement.setInt(1, user.getId());
+        ResultSet result = statement.executeQuery();
+        List<Integer> teams_id = new LinkedList<>();
+
+        while (result.next()) {
+            for (int i = 0; i < result.getMetaData().getColumnCount(); i++) {
+                teams_id.add(result.getInt(i + 1));
+            }
+        }
+
+        for (int id : teams_id) {
+            statement = connection.prepareStatement
+                    ("SELECT NAME, TEAM_ID FROM TEAMS WHERE TEAM_ID = ?");
+            statement.setInt(1, id);
+            statement.execute();
+            result = statement.executeQuery();
+            result.next();
+            Team team = Team.createTeam(result.getString(1));
+            team.setId(result.getInt(2));
+            teams.add(team);
+        }
+
+        return teams;
+    }
+
+    public void deleteTeam(Team team) {
+        try {
+            PreparedStatement statement = connection.prepareStatement
+                    ("DELETE FROM TEAMS WHERE TEAM_ID = ?");
+            statement.setInt(1, team.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("Uninstall failed!");
+        }
+    }
+
+    public void updateTeam(Team team) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("UPDATE TEAMS SET NAME = ? WHERE TEAM_ID = ?");
+            statement.setString(1, team.getName());
+            statement.setInt(2, team.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("Update failed!");
+        }
+    }
+}
