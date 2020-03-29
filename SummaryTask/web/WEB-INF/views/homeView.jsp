@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Nazar
@@ -19,6 +20,13 @@
 
 <jsp:include page="_header.jsp"/>
 
+<c:if test="${errorString != null}">
+
+    <script>
+        openForm()
+    </script>
+
+</c:if>
 
 <div class="bgIm">
     <div class="crumb"></div>

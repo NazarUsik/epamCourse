@@ -26,8 +26,8 @@ CREATE TABLE Carriage
 
 CREATE TABLE Train_composition
 (
-    train_id    int(10) NOT NULL,
-    carriage_id int(10) NOT NULL UNIQUE,
+    train_id        int(10) NOT NULL,
+    carriage_id     int(10) NOT NULL UNIQUE,
     carriage_number int(10) NOT NULL
 );
 
@@ -80,30 +80,31 @@ CREATE TABLE Seats
 
 CREATE TABLE Ticket
 (
-    id      int(10) NOT NULL AUTO_INCREMENT,
-    rout_id int(10) NOT NULL,
-    price   float   NOT NULL,
-    carriage_id int(10),
-    seat_id int(10),
+    id                   int(10) NOT NULL AUTO_INCREMENT,
+    departure_station_id int     not null,
+    arrival_station_id   int     not null,
+    price                float   NOT NULL,
+    carriage_id          int(10),
+    seat_id              int(10),
     PRIMARY KEY (id),
     UNIQUE INDEX (id)
 );
 
 CREATE TABLE TicketsList
 (
-    user_id               int(10) NOT NULL,
+    user_id          int(10) NOT NULL,
     ticket_id        int(10) NOT NULL,
     ticket_status_id int(10)
 );
 
 CREATE TABLE User
 (
-    id              int(10)      NOT NULL AUTO_INCREMENT,
-    first_name      varchar(255) NOT NULL,
-    last_name       varchar(255) NOT NULL,
-    email           varchar(255) NOT NULL UNIQUE,
-    password        varchar(255) NOT NULL,
-    role_id         int(1)       NOT NULL,
+    id         int(10)      NOT NULL AUTO_INCREMENT,
+    first_name varchar(255) NOT NULL,
+    last_name  varchar(255) NOT NULL,
+    email      varchar(255) NOT NULL UNIQUE,
+    password   varchar(255) NOT NULL,
+    role_id    int(1)       NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX (id)
 );
@@ -187,14 +188,19 @@ ALTER TABLE Seats
         ON DELETE Cascade;
 
 ALTER TABLE Ticket
-    ADD CONSTRAINT FKTicket512153 FOREIGN KEY (rout_id) REFERENCES Train_route (id)
+    ADD CONSTRAINT FKTicket512153 FOREIGN KEY (departure_station_id) REFERENCES Station (id)
+        ON UPDATE Cascade
+        ON DELETE Cascade;
+
+ALTER TABLE Ticket
+    ADD CONSTRAINT FKTicket517775 FOREIGN KEY (arrival_station_id) REFERENCES Station (id)
         ON UPDATE Cascade
         ON DELETE Cascade;
 
 ALTER TABLE Ticket
     ADD CONSTRAINT FKTicket786644 FOREIGN KEY (seat_id) REFERENCES Seats (id)
         ON UPDATE Cascade
-        ON DELETE SET NULL ;
+        ON DELETE SET NULL;
 
 ALTER TABLE Ticket
     ADD CONSTRAINT FKTicket542354 FOREIGN KEY (carriage_id) REFERENCES Carriage (id)
@@ -346,22 +352,31 @@ VALUES (DEFAULT, 'Kharkov'),
        (DEFAULT, 'Kiev'),
        (DEFAULT, 'Zaporozhye'),
        (DEFAULT, 'Lviv'),
-       (DEFAULT, 'Vinnitsa');
+       (DEFAULT, 'Vinnitsa'),
+       (DEFAULT, 'Lozovay'),
+       (DEFAULT, 'Pavlograd');
 
 INSERT INTO Schedule
 VALUES (DEFAULT, '2020-09-24 15:13', '2020-09-25 11:01', 1185),
        (DEFAULT, '2020-09-25 00:24', '2020-09-25 00:54', 551),
-       (DEFAULT, '2020-09-25 04:05', '2020-09-25 04:10', 772);
+       (DEFAULT, '2020-09-25 04:05', '2020-09-25 04:10', 772),
+       (DEFAULT, '2020-04-14 23:41', '2020-04-15 04:18', 277),
+       (DEFAULT, '2020-04-15 01:35', '2020-04-15 01:37', 114),
+       (DEFAULT, '2020-05-15 02:38', '2020-04-15 02:40', 177);
 
 INSERT INTO Train_route
-VALUES (DEFAULT, 3, 1, 4, 1);
+VALUES (DEFAULT, 3, 1, 4, 1),
+       (DEFAULT, 1, 1, 3, 4);
 
 INSERT INTO Intermediate_stations
 VALUES (1, 2, 2),
-       (1, 3, 5);
+       (1, 3, 5),
+       (2, 5, 6),
+       (2, 6, 7);
 
 INSERT INTO Ticket
-VALUES (DEFAULT, 1, 223.5, 31, 10);
+VALUES (DEFAULT, 1, 4, 223.5, 31, 10),
+       (DEFAULT, 2, 4, 195, 31, 227);
 
 INSERT INTO Status
 VALUES (DEFAULT, 'Paid'),
@@ -369,6 +384,8 @@ VALUES (DEFAULT, 'Paid'),
 
 INSERT INTO TicketsList
 VALUES (2, 1, 1);
+
+
 
 #####################################################
 #Select all rout and her intermediate station       #

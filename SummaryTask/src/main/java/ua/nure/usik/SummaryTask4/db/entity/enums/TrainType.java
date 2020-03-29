@@ -10,7 +10,17 @@ public enum TrainType {
         return TrainType.values()[typeId - 1];
     }
 
+    public static int getTrainTypeId(String nameType) {
+        TrainType[] types = TrainType.values();
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].getName().equals(nameType)) {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
+
     public String getName() {
-        return name().toLowerCase();
+        return name().toUpperCase();
     }
 }

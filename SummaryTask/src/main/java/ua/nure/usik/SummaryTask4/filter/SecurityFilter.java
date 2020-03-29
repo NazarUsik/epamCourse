@@ -1,4 +1,5 @@
 package ua.nure.usik.SummaryTask4.filter;
+
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.User;
 import ua.nure.usik.SummaryTask4.db.entity.enums.Role;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
 @WebFilter("/*")
 public class SecurityFilter implements Filter {
 
@@ -34,6 +34,7 @@ public class SecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
+
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
@@ -72,9 +73,11 @@ public class SecurityFilter implements Filter {
                 // Сохранить текущую страницу для перенаправления (redirect) после успешного входа в систему.
                 int redirectId = MyUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);
 
-//                response.sendRedirect(wrapRequest.getContextPath() + "/login?redirectId=" + redirectId);
+                wrapRequest.getSession().setAttribute("redirectId", redirectId);
 
-//                return;
+                response.sendRedirect(wrapRequest.getContextPath() + "/login");
+
+                return;
             }
 
             // Проверить пользователь имеет действительную роль или нет?

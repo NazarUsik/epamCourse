@@ -135,4 +135,33 @@ public final class SQLQuery {
                     "         JOIN schedule s on ins.schedule_id = s.id\n" +
                     "where s2.name = ?\n" +
                     "  and s.departure_time > ?";
+
+    public static final String SQL_FIND_ALL_TRAIN =
+            "SELECT * FROM train t JOIN train_type tt on t.type_id = tt.id;";
+
+    public static final String SQL_FIND_ALL_CARRIAGE =
+            "SELECT tc.train_id,\n" +
+                    "       c.id,\n" +
+                    "       c.type_id,\n" +
+                    "       ct.name,\n" +
+                    "       c.count_seats,\n" +
+                    "       c.count_available_seats,\n" +
+                    "       c.haveRestaurant\n" +
+                    "FROM carriage c\n" +
+                    "         JOIN carriage_type ct on c.type_id = ct.id\n" +
+                    "         JOIN train_composition tc on c.id = tc.carriage_id\n" +
+                    "ORDER BY train_id;";
+
+    public static final String SQL_LAST_ADD_CARRIAGE_ID =
+            "SELECT id\n" +
+                    "FROM carriage\n" +
+                    "ORDER BY id DESC\n" +
+                    "LIMIT 1;\n";
+
+    public static final String SQL_LAST_ADD_TRAIN_ID =
+            "SELECT id\n" +
+                    "FROM train\n" +
+                    "ORDER BY id DESC\n" +
+                    "LIMIT 1;\n";
+
 }

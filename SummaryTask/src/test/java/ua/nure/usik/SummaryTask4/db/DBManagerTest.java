@@ -1,9 +1,12 @@
 package ua.nure.usik.SummaryTask4.db;
 
+import javafx.util.Pair;
 import org.junit.Test;
 import ua.nure.usik.SummaryTask4.db.connection.MySQLConnectionUtils;
+import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.Entity;
 import ua.nure.usik.SummaryTask4.db.entity.Schedule;
+import ua.nure.usik.SummaryTask4.db.entity.Train;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -54,5 +57,182 @@ public class DBManagerTest {
 //        }
 
 
+    }
+
+    @Test
+    public void findUser() {
+    }
+
+    @Test
+    public void testFindUser() {
+    }
+
+    @Test
+    public void insertStation() {
+    }
+
+    @Test
+    public void updateStation() {
+    }
+
+    @Test
+    public void deleteStation() {
+    }
+
+    @Test
+    public void insertSchedule() {
+    }
+
+    @Test
+    public void updateDepartureTimeInSchedule() {
+    }
+
+    @Test
+    public void updateArrivalTimeInSchedule() {
+    }
+
+    @Test
+    public void deleteSchedule() {
+    }
+
+    @Test
+    public void insertRoute() {
+    }
+
+    @Test
+    public void updateDepartureStationInRoute() {
+    }
+
+    @Test
+    public void updateArrivalStationInRoute() {
+    }
+
+    @Test
+    public void updateScheduleInRoute() {
+    }
+
+    @Test
+    public void deleteRoute() {
+    }
+
+    @Test
+    public void insertUser() {
+    }
+
+    @Test
+    public void updateUser() {
+    }
+
+    @Test
+    public void insertTrainComposition() {
+    }
+
+    @Test
+    public void updateTrainCompositionByTrain() {
+    }
+
+    @Test
+    public void updateTrainCompositionByCarriage() {
+    }
+
+    @Test
+    public void deleteTrainCompositionByTrain() {
+    }
+
+    @Test
+    public void deleteTrainCompositionByCarriage() {
+    }
+
+    @Test
+    public void insertCarriage() {
+    }
+
+    @Test
+    public void updateCarriage() {
+    }
+
+    @Test
+    public void deleteCarriage() {
+    }
+
+    @Test
+    public void testInsertUser() {
+    }
+
+    @Test
+    public void testUpdateUser() {
+    }
+
+    @Test
+    public void deleteUser() {
+    }
+
+    @Test
+    public void insertTrain() {
+    }
+
+    @Test
+    public void updateTrain() {
+    }
+
+    @Test
+    public void deleteTrain() {
+    }
+
+    @Test
+    public void insertTicket() {
+    }
+
+    @Test
+    public void updateTicket() {
+    }
+
+    @Test
+    public void deleteTicket() {
+    }
+
+    @Test
+    public void insertIntermediateStation() {
+    }
+
+    @Test
+    public void updateIntermediateStation() {
+    }
+
+    @Test
+    public void deleteIntermediateStation() {
+    }
+
+    @Test
+    public void insertTicketsList() {
+    }
+
+    @Test
+    public void updateTicketsList() {
+    }
+
+    @Test
+    public void deleteTicketsList() {
+    }
+
+    @Test
+    public void findRouteByStation() {
+    }
+
+    @Test
+    public void findIntermediateStation() {
+    }
+
+    @Test
+    public void getAllTrain() throws SQLException, ClassNotFoundException {
+        Connection connection = MySQLConnectionUtils.getMySQLConnection();
+        for (Pair<String, Train> pair: DBManager.getAllTrain(connection)){
+            System.out.println(pair.getKey());
+            System.out.println(pair.getValue());
+        }
+    }
+
+    @Test
+    public void getAllCarriage() {
     }
 }

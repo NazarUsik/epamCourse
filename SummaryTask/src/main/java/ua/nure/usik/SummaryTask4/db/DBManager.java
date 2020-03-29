@@ -1,5 +1,6 @@
 package ua.nure.usik.SummaryTask4.db;
 
+import javafx.util.Pair;
 import ua.nure.usik.SummaryTask4.db.constats.Fields;
 import ua.nure.usik.SummaryTask4.db.constats.SQLQuery;
 import ua.nure.usik.SummaryTask4.db.entity.*;
@@ -349,7 +350,7 @@ public final class DBManager {
         }
     }
 
-    public static boolean insertUser(Connection connection, Seats seats) throws SQLException {
+    public static boolean insertSeat(Connection connection, Seats seats) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_SEATS);
         statement.setInt(1, seats.getCarriageId());
         statement.setInt(2, seats.getNumber());
@@ -604,8 +605,56 @@ public final class DBManager {
             map.put(Fields.ROUTE, route);
             map.put(Fields.STATION, station);
             map.put(Fields.SCHEDULE, schedule);
-        return map;
+            return map;
         }
         return null;
+    }
+
+    public static List<Pair<String, Train>> getAllTrain(Connection connection) throws SQLException {
+        List<Pair<String, Train>> list = new LinkedList<Pair<String, Train>>();
+
+        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_FIND_ALL_TRAIN);
+
+        while (result.next()) {
+            Train train = new Train(result.getInt(Fields.TRAIN_TYPE_ID));
+            train.setId(result.getInt(Fields.ID));
+            list.add(new Pair<String, Train>(result.getString(Fields.NAME), train));
+        }
+        return list;
+    }
+
+    public static List<Pair<Integer, Pair<String, Carriage>>> getAllCarriage(Connection connection) throws SQLException {
+        List<Pair<Integer, Pair<String, Carriage>>> list = new LinkedList<Pair<Integer, Pair<String, Carriage>>>();
+
+        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_FIND_ALL_CARRIAGE);
+
+        while (result.next()) {
+            Carriage carriage = new Carriage(result.getInt(Fields.CARRIAGE_TYPE_ID),
+                    result.getInt(Fields.CARRIAGE_COUNT_SEATS),
+                    result.getInt(Fields.CARRIAGE_COUNT_AVAILABLE_SEATS),
+                    result.getBoolean(Fields.CARRIAGE_HAVE_REST));
+            carriage.setId(result.getInt(Fields.ID));
+            list.add(new Pair<Integer, Pair<String, Carriage>>(result.getInt(Fields.ROUTE_TRAIN_ID),
+                    new Pair<String, Carriage>(result.getString(Fields.NAME), carriage)));
+        }
+        return list;
+    }
+
+    public static int getCarriageIdLastAdd(Connection connection) throws SQLException {
+        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_LAST_ADD_CARRIAGE_ID);
+
+        if (result.next()) {
+            return result.getInt(Fields.ID);
+        }
+        return 0;
+    }
+
+    public static int getTrainIdLastAdd(Connection connection) throws SQLException {
+        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_LAST_ADD_TRAIN_ID);
+
+        if (result.next()) {
+            return result.getInt(Fields.ID);
+        }
+        return 0;
     }
 }

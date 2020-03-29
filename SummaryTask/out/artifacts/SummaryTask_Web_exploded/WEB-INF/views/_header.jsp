@@ -47,10 +47,18 @@
 
     <c:choose>
         <c:when test="${empty loginedUser}">
-            <button class="loginBtn" onclick="document.getElementById('id01').style.display='block'">Login</button>
+            <button class="loginBtn" onclick="openForm()">Login</button>
+            <%--            <span class="loginBtn" onclick="document.getElementById('id01').style.display='block'">Login</span>--%>
         </c:when>
         <c:otherwise>
-            <a class="loginBtn" href="${pageContext.request.contextPath}/userInfo">My account</a>
+            <c:choose>
+                <c:when test="${logoutParam == 'exit'}">
+                    <a class="loginBtn" href="${pageContext.request.contextPath}/logout">Logout</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="loginBtn" href="${pageContext.request.contextPath}/userInfo">My</a>
+                </c:otherwise>
+            </c:choose>
         </c:otherwise>
     </c:choose>
 </div>
@@ -61,8 +69,10 @@
     <div class="overlay-content">
         <a href="${pageContext.request.contextPath}/">Home</a>
         <a href="${pageContext.request.contextPath}/routeSearch">Search route</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <c:if test="${loginedUser.roleId == 1}">
+            <a href="${pageContext.request.contextPath}/addRoute">New route</a>
+            <a href="#">New Train</a>
+        </c:if>
     </div>
 </div>
 

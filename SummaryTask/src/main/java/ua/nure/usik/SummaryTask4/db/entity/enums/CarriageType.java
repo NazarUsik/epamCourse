@@ -10,7 +10,17 @@ public enum CarriageType {
         return CarriageType.values()[carriageId - 1];
     }
 
+    public static int getCarriageTypeId(String nameType) {
+        CarriageType[] types = CarriageType.values();
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].getName().equals(nameType)) {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
+
     public String getName() {
-        return name().toLowerCase();
+        return name().toUpperCase();
     }
 }

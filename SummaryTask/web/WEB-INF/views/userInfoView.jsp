@@ -25,12 +25,6 @@ User Name: <b>${user.firstName} ${user.lastName}</b>
 <br/>
 Email: ${user.email} <br/>
 
-<c:if test="${user.roleId == 1}">
-    <a href="adminPage">Go to admin page</a>
-</c:if>
-<form action="${pageContext.request.contextPath}/logout" method="get">
-    <input type="submit" name="Submit">
-</form>
 <jsp:include page="_footer.jsp"/>
 
 </body>

@@ -51,18 +51,18 @@
     </thead>
     <tbody>
     <tr>
-        <c:forEach items="${routeList}" var="entry">
+        <c:forEach items="${routeList}" var="pair">
             <c:choose>
-                <c:when test="${entry.key == 'Station1'}">
-                    <td>${entry.value.name}</td>
+                <c:when test="${pair.key == 'Station1'}">
+                    <td>${pair.value.name}</td>
                 </c:when>
-                <c:when test="${entry.key == 'Station2'}">
-                    <td>${entry.value.name}</td>
+                <c:when test="${pair.key == 'Station2'}">
+                    <td>${pair.value.name}</td>
                 </c:when>
-                <c:when test="${entry.key == 'Schedule'}">
-                    <td>${entry.value.departureTime}</td>
-                    <td>${entry.value.arrivalTime}</td>
-                    <td>${entry.value.travelTime/60}</td>
+                <c:when test="${pair.key == 'Schedule'}">
+                    <td>${pair.value.departureTime}</td>
+                    <td>${pair.value.arrivalTime}</td>
+                    <td>${pair.value.travelTime/60}</td>
                 </c:when>
             </c:choose>
         </c:forEach>

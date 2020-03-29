@@ -23,16 +23,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Forward (перенаправить) к странице /WEB-INF/views/loginView.jsp
-        // (Пользователь не может прямо получить доступ
-        // к страницам JSP расположенные в папке WEB-INF).
+        req.setAttribute("errorString", "Login first!");
 
+        // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
+        RequestDispatcher dispatcher //
+                = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
 
-//
-//        RequestDispatcher dispatcher //
-//                = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
-//
-//        dispatcher.forward(req, resp);
+        dispatcher.forward(req, resp);
     }
 
     @Override
@@ -84,8 +81,9 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("user", user);
 
             // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
+
             RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
 
             dispatcher.forward(req, resp);
         } else {
@@ -107,14 +105,16 @@ public class LoginServlet extends HttpServlet {
             // Redirect (Перенаправить) на страницу /userInfo.
 
             int redirectId = -1;
+            String loginUrl = null;
             try {
-                redirectId = Integer.parseInt(req.getParameter("redirectId"));
-            } catch (Exception e) {
-
+                redirectId = (Integer) req.getSession().getAttribute("redirectId");
+                loginUrl = MyUtils.getRedirectAfterLoginUrl(req.getSession(), redirectId);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-            String requestUri = MyUtils.getRedirectAfterLoginUrl(req.getSession(), redirectId);
-            if (requestUri != null) {
-                resp.sendRedirect(requestUri);
+
+            if (loginUrl != null) {
+                resp.sendRedirect(loginUrl);
             } else {
                 // По умолчанию после успешного входа в систему
                 // перенаправить на страницу /userInfo
