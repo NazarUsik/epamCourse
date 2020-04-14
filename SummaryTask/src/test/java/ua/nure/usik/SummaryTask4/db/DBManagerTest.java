@@ -1,11 +1,11 @@
 package ua.nure.usik.SummaryTask4.db;
 
 import javafx.util.Pair;
+import org.junit.Assert;
 import org.junit.Test;
-import ua.nure.usik.SummaryTask4.db.connection.MySQLConnectionUtils;
-import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
+import ua.nure.usik.SummaryTask4.db.connection.ConnectionUtils;
 import ua.nure.usik.SummaryTask4.db.entity.Entity;
-import ua.nure.usik.SummaryTask4.db.entity.Schedule;
+import ua.nure.usik.SummaryTask4.db.entity.Station;
 import ua.nure.usik.SummaryTask4.db.entity.Train;
 
 import java.sql.Connection;
@@ -14,12 +14,23 @@ import java.util.Map;
 
 public class DBManagerTest {
 
+    private static Connection connection;
+
+    static {
+        try {
+            connection = ConnectionUtils.getConnection();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Test
-    public void findRouteRyStation() throws SQLException, ClassNotFoundException {
+    public void findRouteRyStation() throws SQLException {
         String depS = "Vinnitsa";
         String arrS = "Kiev";
         String date = "2020-01-12";
-        Connection connection = MySQLConnectionUtils.getMySQLConnection();
+
         Map<String, Entity> map1 = DBManager.findRouteByStation(connection, depS, arrS, date);
         Map<String, Entity> map2 = null;
 
@@ -224,9 +235,8 @@ public class DBManagerTest {
     }
 
     @Test
-    public void getAllTrain() throws SQLException, ClassNotFoundException {
-        Connection connection = MySQLConnectionUtils.getMySQLConnection();
-        for (Pair<String, Train> pair: DBManager.getAllTrain(connection)){
+    public void getAllTrain() throws SQLException {
+        for (Pair<String, Train> pair : DBManager.getAllTrain(connection)) {
             System.out.println(pair.getKey());
             System.out.println(pair.getValue());
         }
@@ -234,5 +244,121 @@ public class DBManagerTest {
 
     @Test
     public void getAllCarriage() {
+    }
+
+    @Test
+    public void insertSeat() {
+    }
+
+    @Test
+    public void getCarriageIdLastAdd() {
+    }
+
+    @Test
+    public void getTrainIdLastAdd() {
+    }
+
+    @Test
+    public void getLastCarriageNumberByTrain() {
+    }
+
+    @Test
+    public void getAllStation() {
+
+    }
+
+    @Test
+    public void getAllRoute() throws SQLException {
+        Map<String, Entity> map = DBManager.getAllRoute(connection);
+
+        for (Map.Entry<String, Entity> entry : map.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            System.out.println("_________________________");
+        }
+    }
+
+    @Test
+    public void getAllIntermediateStation() throws SQLException {
+        Map<String, Entity> map = DBManager.getAllIntermediateStation(connection);
+
+        for (Map.Entry<String, Entity> entry : map.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            System.out.println("_________________________");
+        }
+    }
+
+    @Test
+    public void findStationByName() throws SQLException {
+        Station kharkov = DBManager.findStationByName(connection, "Kharkov");
+
+        Assert.assertEquals(1, kharkov.getId());
+
+        Station stationNull = DBManager.findStationByName(connection, "ThisStationNotFount");
+
+        Assert.assertNull(stationNull);
+    }
+
+    @Test
+    public void getLastScheduleId() throws SQLException {
+        int lastScheduleId = DBManager.getLastScheduleId(connection);
+
+        Assert.assertEquals(6, lastScheduleId);
+    }
+
+    @Test
+    public void getLastRouteId() throws SQLException {
+        int lastRouteId = DBManager.getLastRouteId(connection);
+
+        Assert.assertEquals(2, lastRouteId);
+    }
+
+    @Test
+    public void findCarriagesSeatsByTrainId() {
+
+    }
+
+    @Test
+    public void findRoute() {
+    }
+
+    @Test
+    public void updateSchedule() {
+    }
+
+    @Test
+    public void updateRouteByTrainId() {
+    }
+
+    @Test
+    public void updateIntermediateStationByStation() {
+    }
+
+    @Test
+    public void updateIntermediateStationBySchedule() {
+    }
+
+    @Test
+    public void getAmountSeatsFromTrain() {
+    }
+
+    @Test
+    public void availableRoute() {
+    }
+
+    @Test
+    public void getAllAvailableTicketsByRoute() throws SQLException {
+        Map<Pair<Integer, Float>, Pair<Integer, Integer>> map = DBManager.getAllTickets(connection);
+        for(Map.Entry<Pair<Integer, Float>, Pair<Integer, Integer>> entry: map.entrySet()){
+            System.out.println(entry.getKey().getKey());
+            System.out.println(entry.getKey().getValue());
+            System.out.println(entry.getValue().getKey());
+            System.out.println(entry.getValue().getValue());
+        }
+    }
+
+    @Test
+    public void getAllNotAvailableTicketsByRoute() {
     }
 }

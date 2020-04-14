@@ -8,22 +8,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<style>
-
-    .footer {
-        background: #F4EDE7;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        text-align: center;
-        padding: 5px;
-        margin-top: 10px;
-        width: 100%;
-    }
-</style>
-
-<div class="footer">
-
-    @Copyright N.Usik
-
-</div>
+    <footer style="position: fixed;
+                text-align: center;
+                bottom: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.31);
+                height: 20px;
+                color: black;">
+        @Copyright N.Usik
+    </footer>

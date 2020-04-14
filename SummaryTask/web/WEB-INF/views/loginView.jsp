@@ -9,12 +9,12 @@
          pageEncoding="UTF-8" %>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/loginStyle.css">
-<br>
+
 
 <div class="form-popup" id="myForm">
     <form action="${pageContext.request.contextPath}/login" method="post" class="form-container">
         <h1>Login</h1>
-        <p style="color: red;">${errorString}</p
+        <p style="color: red;">${errorString}</p>
         <br/>
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" id="email" name="email" required>
@@ -23,7 +23,7 @@
         <input type="password" placeholder="Enter Password" id="psw" name="password" required>
 
         <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
+            <input type="checkbox" name="rememberMe" value="Y"> Remember me
         </label>
 
         <button type="submit" class="btn">Login</button>

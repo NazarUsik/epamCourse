@@ -18,8 +18,6 @@ public class MyUtils {
 
     private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
 
-    private static final String ATT_REDIRECT_URL_ID = "ATTRIBUTE_FOR_STORE_REDIRECT_URL_ID";
-
     private static final Map<Integer, String> id_uri_map = new HashMap<Integer, String>();
 
     private static final Map<String, Integer> uri_id_map = new HashMap<String, Integer>();
@@ -45,16 +43,15 @@ public class MyUtils {
 
     // Получить информацию пользователя, сохраненная в Session.
     public static User getLoginedUser(HttpSession session) {
-        User loginedUser = (User) session.getAttribute("loginedUser");
-        return loginedUser;
+        return (User) session.getAttribute("loginedUser");
     }
 
     // Сохранить информацию пользователя в Cookie.
     public static void storeUserCookie(HttpServletResponse response, User user) {
         System.out.println("Store user cookie");
         Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getEmail());
-        // 1 день (Конвертированный в секунды)
-        cookieUserName.setMaxAge(24 * 60 * 60);
+        // 7 дней (Конвертированные в секунды)
+        cookieUserName.setMaxAge(7 * 24 * 60 * 60);
         response.addCookie(cookieUserName);
     }
 
@@ -93,10 +90,6 @@ public class MyUtils {
     }
 
     public static String getRedirectAfterLoginUrl(HttpSession session, int redirectId) {
-        String url = id_uri_map.get(redirectId);
-        if (url != null) {
-            return url;
-        }
-        return null;
+        return id_uri_map.get(redirectId);
     }
 }

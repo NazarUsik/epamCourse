@@ -28,8 +28,8 @@ public class SecurityConfig {
         List<String> urlPatterns2 = new ArrayList<String>();
 
         urlPatterns2.add("/userInfo");
-        urlPatterns2.add("/addRoute");
-        urlPatterns2.add("/addTrain");
+        urlPatterns2.add("/adminPage");
+//        urlPatterns2.add("/addTrain");
 
         mapConfig.put(String.valueOf(Role.getRole(1)), urlPatterns2);
     }

@@ -24,7 +24,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("errorString", "Login first!");
-
         // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
         RequestDispatcher dispatcher //
                 = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
@@ -39,17 +38,15 @@ public class LoginServlet extends HttpServlet {
         String rememberMeStr = req.getParameter("rememberMe");
         boolean remember = "Y".equals(rememberMeStr);
 
-        System.out.println(req.getParameter("redirectId"));
-
         User user = null;
         boolean hasError = false;
         String errorString = null;
 
-        if (email == null || !email.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
-                "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")) {
+        if (email == null /*|| !email.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
+                "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")*/) {
             hasError = true;
             errorString = "Invalid email!";
-        } else if (password == null || password.length() < 8) {
+        } else if (password == null || password.length() < 4) {
             hasError = true;
             errorString = "Invalid password!";
         } else {
@@ -110,7 +107,7 @@ public class LoginServlet extends HttpServlet {
                 redirectId = (Integer) req.getSession().getAttribute("redirectId");
                 loginUrl = MyUtils.getRedirectAfterLoginUrl(req.getSession(), redirectId);
             } catch (NullPointerException e) {
-                e.printStackTrace();
+
             }
 
             if (loginUrl != null) {

@@ -1,139 +1,102 @@
 package ua.nure.usik.SummaryTask4.servlet;
 
-import javafx.util.Pair;
 import ua.nure.usik.SummaryTask4.db.DBManager;
+import ua.nure.usik.SummaryTask4.db.connection.ConnectionUtils;
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
-import ua.nure.usik.SummaryTask4.db.entity.Carriage;
-import ua.nure.usik.SummaryTask4.db.entity.Seats;
-import ua.nure.usik.SummaryTask4.db.entity.Train;
-import ua.nure.usik.SummaryTask4.db.entity.User;
-import ua.nure.usik.SummaryTask4.db.entity.enums.CarriageType;
-import ua.nure.usik.SummaryTask4.db.entity.enums.TrainType;
+import ua.nure.usik.SummaryTask4.db.entity.*;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @WebServlet("/addRoute")
 public class AddRouteServlet extends HttpServlet {
+
     public AddRouteServlet() {
         super();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
-        Connection connection = MyUtils.getStoredConnection(request);
-        List<Pair<String, Train>> trains = null;
-        List<Pair<Integer, Pair<String, Carriage>>> carriages = null;
-        String error = "";
-
-        try {
-            trains = DBManager.getAllTrain(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            error += e.getSQLState();
-        }
-
-        try {
-            carriages = DBManager.getAllCarriage(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            error += e.getSQLState();
-        }
-
-//        System.out.println(Arrays.toString(trains.toArray()));
-//        System.out.println(Arrays.toString(carriages.toArray()));
-
-        request.setAttribute("trains", trains);
-        request.setAttribute("carriages", carriages);
-        request.setAttribute("error", error);
-
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/addRouteView.jsp");
-
-        dispatcher.forward(request, response);
-
+        response.sendRedirect(request.getContextPath() + "/adminPage");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
+
         Connection connection = MyUtils.getStoredConnection(request);
 
-        String form = request.getParameter("form");
-        if (form.equals("1")) {
-            String trainType = request.getParameter("trainType");
-            String addTrain = "";
+        String addRoute = "";
 
-            if (trainType != null) {
-                int typeId = TrainType.getTrainTypeId(trainType);
-                System.out.println(typeId);
-                try {
-                    if (DBManager.insertTrain(connection, new Train(typeId))) {
-                        addTrain += "Add successful";
-                    } else {
-                        addTrain += "Not add train";
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    addTrain += e.getSQLState();
-                }
-            } else {
-                addTrain += "Select train type!";
-            }
+        int trainId = Integer.parseInt(request.getParameter("trainId"));
+        int price = Integer.parseInt(request.getParameter("price"));
+        String depStationName = request.getParameter("depStation");
+        String arrStationName = request.getParameter("arrStation");
 
-            request.setAttribute("addTrain", addTrain);
+        LocalDateTime depTime = LocalDateTime.parse(request.getParameter("depTime"));
+        LocalDateTime arrTime = LocalDateTime.parse(request.getParameter("arrTime"));
 
-        } else if (form.equals("2")) {
-            String trainId = request.getParameter("trainId");
-            String carriageType = request.getParameter("type");
-            String countSeats = request.getParameter("countSeats");
-            String rest = request.getParameter("rest");
-            String addCarriage = "";
+        Duration duration = Duration.between(depTime, arrTime);
 
-            if (trainId != null && carriageType != null && countSeats != null) {
-                boolean ch = false;
-                if (rest != null) {
-                    ch = true;
-                }
-                int count = Integer.parseInt(countSeats);
-                try {
-                    if (DBManager.insertCarriage(connection,
-                            new Carriage(CarriageType.getCarriageTypeId(carriageType), count, count, ch))) {
 
-                        int carriageId = DBManager.getCarriageIdLastAdd(connection);
-
-                        DBManager.insertTrainComposition(connection, Integer.parseInt(trainId), carriageId);
-
-                        for (int i = 0; i < count; i++) {
-                            DBManager.insertSeat(connection, new Seats(carriageId, (i + 1), true));
-                        }
-
-                        addCarriage += "Add successful";
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    addCarriage += e.getSQLState();
-                }
-            } else {
-                addCarriage += "Fill all fields first!";
-            }
-
-            request.setAttribute("addCarriage", addCarriage);
-
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    
-        doGet(request, response);
+
+        try {
+            Station depStation = DBManager.findStationByName(connection, depStationName);
+            Station arrStation = DBManager.findStationByName(connection, arrStationName);
+            DBManager.insertSchedule(connection, new Schedule(depTime.toString(), arrTime.toString(), (int) duration.toMinutes()));
+
+            int scheduleId = DBManager.getLastScheduleId(connection);
+
+            if (depStation != null && arrStation != null && scheduleId != 0) {
+
+                if (DBManager.insertRoute(connection,
+                        new Route(trainId, depStation.getId(), arrStation.getId(), scheduleId))) {
+
+                    Map<Seats, Carriage> map = DBManager.findCarriagesSeatsByTrainId(connection, trainId);
+                    int routeId = DBManager.getLastRouteId(connection);
+
+                    for (Map.Entry<Seats, Carriage> entry : map.entrySet()) {
+                        if (!DBManager.insertTicket(connection, new Ticket(routeId, price, entry.getValue().getId(),
+                                entry.getKey().getId()))) {
+                            ConnectionUtils.rollbackQuietly(connection);
+                        }
+                    }
+
+                    addRoute += "Add successful";
+                } else {
+                    addRoute += "Error in query!";
+                }
+            } else {
+                addRoute += "Station not fount!";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            addRoute += e.getMessage();
+        }
+
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect(request.getContextPath() + "/adminPage?addRouteStatus=" + addRoute);
+
+
     }
 }

@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+    color: white;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: rgba(31, 41, 77, 0.36);
+    /*color: white;*/
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+
+.tablink:hover {
+    background-color: rgba(31, 41, 77, 0.25);
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    /*color: white;*/
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+
+.accordion {
+    background-color: rgba(31, 41, 77, 0.31);
+    /*color: white;*/
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: rgba(31, 41, 77, 0.75);
+}
+
+.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: rgba(31, 41, 77, 0.34);
+    /*color: white;*/
+    overflow: hidden;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("../images/back_desert.jpg");
+
+    /* Full height */
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
+    height: max-content;
+}
+
+
+/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}

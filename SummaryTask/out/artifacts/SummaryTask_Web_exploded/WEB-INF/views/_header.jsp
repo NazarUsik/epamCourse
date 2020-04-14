@@ -70,8 +70,7 @@
         <a href="${pageContext.request.contextPath}/">Home</a>
         <a href="${pageContext.request.contextPath}/routeSearch">Search route</a>
         <c:if test="${loginedUser.roleId == 1}">
-            <a href="${pageContext.request.contextPath}/addRoute">New route</a>
-            <a href="#">New Train</a>
+            <a href="${pageContext.request.contextPath}/adminPage">Admin page</a>
         </c:if>
     </div>
 </div>

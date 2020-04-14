@@ -12,7 +12,7 @@ public class Messages {
 		// no op
 	}
 	
-	public static final String ERR_CANNOT_OBTAIN_USER_ORDER_BEANS = "Cannot obtain user order beans";
+	public static final String SQL_EXCEPTION_DUBLICATE_STATION = "Such a station already exists!";
 
 	public static final String ERR_CANNOT_OBTAIN_CONNECTION = "Cannot obtain a connection from the pool";
 

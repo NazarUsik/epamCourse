@@ -26,6 +26,7 @@ public final class Fields {
 
     public static final String STATION = "Station";
 
+    public static final String IS = "IntermediateStation";
     public static final String IS_ROUTE_ID = "route_id";
     public static final String IS_SCHEDULE_ID = "schedule_id";
     public static final String IS_STATION_ID = "station_id";
@@ -35,6 +36,9 @@ public final class Fields {
     public static final String ROUTE_DEP_S_ID = "departure_station_id";
     public static final String ROUTE_ARR_S_ID = "arrival_station_id";
     public static final String ROUTE_SCHEDULE_ID = "schedule_id";
+    public static final String ROUTE_DEP_STATION_NAME = "dep_station_name";
+    public static final String ROUTE_ARR_STATION_NAME = "arr_station_name";
+
 
     public static final String TRAIN = "Train";
     public static final String TRAIN_TYPE_ID = "type_id";
@@ -44,4 +48,15 @@ public final class Fields {
     public static final String CARRIAGE_COUNT_SEATS = "count_seats";
     public static final String CARRIAGE_COUNT_AVAILABLE_SEATS = "count_available_seats";
     public static final String CARRIAGE_HAVE_REST = "haveRestaurant";
+
+    public static final String SEATS = "Seats";
+    public static final String SEATS_CARRIAGE_ID = "carriage_id";
+    public static final String SEATS_NUMBER = "number";
+    public static final String SEATS_AVAILABLE = "available";
+
+    public static final String TICKET = "ticket";
+    public static final String TICKET_PRICE = "price";
+    public static final String TICKET_ID = "ticket_id";
+
+
 }

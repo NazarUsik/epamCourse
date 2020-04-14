@@ -80,12 +80,11 @@ CREATE TABLE Seats
 
 CREATE TABLE Ticket
 (
-    id                   int(10) NOT NULL AUTO_INCREMENT,
-    departure_station_id int     not null,
-    arrival_station_id   int     not null,
-    price                float   NOT NULL,
-    carriage_id          int(10),
-    seat_id              int(10),
+    id          int(10) NOT NULL AUTO_INCREMENT,
+    route_id    int     not null,
+    price       float   NOT NULL,
+    carriage_id int(10),
+    seat_id     int(10),
     PRIMARY KEY (id),
     UNIQUE INDEX (id)
 );
@@ -188,12 +187,7 @@ ALTER TABLE Seats
         ON DELETE Cascade;
 
 ALTER TABLE Ticket
-    ADD CONSTRAINT FKTicket512153 FOREIGN KEY (departure_station_id) REFERENCES Station (id)
-        ON UPDATE Cascade
-        ON DELETE Cascade;
-
-ALTER TABLE Ticket
-    ADD CONSTRAINT FKTicket517775 FOREIGN KEY (arrival_station_id) REFERENCES Station (id)
+    ADD CONSTRAINT FKTicket512153 FOREIGN KEY (route_id) REFERENCES train_route (id)
         ON UPDATE Cascade
         ON DELETE Cascade;
 
@@ -375,8 +369,8 @@ VALUES (1, 2, 2),
        (2, 6, 7);
 
 INSERT INTO Ticket
-VALUES (DEFAULT, 1, 4, 223.5, 31, 10),
-       (DEFAULT, 2, 4, 195, 31, 227);
+VALUES (DEFAULT, 1, 223.5, 31, 10),
+       (DEFAULT, 2, 195, 31, 227);
 
 INSERT INTO Status
 VALUES (DEFAULT, 'Paid'),
@@ -405,7 +399,7 @@ FROM train_route tr
          join schedule si on i.schedule_id = si.id
          join station dep on tr.departure_station_id = dep.id
          join station ar on tr.arrival_station_id = ar.id
-         join station im on i.station_id = im.id
+         join station im on i.station_id = im.id;
 
 ######################################################
 #                                                    #
