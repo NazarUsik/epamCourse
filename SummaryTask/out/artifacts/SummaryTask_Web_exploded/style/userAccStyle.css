@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+    color: black;
+    font-family: Direct, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("../images/us_acc2.jpg");
+
+    /* Full height */
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 660px;
+    height: max-content;
+}
+
+
+/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}
+
+/* Style tab links */
+.tablink {
+    background-color: rgba(31, 41, 77, 0.36);
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+
+.tablink:hover {
+    background-color: rgba(31, 41, 77, 0.25);
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}

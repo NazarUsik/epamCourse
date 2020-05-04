@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -23,7 +25,15 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("errorString", "Login first!");
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
+        req.setAttribute("errorString", bundle.getString("login.first"));
         // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
         RequestDispatcher dispatcher //
                 = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
@@ -35,20 +45,28 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String rememberMeStr = req.getParameter("rememberMe");
-        boolean remember = "Y".equals(rememberMeStr);
+        boolean remember = "Y".equals(req.getParameter("rememberMe"));
 
         User user = null;
         boolean hasError = false;
         String errorString = null;
 
-        if (email == null /*|| !email.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
+        if (email == null || email.length() < 4
+            /*|| !email.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
                 "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")*/) {
             hasError = true;
-            errorString = "Invalid email!";
+            errorString = bundle.getString("login.error.email");
         } else if (password == null || password.length() < 4) {
             hasError = true;
-            errorString = "Invalid password!";
+            errorString = bundle.getString("login.error.pass");
         } else {
             Connection conn = MyUtils.getStoredConnection(req);
             try {
@@ -57,12 +75,11 @@ public class LoginServlet extends HttpServlet {
 
                 if (user == null) {
                     hasError = true;
-                    errorString = "User Name or password invalid";
+                    errorString = bundle.getString("login.error.ur_pass");
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
                 hasError = true;
-                errorString = e.getMessage();
+                errorString = bundle.getString("error.query");
             }
         }
         // В случае, если есть ошибка,
@@ -101,13 +118,13 @@ public class LoginServlet extends HttpServlet {
 
             // Redirect (Перенаправить) на страницу /userInfo.
 
-            int redirectId = -1;
+            int redirectId;
             String loginUrl = null;
             try {
                 redirectId = (Integer) req.getSession().getAttribute("redirectId");
                 loginUrl = MyUtils.getRedirectAfterLoginUrl(req.getSession(), redirectId);
             } catch (NullPointerException e) {
-
+                System.out.println(e.getMessage());
             }
 
             if (loginUrl != null) {

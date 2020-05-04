@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Nazar
@@ -14,6 +15,8 @@
 <body>
 
 <jsp:include page="_header.jsp"/>
+
+<fmt:setLocale value="${language}"/>
 
 <br/><br/>
 

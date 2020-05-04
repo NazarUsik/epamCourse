@@ -1199,629 +1199,647 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="308" parent="282" name="id">
+    <column id="308" parent="282" name="name_ru">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="309" parent="282" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="309" parent="282" name="name">
+    <index id="310" parent="282" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="310" parent="282" name="PRIMARY">
+    <key id="311" parent="282" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="311" parent="282" name="id">
+    <key id="312" parent="282" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="312" parent="282" name="name">
+    <key id="313" parent="282" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="313" parent="283" name="route_id">
+    <column id="314" parent="283" name="route_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="283" name="schedule_id">
+    <column id="315" parent="283" name="schedule_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="283" name="station_id">
+    <column id="316" parent="283" name="station_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="316" parent="283" name="intermediate_stations_schedule_id_fk">
+    <index id="317" parent="283" name="intermediate_stations_schedule_id_fk">
       <ColNames>schedule_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="317" parent="283" name="intermediate_stations_station_id_fk">
+    <index id="318" parent="283" name="intermediate_stations_station_id_fk">
       <ColNames>station_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="318" parent="283" name="PRIMARY">
+    <key id="319" parent="283" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>route_id
 station_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="319" parent="283" name="intermediate_stations_train_route_id_fk">
+    <foreign-key id="320" parent="283" name="intermediate_stations_train_route_id_fk">
       <ColNames>route_id</ColNames>
       <RefTableName>train_route</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="320" parent="283" name="intermediate_stations_schedule_id_fk">
+    <foreign-key id="321" parent="283" name="intermediate_stations_schedule_id_fk">
       <ColNames>schedule_id</ColNames>
       <RefTableName>schedule</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="321" parent="283" name="intermediate_stations_station_id_fk">
+    <foreign-key id="322" parent="283" name="intermediate_stations_station_id_fk">
       <ColNames>station_id</ColNames>
       <RefTableName>station</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="322" parent="284" name="id">
+    <column id="323" parent="284" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="323" parent="284" name="name">
+    <column id="324" parent="284" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="324" parent="284" name="id">
+    <index id="325" parent="284" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="325" parent="284" name="PRIMARY">
+    <key id="326" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="326" parent="284" name="id">
+    <key id="327" parent="284" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <column id="327" parent="285" name="id">
+    <column id="328" parent="285" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="285" name="departure_time">
+    <column id="329" parent="285" name="departure_time">
       <Position>2</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="285" name="arrival_time">
+    <column id="330" parent="285" name="arrival_time">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="285" name="travel_time">
+    <column id="331" parent="285" name="travel_time">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="331" parent="285" name="id">
+    <index id="332" parent="285" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="332" parent="285" name="PRIMARY">
+    <key id="333" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="333" parent="285" name="id">
+    <key id="334" parent="285" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <column id="334" parent="286" name="id">
+    <column id="335" parent="286" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="335" parent="286" name="carriage_id">
+    <column id="336" parent="286" name="carriage_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="336" parent="286" name="number">
+    <column id="337" parent="286" name="number">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="286" name="available">
+    <column id="338" parent="286" name="available">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="338" parent="286" name="id">
+    <index id="339" parent="286" name="id">
       <ColNames>id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="339" parent="286" name="FKSeats393219">
+    <index id="340" parent="286" name="FKSeats393219">
       <ColNames>carriage_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="340" parent="286" name="PRIMARY">
+    <key id="341" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="341" parent="286" name="FKSeats393219">
+    <foreign-key id="342" parent="286" name="FKSeats393219">
       <ColNames>carriage_id</ColNames>
       <RefTableName>carriage</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="342" parent="287" name="id">
+    <column id="343" parent="287" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="287" name="name">
+    <column id="344" parent="287" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="344" parent="287" name="id">
+    <column id="345" parent="287" name="name_ru">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="346" parent="287" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="345" parent="287" name="name">
+    <index id="347" parent="287" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="346" parent="287" name="PRIMARY">
+    <key id="348" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="347" parent="287" name="id">
+    <key id="349" parent="287" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="348" parent="287" name="name">
+    <key id="350" parent="287" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="349" parent="288" name="id">
+    <column id="351" parent="288" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="288" name="name">
+    <column id="352" parent="288" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="351" parent="288" name="id">
+    <index id="353" parent="288" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="352" parent="288" name="name">
+    <index id="354" parent="288" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="353" parent="288" name="PRIMARY">
+    <key id="355" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="354" parent="288" name="id">
+    <key id="356" parent="288" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="355" parent="288" name="name">
+    <key id="357" parent="288" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="356" parent="289" name="id">
+    <column id="358" parent="289" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="289" name="route_id">
+    <column id="359" parent="289" name="route_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="358" parent="289" name="price">
+    <column id="360" parent="289" name="price">
       <Position>3</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="289" name="carriage_id">
+    <column id="361" parent="289" name="carriage_id">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="289" name="seat_id">
+    <column id="362" parent="289" name="seat_id">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="361" parent="289" name="id">
+    <index id="363" parent="289" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="362" parent="289" name="FKTicket512153">
+    <index id="364" parent="289" name="FKTicket512153">
       <ColNames>route_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="363" parent="289" name="FKTicket542354">
+    <index id="365" parent="289" name="FKTicket542354">
       <ColNames>carriage_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="364" parent="289" name="FKTicket786644">
+    <index id="366" parent="289" name="FKTicket786644">
       <ColNames>seat_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="289" name="PRIMARY">
+    <key id="367" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="366" parent="289" name="id">
+    <key id="368" parent="289" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <foreign-key id="367" parent="289" name="FKTicket512153">
+    <foreign-key id="369" parent="289" name="FKTicket512153">
       <ColNames>route_id</ColNames>
       <RefTableName>train_route</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="368" parent="289" name="FKTicket542354">
+    <foreign-key id="370" parent="289" name="FKTicket542354">
       <ColNames>carriage_id</ColNames>
       <RefTableName>carriage</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="369" parent="289" name="FKTicket786644">
+    <foreign-key id="371" parent="289" name="FKTicket786644">
       <ColNames>seat_id</ColNames>
       <RefTableName>seats</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="370" parent="290" name="user_id">
+    <column id="372" parent="290" name="user_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="290" name="ticket_id">
+    <column id="373" parent="290" name="ticket_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="372" parent="290" name="ticket_status_id">
+    <column id="374" parent="290" name="ticket_status_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="373" parent="290" name="FKUser306639">
+    <index id="375" parent="290" name="FKUser306639">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="374" parent="290" name="FKTicketsLis530419">
+    <index id="376" parent="290" name="FKTicketsLis530419">
       <ColNames>ticket_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="375" parent="290" name="FKUser306639">
+    <foreign-key id="377" parent="290" name="FKUser306639">
       <ColNames>user_id</ColNames>
       <RefTableName>user</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="376" parent="290" name="FKTicketsLis530419">
+    <foreign-key id="378" parent="290" name="FKTicketsLis530419">
       <ColNames>ticket_id</ColNames>
       <RefTableName>ticket</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="377" parent="291" name="id">
+    <column id="379" parent="291" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="378" parent="291" name="type_id">
+    <column id="380" parent="291" name="type_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="379" parent="291" name="id">
+    <index id="381" parent="291" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="380" parent="291" name="FKTrain629609">
+    <index id="382" parent="291" name="FKTrain629609">
       <ColNames>type_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="381" parent="291" name="PRIMARY">
+    <key id="383" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="382" parent="291" name="id">
+    <key id="384" parent="291" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <foreign-key id="383" parent="291" name="FKTrain629609">
+    <foreign-key id="385" parent="291" name="FKTrain629609">
       <ColNames>type_id</ColNames>
       <RefTableName>train_type</RefTableName>
       <RefColNames>id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="384" parent="292" name="train_id">
+    <column id="386" parent="292" name="train_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="292" name="carriage_id">
+    <column id="387" parent="292" name="carriage_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="386" parent="292" name="carriage_number">
+    <column id="388" parent="292" name="carriage_number">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="387" parent="292" name="carriage_id">
+    <index id="389" parent="292" name="carriage_id">
       <ColNames>carriage_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="388" parent="292" name="FKTrain_comp754659">
+    <index id="390" parent="292" name="FKTrain_comp754659">
       <ColNames>train_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="389" parent="292" name="carriage_id">
+    <key id="391" parent="292" name="carriage_id">
       <ColNames>carriage_id</ColNames>
       <UnderlyingIndexName>carriage_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="390" parent="292" name="FKTrain_comp754659">
+    <foreign-key id="392" parent="292" name="FKTrain_comp754659">
       <ColNames>train_id</ColNames>
       <RefTableName>train</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="391" parent="292" name="FKTrain_comp579423">
+    <foreign-key id="393" parent="292" name="FKTrain_comp579423">
       <ColNames>carriage_id</ColNames>
       <RefTableName>carriage</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="392" parent="293" name="id">
+    <column id="394" parent="293" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="393" parent="293" name="train_id">
+    <column id="395" parent="293" name="train_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="394" parent="293" name="departure_station_id">
+    <column id="396" parent="293" name="departure_station_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="395" parent="293" name="arrival_station_id">
+    <column id="397" parent="293" name="arrival_station_id">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="396" parent="293" name="schedule_id">
+    <column id="398" parent="293" name="schedule_id">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="397" parent="293" name="id">
+    <index id="399" parent="293" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="398" parent="293" name="FKTrain_rout118488">
+    <index id="400" parent="293" name="FKTrain_rout118488">
       <ColNames>train_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="399" parent="293" name="FKTrain_rout202874">
+    <index id="401" parent="293" name="FKTrain_rout202874">
       <ColNames>departure_station_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="400" parent="293" name="train_route_station_id_fk">
+    <index id="402" parent="293" name="train_route_station_id_fk">
       <ColNames>arrival_station_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="401" parent="293" name="FKTrain_rout291038">
+    <index id="403" parent="293" name="FKTrain_rout291038">
       <ColNames>schedule_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="402" parent="293" name="PRIMARY">
+    <key id="404" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="403" parent="293" name="id">
+    <key id="405" parent="293" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <foreign-key id="404" parent="293" name="FKTrain_rout118488">
+    <foreign-key id="406" parent="293" name="FKTrain_rout118488">
       <ColNames>train_id</ColNames>
       <RefTableName>train</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="405" parent="293" name="FKTrain_rout202874">
+    <foreign-key id="407" parent="293" name="FKTrain_rout202874">
       <ColNames>departure_station_id</ColNames>
       <RefTableName>station</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="406" parent="293" name="train_route_station_id_fk">
+    <foreign-key id="408" parent="293" name="train_route_station_id_fk">
       <ColNames>arrival_station_id</ColNames>
       <RefTableName>station</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="407" parent="293" name="FKTrain_rout291038">
+    <foreign-key id="409" parent="293" name="FKTrain_rout291038">
       <ColNames>schedule_id</ColNames>
       <RefTableName>schedule</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="408" parent="294" name="id">
+    <column id="410" parent="294" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="409" parent="294" name="name">
+    <column id="411" parent="294" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="410" parent="294" name="id">
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="411" parent="294" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="412" parent="294" name="id">
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>id</UnderlyingIndexName>
-    </key>
-    <column id="413" parent="295" name="id">
-      <Position>1</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="414" parent="295" name="first_name">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="415" parent="295" name="last_name">
+    <column id="412" parent="294" name="name_ru">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="416" parent="295" name="email">
+    <index id="413" parent="294" name="id">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="414" parent="294" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="415" parent="294" name="id">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id</UnderlyingIndexName>
+    </key>
+    <column id="416" parent="295" name="id">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="417" parent="295" name="first_name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="418" parent="295" name="last_name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="419" parent="295" name="email">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="417" parent="295" name="password">
+    <column id="420" parent="295" name="password">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="418" parent="295" name="role_id">
+    <column id="421" parent="295" name="role_id">
       <Position>6</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="419" parent="295" name="id">
+    <index id="422" parent="295" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="420" parent="295" name="email">
+    <index id="423" parent="295" name="email">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="421" parent="295" name="PRIMARY">
+    <key id="424" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="422" parent="295" name="id">
+    <key id="425" parent="295" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="423" parent="295" name="email">
+    <key id="426" parent="295" name="email">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email</UnderlyingIndexName>
     </key>

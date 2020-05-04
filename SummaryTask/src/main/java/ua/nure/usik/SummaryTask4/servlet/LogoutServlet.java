@@ -21,7 +21,6 @@ public class LogoutServlet extends HttpServlet {
         MyUtils.deleteUserCookie(response);
         request.getSession().invalidate();
 
-        // Redirect to Home Page.
         response.sendRedirect(request.getContextPath() + "/");
 
     }

@@ -6,7 +6,7 @@ public class Route extends Entity {
     private int arrivalId;
     private int scheduleId;
 
-    public Route(){
+    public Route() {
 
     }
 
@@ -49,12 +49,13 @@ public class Route extends Entity {
         this.scheduleId = scheduleId;
     }
 
+
     @Override
     public String toString() {
-        return "Route [ trainId = " + trainId +
+        return "Route = [ trainId = " + trainId +
                 ", departureId = " + departureId +
                 ", arrivalId = " + arrivalId +
                 ", scheduleId = " + scheduleId +
-                ", getId() = " + super.getId()  + "]";
+                ", getId() = " + super.getId() + "]";
     }
 }

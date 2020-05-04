@@ -3,8 +3,17 @@ package ua.nure.usik.SummaryTask4.db.entity;
 public class Train extends Entity {
     private int typeId;
 
+    public Train(){
+
+    }
+
     public Train(int typeId) {
         this.typeId = typeId;
+    }
+
+    public Train(Train train) {
+        this.setId(train.getId());
+        this.typeId = train.typeId;
     }
 
     public int getTypeId() {
@@ -17,7 +26,7 @@ public class Train extends Entity {
 
     @Override
     public String toString() {
-        return "User [ typeId = " + typeId +
-                ", getId() = " + super.getId()  + "]";
+        return "Train [ typeId = " + typeId +
+                ", getId() = " + super.getId() + "]";
     }
 }

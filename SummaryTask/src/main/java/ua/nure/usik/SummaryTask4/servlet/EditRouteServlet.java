@@ -5,6 +5,8 @@ import ua.nure.usik.SummaryTask4.db.connection.ConnectionUtils;
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.Route;
 import ua.nure.usik.SummaryTask4.db.entity.Station;
+import ua.nure.usik.SummaryTask4.utils.TranslatorUtils;
+import ua.nure.usik.SummaryTask4.utils.constants.Language;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +21,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @WebServlet("/editRoute")
 public class EditRouteServlet extends HttpServlet {
@@ -34,6 +38,8 @@ public class EditRouteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Connection connection = MyUtils.getStoredConnection(req);
 
+        req.setCharacterEncoding("UTF-8");
+
         String edStatus = "";
 
         int routeId = Integer.parseInt(req.getParameter("route_id"));
@@ -44,12 +50,26 @@ public class EditRouteServlet extends HttpServlet {
         LocalDateTime depTime = null;
         LocalDateTime arrTime = null;
 
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+//        if (language.equals("ru")) {
+//            stationDep = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, stationDep);
+//            stationArr = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, stationArr);
+//        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
         try {
             depTime = LocalDateTime.parse(req.getParameter("dep_time").replace(' ', 'T'));
             arrTime = LocalDateTime.parse(req.getParameter("arr_time").replace(' ', 'T'));
         } catch (DateTimeParseException ex) {
-            edStatus += "Incorrect date!";
-            resp.sendRedirect(req.getContextPath() + "/adminPage?editRouteStatus=" + edStatus);
+            edStatus += bundle.getString("edit.incorrect.date");
+            req.getSession().setAttribute("editRouteStatus", edStatus);
+            resp.sendRedirect(req.getContextPath() + "/adminPage");
             return;
         }
 
@@ -58,7 +78,7 @@ public class EditRouteServlet extends HttpServlet {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
 
         try {
@@ -68,16 +88,20 @@ public class EditRouteServlet extends HttpServlet {
                 boolean updateByTrainId = DBManager.updateRouteByTrainId(connection, routeId, trainId);
                 boolean updateDepStation = false;
 
-                Station station;
+                Station station = language.equals("en") ? DBManager.findStationByName(connection, stationDep) :
+                        DBManager.findStationByNameRu(connection, stationDep);
 
-                if ((station = DBManager.findStationByName(connection, stationDep)) != null) {
+                if (station != null) {
                     updateDepStation = DBManager.updateDepartureStationInRoute
                             (connection, route.getDepartureId(), station.getId());
                 }
 
                 boolean updateArrStation = false;
 
-                if ((station = DBManager.findStationByName(connection, stationArr)) != null) {
+                station = language.equals("en") ? DBManager.findStationByName(connection, stationArr) :
+                        DBManager.findStationByNameRu(connection, stationArr);
+
+                if (station != null) {
                     updateArrStation = DBManager.updateArrivalStationInRoute
                             (connection, route.getDepartureId(), station.getId());
                 }
@@ -86,41 +110,42 @@ public class EditRouteServlet extends HttpServlet {
                         depTime.toString(), arrTime.toString(), duration.toMinutes());
 
                 if (updateByTrainId && updateDepStation && updateArrStation && updateSchedule) {
-                    edStatus += "Edit successful!";
+                    edStatus += bundle.getString("edit.successful");
                     connection.commit();
                 } else {
                     ConnectionUtils.rollbackQuietly(connection);
-                    edStatus += getEditStatus(updateByTrainId, updateDepStation, updateArrStation, updateSchedule);
+                    edStatus += getEditStatus(updateByTrainId, updateDepStation, updateArrStation,
+                            updateSchedule, bundle);
                 }
 
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            edStatus += e.getMessage();
+            edStatus += bundle.getString("edit.error");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?editRouteStatus=" + edStatus);
+        req.getSession().setAttribute("editRouteStatus", edStatus);
+        resp.sendRedirect(req.getContextPath() + "/adminPage");
     }
 
     private String getEditStatus(boolean updateByTrainId, boolean updateDepStation,
-                                 boolean updateArrStation, boolean updateSchedule) {
-        StringBuilder retStr = new StringBuilder("Incorrect ");
+                                 boolean updateArrStation, boolean updateSchedule, ResourceBundle bundle) {
+        StringBuilder retStr = new StringBuilder(bundle.getString("edit.incorrect"));
 
         if (!updateByTrainId) {
-            retStr.append("train id, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.train"));
         }
         if (!updateDepStation) {
-            retStr.append("departure station, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.dep_stat"));
         }
         if (!updateArrStation) {
-            retStr.append("arrival station, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.arr_stat"));
         }
         if (!updateSchedule) {
-            retStr.append("date, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.date"));
         }
 
-        retStr.append("enter the correct values!");
+        retStr.append(bundle.getString("edit.incorrect.rout.enter"));
 
         return retStr.toString();
     }

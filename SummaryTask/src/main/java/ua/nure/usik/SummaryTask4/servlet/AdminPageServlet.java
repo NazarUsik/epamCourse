@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @WebServlet("/adminPage")
 public class AdminPageServlet extends HttpServlet {
@@ -41,57 +42,55 @@ public class AdminPageServlet extends HttpServlet {
         List<Pair<User, String>> usersInfoList = null;
         String errorUs = "";
 
+        String lang = MyUtils.getStoredLanguage(request);
+
+        if (lang == null) {
+            lang = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(lang));
+
         try {
-            trains = DBManager.getAllTrain(connection);
+            trains = DBManager.getAllTrain(connection, lang);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorTC += e.getMessage();
+            errorTC += bundle.getString("view.error.train");
         }
 
         try {
-            carriages = DBManager.getAllCarriage(connection);
+            carriages = DBManager.getAllCarriage(connection, lang);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorTC += e.getMessage();
+            errorTC +=  bundle.getString("view.error.carriage");;
         }
 
         try {
             routeInfoMap = DBManager.getAllRoute(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorSR += e.getMessage();
+            errorSR +=  bundle.getString("view.error.route");;
         }
 
         try {
             stationList = DBManager.getAllStation(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorSR += e.getMessage();
+            errorSR +=  bundle.getString("view.error.station");;
         }
 
         try {
             interStationMap = DBManager.getAllIntermediateStation(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorSR += e.getMessage();
+            errorSR +=  bundle.getString("view.error.inter_stat");
         }
 
         try {
             ticketInfoMap = DBManager.getAllTickets(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorTK += e.getMessage();
+            errorTK +=  bundle.getString("view.error.tick");
         }
 
         try {
             usersInfoList = DBManager.getAllUsers(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
-            errorUs += e.getMessage();
+            errorUs +=  bundle.getString("view.error.users");;
         }
-
-//        System.out.println(Arrays.toString(trains.toArray()));
-//        System.out.println(Arrays.toString(carriages.toArray()));
 
         request.setAttribute("trains", trains);
         request.setAttribute("carriages", carriages);

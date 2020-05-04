@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -15,63 +16,59 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/style.css">
 <body>
 
-<style>
+<c:set var="language" value="${cookie.lang.value != null ? cookie.lang.value : 'en'}" scope="session"/>
 
-    .logoImg {
-        margin: 12px 450px;
-        padding: 10px 20px;
-    }
-
-
-    .loginBtn {
-        line-height: 32px;
-        background-color: #fff;
-        border: 1px solid black;
-        border-radius: 5px;
-        color: #000;
-        float: right;
-        height: 4px;
-        margin: 15px 20px;
-        padding: 7px 20px 33px 15px;
-        text-transform: uppercase;
-        width: auto;
-    }
-</style>
+<fmt:setLocale value="${language}"/>
 
 <div class="navbar">
-    <span id="menuBtn" onclick="openNav()">&#9776; menu</span>
+    <fmt:bundle basename="staticInformation" prefix="header.button.">
+        <span id="menuBtn" onclick="openNav()">&#9776; <fmt:message key="menu"/></span>
 
-    <a class="logoImg" href="${pageContext.request.contextPath}/">
-        <img src="${pageContext.request.contextPath}/images/white_logo.png" alt="logo.png" width="296" height="80">
-    </a>
+        <a class="logoImg" href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/images/white_logo.png" alt="logo.png" width="296" height="80">
+        </a>
 
-    <c:choose>
-        <c:when test="${empty loginedUser}">
-            <button class="loginBtn" onclick="openForm()">Login</button>
-            <%--            <span class="loginBtn" onclick="document.getElementById('id01').style.display='block'">Login</span>--%>
-        </c:when>
-        <c:otherwise>
-            <c:choose>
-                <c:when test="${logoutParam == 'exit'}">
-                    <a class="loginBtn" href="${pageContext.request.contextPath}/logout">Logout</a>
-                </c:when>
-                <c:otherwise>
-                    <a class="loginBtn" href="${pageContext.request.contextPath}/userInfo">My</a>
-                </c:otherwise>
-            </c:choose>
-        </c:otherwise>
-    </c:choose>
+        <c:choose>
+            <c:when test="${empty loginedUser}">
+                <button class="loginBtn" onclick="openForm()"><fmt:message key="login"/></button>
+            </c:when>
+            <c:otherwise>
+                <a class="loginBtn logoutBtn" style="" href="${pageContext.request.contextPath}/logout"><fmt:message
+                        key="logout"/></a>
+            </c:otherwise>
+        </c:choose>
+
+        <c:if test="${language == 'ru'}">
+            <form action="${pageContext.request.contextPath}/translate" method="post"
+                  style="display: inline;">
+                <input type="hidden" name="language" value="ru">
+                <button class="translate_button" type="submit">RU</button>
+            </form>
+        </c:if>
+        <c:if test="${language == 'en'}">
+            <form action="${pageContext.request.contextPath}/translate" method="post"
+                  style="display: inline;">
+                <input type="hidden" name="language" value="en">
+                <button class="translate_button" type="submit">EN</button>
+            </form>
+        </c:if>
+
+    </fmt:bundle>
 </div>
-
 
 <div id="myNav" class="overlay">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div class="overlay-content">
-        <a href="${pageContext.request.contextPath}/">Home</a>
-        <a href="${pageContext.request.contextPath}/routeSearch">Search route</a>
-        <c:if test="${loginedUser.roleId == 1}">
-            <a href="${pageContext.request.contextPath}/adminPage">Admin page</a>
-        </c:if>
+        <fmt:bundle basename="staticInformation" prefix="header.href.">
+            <a href="${pageContext.request.contextPath}/"><fmt:message key="home"/></a>
+            <a href="${pageContext.request.contextPath}/routeSearch"><fmt:message key="search_route"/></a>
+            <c:if test="${loginedUser != null}">
+                <a href="${pageContext.request.contextPath}/userInfo"><fmt:message key="account"/></a>
+            </c:if>
+            <c:if test="${loginedUser.roleId == 1}">
+                <a href="${pageContext.request.contextPath}/adminPage"><fmt:message key="admin_page"/></a>
+            </c:if>
+        </fmt:bundle>
     </div>
 </div>
 

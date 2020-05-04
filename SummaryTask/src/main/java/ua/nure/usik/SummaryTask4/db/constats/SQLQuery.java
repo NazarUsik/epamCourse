@@ -1,16 +1,15 @@
 package ua.nure.usik.SummaryTask4.db.constats;
 
-import ua.nure.usik.SummaryTask4.db.entity.Station;
-
-import javax.swing.plaf.SpinnerUI;
-
 public final class SQLQuery {
 
     public static final String SQL_INSERT_STATION =
-            "INSERT INTO Station VALUES (DEFAULT, ?);";
+            "INSERT INTO Station VALUES (DEFAULT, ?, ?);";
+
+    public static final String SQL_FIND_STATION_BY_ID =
+            "SELECT * FROM station WHERE id = ?";
 
     public static final String SQL_UPDATE_STATION =
-            "UPDATE station SET name = ? WHERE id = ?";
+            "UPDATE station SET name = ?, name_ru = ? WHERE id = ?";
 
     public static final String SQL_DELETE_STATION =
             "DELETE FROM station WHERE id = ?";
@@ -32,6 +31,10 @@ public final class SQLQuery {
 
     public static final String SQL_UPDATE_ROUTE_BY_SCHEDULE =
             "UPDATE train_route SET schedule_id = ? WHERE id = ?";
+
+    public static final String SQL_FIND_SCHEDULE_BY_ID =
+            "SELECT * FROM schedule WHERE id = ?";
+
 
     public static final String SQL_INSERT_SCHEDULE =
             "INSERT INTO schedule VALUES (DEFAULT, ?, ?, ?);";
@@ -100,6 +103,9 @@ public final class SQLQuery {
     public static final String SQL_DELETE_SEATS =
             "DELETE FROM seats WHERE id = ?";
 
+    public static final String SQL_FIND_TRAIN =
+            "SELECT * FROM train WHERE id = ?";
+
     public static final String SQL_INSERT_TRAIN =
             "INSERT INTO train VALUES (DEFAULT, ?);";
 
@@ -139,26 +145,58 @@ public final class SQLQuery {
     public static final String SQL_DELETE_TICKETS_LIST =
             "DELETE FROM ticketslist WHERE user_id = ? and ticket_id = ?";
 
-    public static final String SQL_FIND_ROUTE_BY_STATION =
-            "SELECT *\n" +
-                    "FROM train_route tr\n" +
-                    "         JOIN schedule sch on tr.schedule_id = sch.id\n" +
-                    "         JOIN station dep on tr.departure_station_id = dep.id\n" +
-                    "         JOIN station arr on tr.arrival_station_id = arr.id\n" +
-                    "         JOIN ticket t on tr.id = t.rout_id\n" +
+    public static final String SQL_FIND_ROUTE_BY_TWO_STATION =
+            "SELECT * " +
+                    "FROM train_route " +
+                    "         JOIN schedule sch on train_route.schedule_id = sch.id " +
+                    "         JOIN station dep on train_route.departure_station_id = dep.id " +
+                    "         JOIN station arr on train_route.arrival_station_id = arr.id " +
                     "WHERE dep.name = ? AND arr.name = ? AND sch.departure_time > DATE(?);";
 
+    public static final String SQL_FIND_ROUTE_BY_TWO_STATION_RU =
+            "SELECT * " +
+                    "FROM train_route " +
+                    "         JOIN schedule sch on train_route.schedule_id = sch.id " +
+                    "         JOIN station dep on train_route.departure_station_id = dep.id " +
+                    "         JOIN station arr on train_route.arrival_station_id = arr.id " +
+                    "WHERE dep.name_ru = ? AND arr.name_ru = ? AND sch.departure_time > DATE(?);";
+
+    public static final String SQL_FIND_ROUTE_BY_ONE_STATION =
+            "SELECT * " +
+                    "FROM train_route " +
+                    "         JOIN schedule sch on train_route.schedule_id = sch.id " +
+                    "         JOIN station dep on train_route.departure_station_id = dep.id " +
+                    "         JOIN station arr on train_route.arrival_station_id = arr.id " +
+                    "WHERE (dep.name = ? OR arr.name = ?) AND sch.departure_time > DATE(?);";
+
+    public static final String SQL_FIND_ROUTE_BY_ONE_STATION_RU =
+            "SELECT * " +
+                    "FROM train_route " +
+                    "         JOIN schedule sch on train_route.schedule_id = sch.id " +
+                    "         JOIN station dep on train_route.departure_station_id = dep.id " +
+                    "         JOIN station arr on train_route.arrival_station_id = arr.id " +
+                    "WHERE (dep.name_ru = ? OR arr.name_ru = ?) AND sch.departure_time > DATE(?);";
+
     public static final String SQL_FIND_INTERMEDIATE_STATION =
-            "SELECT *\n" +
-                    "FROM intermediate_stations ins\n" +
-                    "         JOIN station s2 on ins.station_id = s2.id\n" +
-                    "         JOIN schedule s on ins.schedule_id = s.id\n" +
-                    "where s2.name = ?\n" +
-                    "  and s.departure_time > ?";
+            "SELECT * " +
+                    "FROM intermediate_stations ins " +
+                    "         JOIN station s2 on ins.station_id = s2.id " +
+                    "         JOIN schedule s on ins.schedule_id = s.id " +
+                    "WHERE s2.name = ? " +
+                    "  AND s.departure_time > ?";
+
+    public static final String SQL_FIND_INTERMEDIATE_STATION_RU =
+            "SELECT * " +
+                    "FROM intermediate_stations ins " +
+                    "         JOIN station s2 on ins.station_id = s2.id " +
+                    "         JOIN schedule s on ins.schedule_id = s.id " +
+                    "WHERE s2.name_ru = ? " +
+                    "  AND s.departure_time > ?";
 
     public static final String SQL_FIND_ALL_TRAIN =
             "SELECT * FROM train t JOIN train_type tt on t.type_id = tt.id;";
 
+    //language=MySQL
     public static final String SQL_FIND_ALL_CARRIAGE =
             "SELECT *" +
                     " FROM carriage c" +
@@ -191,7 +229,9 @@ public final class SQLQuery {
                     "       s.travel_time," +
                     "       s.arrival_time," +
                     "       dep.name dep_station_name," +
-                    "       arr.name arr_station_name " +
+                    "       arr.name arr_station_name, " +
+                    "       dep.name_ru dep_station_name_ru," +
+                    "       arr.name_ru arr_station_name_ru " +
                     "FROM train_route tr" +
                     "         JOIN schedule s ON tr.schedule_id = s.id " +
                     "         JOIN station dep ON tr.departure_station_id = dep.id " +
@@ -205,6 +245,9 @@ public final class SQLQuery {
 
     public static final String SQL_FIND_STATION_BY_NAME =
             "SELECT * FROM station where name = ?;";
+
+    public static final String SQL_FIND_STATION_BY_NAME_RU =
+            "SELECT * FROM station where name_ru = ?;";
 
     public static final String SQL_GET_LAST_SCHEDULE_ID =
             "SELECT * FROM schedule ORDER BY id DESC LIMIT 1;";
@@ -259,4 +302,26 @@ public final class SQLQuery {
             "SELECT u.id, first_name, last_name, email, name, role_id " +
                     "FROM user u" +
                     "         JOIN role r on u.role_id = r.id;";
+
+    public static final String SQL_GET_TICKETS_INFO_BY_ROUTE =
+            "SELECT COUNT(t.id) count_tickets, t.price " +
+                    "FROM ticket t " +
+                    "JOIN train_route tr on t.route_id = tr.id " +
+                    "JOIN seats s on t.seat_id = s.id " +
+                    "WHERE tr.id = ? AND s.available";
+
+    public static final String SQL_GET_AMOUNT_STATION_BY_ROUTE =
+            "SELECT COUNT(station_id) FROM intermediate_stations WHERE route_id = ?";
+
+    public static final String SQL_GET_AMOUNT_STATION_BY_ROUTE_AND_STATION =
+            "SELECT COUNT(station_id) " +
+                    "FROM intermediate_stations " +
+                    "JOIN schedule s on intermediate_stations.schedule_id = s.id " +
+                    "WHERE route_id = ? AND s.travel_time < ? AND s.travel_time > ?";
+
+    public static final String SQL_GET_ALL_INTERMEDIATE_STATION_BY_ROUTE =
+            "SELECT * FROM intermediate_stations ins " +
+                    "JOIN schedule s on ins.schedule_id = s.id " +
+                    "WHERE route_id = ? " +
+                    "ORDER BY s.travel_time";
 }

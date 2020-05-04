@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/addAdmin")
 public class AddAdminServlet extends HttpServlet {
@@ -27,6 +29,7 @@ public class AddAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = MyUtils.getStoredConnection(req);
 
+
         String firstName = req.getParameter("f_name");
         String lastName = req.getParameter("l_name");
         String login = req.getParameter("login");
@@ -34,17 +37,25 @@ public class AddAdminServlet extends HttpServlet {
 
         String addStatus = "";
 
-        try {
-            if(DBManager.insertUser(connection, new User(firstName, lastName, login, pass, 1))){
-                addStatus += "Add successful!";
-            } else {
-                addStatus += "Admin not add!";
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            addStatus += e.getMessage();
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?addAdminStatus=" + addStatus);
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
+        try {
+            if (DBManager.insertUser(connection, new User(firstName, lastName, login, pass, 1))) {
+                addStatus += bundle.getString("add.successful");
+            } else {
+                addStatus += bundle.getString("add.error.admin");
+            }
+        } catch (SQLException e) {
+            addStatus += bundle.getString("error.query");
+        }
+
+        req.getSession().setAttribute("addAdminStatus", addStatus);
+        resp.sendRedirect(req.getContextPath() + "/adminPage");
     }
 }

@@ -1,0 +1,176 @@
+.route_table {
+    position: absolute;
+    top: 56%;
+    width: 100%;
+    margin: 0 17.5%;
+}
+
+.route_table .tab_border {
+    position: absolute;
+    background-color: #ebebeb;
+    width: 65%;
+}
+
+.route_table .tab_border .tab_header {
+    float: left;
+    margin: 5px 0;
+}
+
+.route_table .tab_border .tab_header p {
+    float: left;
+    padding: 5px;
+}
+
+.route_table .tab_border .tab_body {
+    float: left;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.route_table .tab_border .tab_body .tab_body_row {
+    width: 94%;
+    text-transform: uppercase;
+    font-family: "Avenir Black", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    height: 100px;
+    margin: 0 3% 15px 3%;
+    float: left;
+    background-color: white;
+    transition: 0.3s;
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(163, 163, 163, 0.65);
+}
+
+.route_table .tab_border .tab_body .tab_body_row:hover {
+    width: 96%;
+    margin: 0 2% 15px 2%;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .tab_body_column {
+    padding: 15px 8px 3px 8px;
+    float: initial;
+}
+
+
+.route_table .tab_border .tab_body .tab_body_row .time {
+    width: 200px;
+    color: #0079A3;
+    padding-top: 7px;
+    float: left;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .station {
+    width: auto;
+    color: #858585;
+    float: left;
+    padding-top: 7px;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .border_line {
+    float: left;
+    margin: 19px;
+    height: 63%;
+    border-left: 1px solid #dadada;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .info {
+    width: auto;
+    height: 100%;
+    color: #858585;
+    float: left;
+    padding-top: 7px;
+    font-size: 14px;
+    font-family: Avenir Book, monospace;
+    text-transform: lowercase;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .info .info_text {
+    color: #646464;
+    display: initial;
+}
+
+.icon {
+    color: #0079A3;
+}
+
+
+.route_table .tab_border .tab_body .tab_body_row .info .train_id {
+    padding-top: 0;
+    font-weight: normal;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .info .travel_time {
+    font-weight: normal;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .info .train_type {
+    padding-top: 0;
+    font-weight: normal;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .station .dep_station {
+    width: max-content;
+    float: initial;
+    padding: 15px 8px 3px 15px;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .station .arr_station {
+    width: max-content;
+    float: initial;
+    padding: 15px 8px 3px 15px;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .time .dep_time {
+    width: max-content;
+    float: left;
+    padding: 15px 8px 3px 15px;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .time .arr_time {
+    width: max-content;
+    float: left;
+    padding: 15px 8px 3px 15px;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .buy_tick_btn input[type=submit] {
+    transition: 0.3s;
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(163, 163, 163, 0.65);
+    font-size: 16px;
+    line-height: 32px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: #000;
+    float: right;
+    height: 1px;
+    margin: 31px 18px;
+    padding: 3px 15px 33px 15px;
+    text-decoration: unset;
+    width: auto;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .buy_tick_btn input[type=submit]:hover {
+    background-color: #1f294d;
+    color: #fff;
+    cursor: pointer;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .tick_inf{
+    width: auto;
+    height: 100%;
+    color: #858585;
+    float: left;
+    padding-top: 7px;
+    font-size: 14px;
+    font-family: Avenir Book, monospace;
+    text-transform: lowercase;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .tick_inf .count_tick{
+    padding: 15px 8px 3px 8px;
+    font-weight: normal;
+}
+
+.route_table .tab_border .tab_body .tab_body_row .tick_inf .price{
+    padding: 0 8px 3px 8px;
+    font-weight: normal;
+}

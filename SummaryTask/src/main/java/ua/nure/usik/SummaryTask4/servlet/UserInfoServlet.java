@@ -22,6 +22,8 @@ public class UserInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+
         // Сохранить информацию в request attribute перед тем как forward (перенаправить).
         request.setAttribute("user", MyUtils.getLoginedUser(request.getSession()));
 

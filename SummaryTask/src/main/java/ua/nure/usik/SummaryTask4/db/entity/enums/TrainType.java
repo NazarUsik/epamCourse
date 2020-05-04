@@ -3,7 +3,7 @@ package ua.nure.usik.SummaryTask4.db.entity.enums;
 import ua.nure.usik.SummaryTask4.db.entity.Train;
 
 public enum TrainType {
-    STREAM, ELECTRIC, DIESEL;
+    ELECTRIC, STREAM, DIESEL;
 
     public static TrainType getTrainType(Train train) {
         int typeId = train.getTypeId();
@@ -23,4 +23,5 @@ public enum TrainType {
     public String getName() {
         return name().toUpperCase();
     }
+
 }

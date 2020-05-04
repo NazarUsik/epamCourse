@@ -1,6 +1,7 @@
 package ua.nure.usik.SummaryTask4.filter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,7 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-@WebFilter(filterName = "encodingFilter", urlPatterns = { "/*" })
+@WebFilter(filterName = "encodingFilter", urlPatterns = {"/*"})
 public class EncodingFilter implements Filter {
 
     public EncodingFilter() {

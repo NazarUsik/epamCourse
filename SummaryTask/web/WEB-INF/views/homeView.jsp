@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--<%@ taglib prefix="convert" tagdir="/WEB-INF/lib/tag/convertTextHex.tld" %>--%>
 <%--
   Created by IntelliJ IDEA.
   User: Nazar
@@ -11,7 +13,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/homeStyle.css">
     <meta charset="UTF-8">
     <title>Home Page</title>
 </head>
@@ -19,6 +20,8 @@
 
 
 <jsp:include page="_header.jsp"/>
+
+<fmt:setLocale value="${language}"/>
 
 <c:if test="${errorString != null}">
 
@@ -28,9 +31,7 @@
 
 </c:if>
 
-<div class="bgIm">
-    <div class="crumb"></div>
-</div>
+<jsp:include page="_search.jsp"/>
 
 
 <jsp:include page="_footer.jsp"/>

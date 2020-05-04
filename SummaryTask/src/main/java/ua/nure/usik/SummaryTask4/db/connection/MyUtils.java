@@ -1,12 +1,10 @@
 package ua.nure.usik.SummaryTask4.db.connection;
 
+import com.sun.deploy.net.HttpResponse;
 import ua.nure.usik.SummaryTask4.db.entity.User;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +12,15 @@ import java.util.Map;
 public class MyUtils {
     private static int REDIRECT_ID = 0;
 
-    public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_FOR_CONNECTION";
+    public static final String ATT_NAME_CONNECTION = "connection";
 
     private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
+
+    private static final String ATT_NAME_LANG = "lang";
+
+    private static final String ATT_NAME_DEP_STATION = "dep_station";
+    private static final String ATT_NAME_ARR_STATION = "arr_station";
+
 
     private static final Map<Integer, String> id_uri_map = new HashMap<Integer, String>();
 
@@ -33,6 +37,43 @@ public class MyUtils {
     public static Connection getStoredConnection(ServletRequest request) {
         Connection conn = (Connection) request.getAttribute(ATT_NAME_CONNECTION);
         return conn;
+    }
+
+    public static void storeLanguage(HttpServletResponse response, String language) {
+//        session.setAttribute(ATT_NAME_LANG, language);
+        Cookie cookie = new Cookie(ATT_NAME_LANG, language);
+        // 7 дней (Конвертированные в секунды)
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(cookie);
+    }
+
+    public static String getStoredLanguage(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (ATT_NAME_LANG.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public static void storeDepartureFoundStation(HttpSession session, String stationName) {
+        session.setAttribute(ATT_NAME_DEP_STATION, stationName);
+    }
+
+    public static String getStoredDepartureFoundStation(HttpSession session) {
+       return (String) session.getAttribute(ATT_NAME_DEP_STATION);
+    }
+
+    public static void storeArrivalFoundStation(HttpSession session, String stationName) {
+        session.setAttribute(ATT_NAME_ARR_STATION, stationName);
+    }
+
+    public static String getStoredArrivalFoundStation(HttpSession session) {
+        return (String) session.getAttribute(ATT_NAME_ARR_STATION);
     }
 
     // Сохранить информацию пользователя, который вошел в систему (login) в Session.

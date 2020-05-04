@@ -9,6 +9,7 @@ public final class Fields {
 
     public static final String ID = "id";
     public static final String NAME = "name";
+    public static final String NAME_RU = "name_ru";
 
 
     // entities
@@ -32,12 +33,15 @@ public final class Fields {
     public static final String IS_STATION_ID = "station_id";
 
     public static final String ROUTE = "Route";
+    public static final String TRAIN_ROUTE = "train_route";
     public static final String ROUTE_TRAIN_ID = "train_id";
     public static final String ROUTE_DEP_S_ID = "departure_station_id";
     public static final String ROUTE_ARR_S_ID = "arrival_station_id";
     public static final String ROUTE_SCHEDULE_ID = "schedule_id";
     public static final String ROUTE_DEP_STATION_NAME = "dep_station_name";
     public static final String ROUTE_ARR_STATION_NAME = "arr_station_name";
+    public static final String ROUTE_DEP_STATION_NAME_RU = "dep_station_name_ru";
+    public static final String ROUTE_ARR_STATION_NAME_RU = "arr_station_name_ru";
 
 
     public static final String TRAIN = "Train";
@@ -57,6 +61,6 @@ public final class Fields {
     public static final String TICKET = "ticket";
     public static final String TICKET_PRICE = "price";
     public static final String TICKET_ID = "ticket_id";
-
+    public static final String COUNT_TICKETS = "count_tickets";
 
 }

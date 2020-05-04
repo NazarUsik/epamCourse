@@ -11,16 +11,16 @@ public class LogoutFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
-
+//delete this filter
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        if (request.getServletPath().equals("/userInfo")) {
-            request.getServletContext().setAttribute("logoutParam", "exit");
-        } else {
-            request.getServletContext().setAttribute("logoutParam", "account");
-        }
+//        if (request.getServletPath().equals("/userInfo")) {
+//            request.getServletContext().setAttribute("logoutParam", "exit");
+//        } else {
+//            request.getServletContext().setAttribute("logoutParam", "account");
+//        }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }

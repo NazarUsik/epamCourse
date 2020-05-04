@@ -1,0 +1,80 @@
+.route_page{
+    width: 80%;
+    height: auto;
+    margin: 4% 10%;
+}
+
+.route_page .route_info table{
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(163, 163, 163, 0.65);
+    line-height: 20px;
+    font-weight: 400;
+    font-family: -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    border-collapse: collapse;
+    border-spacing:0;
+    margin: 0 15%;
+}
+
+.route_page .route_info table thead th{
+    color: gray;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: start;
+    padding-left:20px;
+}
+
+.tab_border{
+    position: absolute;
+    width: 55%;
+    margin: 21px 0 3px 12.1%;
+    display: block;
+    border-bottom: 1px solid #c3cfdf;
+}
+
+.route_page .route_info table tbody tr{
+    font-weight: 700;
+}
+
+.route_page .route_info table tbody tr:hover{
+    background: #f0f4f8;
+}
+
+.route_page .route_info table tbody td{
+    padding: 8px 80px 8px 20px;
+    position: relative;
+
+}
+
+
+.route_page .route_info .main{
+    font-weight: bold !important;
+}
+
+.route_page .route_info .stat{
+    color: #0073ff;
+    font-weight: normal;
+}
+
+.route_page .route_info .time{
+    font-weight: normal;
+}
+
+.route_page .route_info .travel{
+    font-weight: normal;
+    color: gray;
+}
+/*___________________________________________________*/
+
+
+.route_page .route_info .choose_tick{
+    margin-top: 50px;
+    width: 100%;
+    height: auto;
+}
+
+.route_page .route_info .tick_type{
+    border: 2px dashed #344212;
+}
+
+.route_page .route_info .car_type{
+    border: 2px dashed #344212;
+}

@@ -53,9 +53,11 @@ public final class DBManager {
         return null;
     }
 
-    public static boolean insertStation(Connection connection, String nameStation) throws SQLException {
+    public static boolean insertStation(Connection connection, String nameStation, String nameStationRu)
+            throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_STATION);
         statement.setString(1, nameStation);
+        statement.setString(2, nameStationRu);
 
         try {
             statement.execute();
@@ -65,10 +67,28 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateStation(Connection connection, int stationId, String stationName) throws SQLException {
+
+    public static Station getStationById(Connection connection, int stationId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_STATION_BY_ID);
+        statement.setInt(1, stationId);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
+            station.setId(result.getInt(Fields.ID));
+
+            return station;
+        }
+
+        return null;
+    }
+
+    public static boolean updateStation(Connection connection, int stationId, String stationName, String stationNameRu) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_STATION);
         statement.setString(1, stationName);
-        statement.setInt(2, stationId);
+        statement.setString(2, stationNameRu);
+        statement.setInt(3, stationId);
 
         try {
             statement.execute();
@@ -126,6 +146,22 @@ public final class DBManager {
         return null;
     }
 
+    public static Schedule getScheduleById(Connection connection, int scheduleId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_SCHEDULE_BY_ID);
+        statement.setInt(1, scheduleId);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
+                    result.getString(Fields.SCHEDULE_ARRIVAL_TIME), result.getInt(Fields.SCHEDULE_TRAVEL_TIME));
+            schedule.setId(result.getInt(Fields.ID));
+
+            return schedule;
+        }
+
+        return null;
+    }
 
     public static boolean insertSchedule(Connection connection, Schedule schedule) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_SCHEDULE);
@@ -467,6 +503,22 @@ public final class DBManager {
         }
     }
 
+    public static Train findTrain(Connection connection, int trainId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_TRAIN);
+        statement.setInt(1, trainId);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            Train train = new Train(result.getInt(Fields.TRAIN_TYPE_ID));
+            train.setId(trainId);
+
+            return train;
+        }
+
+        return null;
+    }
+
     public static boolean insertTrain(Connection connection, Train train) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_TRAIN);
         statement.setInt(1, train.getTypeId());
@@ -557,7 +609,6 @@ public final class DBManager {
             statement.execute();
             return true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
             return false;
         }
     }
@@ -653,64 +704,75 @@ public final class DBManager {
         }
     }
 
-    public static Map<String, Entity> findRouteByStation
-            (Connection connection, String departureStation, String arrivalStation, String startDate)
+    public static Route findRouteByStation
+            (Connection connection, String departureStation, String arrivalStation, String startDate, String language)
             throws SQLException {
-        Map<String, Entity> map = new LinkedHashMap<String, Entity>();
+        PreparedStatement statement = connection.prepareStatement
+                (language.equals("en") ? SQLQuery.SQL_FIND_ROUTE_BY_TWO_STATION :
+                        SQLQuery.SQL_FIND_ROUTE_BY_TWO_STATION_RU);
 
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_ROUTE_BY_STATION);
         statement.setString(1, departureStation);
         statement.setString(2, arrivalStation);
         statement.setString(3, startDate);
 
         ResultSet result = statement.executeQuery();
         if (result.next()) {
-            Station depStation = new Station(departureStation);
-            Station arrStation = new Station(arrivalStation);
-            Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
-                    result.getString(Fields.SCHEDULE_ARRIVAL_TIME),
-                    result.getInt(Fields.SCHEDULE_TRAVEL_TIME));
-            map.put("Station1", depStation);
-            map.put("Station2", arrStation);
-            map.put("Schedule", schedule);
-            return map;
+            Route route = new Route(result.getInt(Fields.ROUTE_TRAIN_ID), result.getInt(Fields.ROUTE_DEP_S_ID),
+                    result.getInt(Fields.ROUTE_ARR_S_ID), result.getInt(Fields.ROUTE_SCHEDULE_ID));
+            route.setId(result.getInt(Fields.TRAIN_ROUTE + "." + Fields.ID));
+
+            return route;
         }
         return null;
     }
 
-//    public static Map<String, Entity> findRouteByStation
-//            (Connection connection, String station, String startDate)
-//            throws SQLException {
-//
-//    }
-
-    public static Map<String, Entity> findIntermediateStation
-            (Connection connection, String stationName, String startDate)
+    public static List<Route> findRouteByStation
+            (Connection connection, String station, String startDate, String language)
             throws SQLException {
-        Map<String, Entity> map = new LinkedHashMap<String, Entity>();
+        List<Route> list = new LinkedList<>();
+
+        PreparedStatement statement = connection.prepareStatement
+                (language.equals("en") ? SQLQuery.SQL_FIND_ROUTE_BY_ONE_STATION :
+                        SQLQuery.SQL_FIND_ROUTE_BY_ONE_STATION_RU);
+        statement.setString(1, station);
+        statement.setString(2, station);
+        statement.setString(3, startDate);
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            Route route = new Route(result.getInt(Fields.ROUTE_TRAIN_ID), result.getInt(Fields.ROUTE_DEP_S_ID),
+                    result.getInt(Fields.ROUTE_ARR_S_ID), result.getInt(Fields.ROUTE_SCHEDULE_ID));
+            route.setId(result.getInt(Fields.TRAIN_ROUTE + "." + Fields.ID));
+
+            list.add(route);
+        }
+        return list;
+    }
 
 
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_INTERMEDIATE_STATION);
+    public static List<IntermediateStation> findIntermediateStation
+            (Connection connection, String stationName, String startDate, String language)
+            throws SQLException {
+        List<IntermediateStation> list = new LinkedList<>();
+
+
+        PreparedStatement statement = connection.prepareStatement
+                (language.equals("en") ? SQLQuery.SQL_FIND_INTERMEDIATE_STATION :
+                        SQLQuery.SQL_FIND_INTERMEDIATE_STATION_RU);
         statement.setString(1, stationName);
         statement.setString(2, startDate);
 
         ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            Station station = new Station(stationName);
-            Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
-                    result.getString(Fields.SCHEDULE_ARRIVAL_TIME),
-                    result.getInt(Fields.SCHEDULE_TRAVEL_TIME));
-            Route route = new Route();
-            route.setId(result.getInt(Fields.IS_ROUTE_ID));
-            map.put(Fields.ROUTE, route);
-            map.put(Fields.STATION, station);
-            map.put(Fields.SCHEDULE, schedule);
-            return map;
+        while (result.next()) {
+
+            list.add(new IntermediateStation(result.getInt(Fields.IS_ROUTE_ID),
+                    result.getInt(Fields.IS_STATION_ID), result.getInt(Fields.IS_SCHEDULE_ID)));
+
         }
-        return null;
+        return list;
     }
 
-    public static List<Pair<String, Train>> getAllTrain(Connection connection) throws SQLException {
+    public static List<Pair<String, Train>> getAllTrain(Connection connection, String language) throws SQLException {
         List<Pair<String, Train>> list = new LinkedList<Pair<String, Train>>();
 
         ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_FIND_ALL_TRAIN);
@@ -718,12 +780,17 @@ public final class DBManager {
         while (result.next()) {
             Train train = new Train(result.getInt(Fields.TRAIN_TYPE_ID));
             train.setId(result.getInt(Fields.ID));
-            list.add(new Pair<>(result.getString(Fields.NAME), train));
+
+            if (language.equals("en")) {
+                list.add(new Pair<>(result.getString(Fields.NAME), train));
+            } else {
+                list.add(new Pair<>(result.getString(Fields.NAME_RU), train));
+            }
         }
         return list;
     }
 
-    public static List<Pair<Integer, Pair<String, Carriage>>> getAllCarriage(Connection connection)
+    public static List<Pair<Integer, Pair<String, Carriage>>> getAllCarriage(Connection connection, String language)
             throws SQLException {
         List<Pair<Integer, Pair<String, Carriage>>> list = new LinkedList<Pair<Integer, Pair<String, Carriage>>>();
 
@@ -735,8 +802,14 @@ public final class DBManager {
                     result.getInt(Fields.CARRIAGE_COUNT_AVAILABLE_SEATS),
                     result.getBoolean(Fields.CARRIAGE_HAVE_REST));
             carriage.setId(result.getInt(Fields.ID));
-            list.add(new Pair<>(result.getInt(Fields.ROUTE_TRAIN_ID),
-                    new Pair<>(result.getString(Fields.NAME), carriage)));
+
+            if (language.equals("en")) {
+                list.add(new Pair<>(result.getInt(Fields.ROUTE_TRAIN_ID),
+                        new Pair<>(result.getString(Fields.NAME), carriage)));
+            } else {
+                list.add(new Pair<>(result.getInt(Fields.ROUTE_TRAIN_ID),
+                        new Pair<>(result.getString(Fields.NAME_RU), carriage)));
+            }
         }
         return list;
     }
@@ -776,7 +849,7 @@ public final class DBManager {
         List<Station> list = new LinkedList<>();
 
         while (result.next()) {
-            Station station = new Station(result.getString(Fields.NAME));
+            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
             station.setId(result.getInt(Fields.ID));
             list.add(station);
         }
@@ -795,10 +868,12 @@ public final class DBManager {
                     result.getInt(Fields.ROUTE_ARR_S_ID), result.getInt(Fields.ROUTE_SCHEDULE_ID));
             route.setId(result.getInt(Fields.ID));
 
-            Station depStation = new Station(result.getString(Fields.ROUTE_DEP_STATION_NAME));
+            Station depStation = new Station(result.getString(Fields.ROUTE_DEP_STATION_NAME),
+                    result.getString(Fields.ROUTE_DEP_STATION_NAME_RU));
             depStation.setId(result.getInt(Fields.ROUTE_DEP_S_ID));
 
-            Station arrStation = new Station(result.getString(Fields.ROUTE_ARR_STATION_NAME));
+            Station arrStation = new Station(result.getString(Fields.ROUTE_ARR_STATION_NAME),
+                    result.getString(Fields.ROUTE_ARR_STATION_NAME_RU));
             arrStation.setId(result.getInt(Fields.ROUTE_ARR_S_ID));
 
             Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
@@ -826,7 +901,35 @@ public final class DBManager {
             IntermediateStation intermediateStation = new IntermediateStation(result.getInt(Fields.IS_ROUTE_ID),
                     result.getInt(Fields.IS_STATION_ID), result.getInt(Fields.IS_SCHEDULE_ID));
 
-            Station station = new Station(result.getString(Fields.NAME));
+            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
+            station.setId(result.getInt(Fields.IS_STATION_ID));
+
+            Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
+                    result.getString(Fields.SCHEDULE_ARRIVAL_TIME), result.getInt(Fields.SCHEDULE_TRAVEL_TIME));
+            schedule.setId(result.getInt(Fields.IS_SCHEDULE_ID));
+
+            map.put(Fields.IS + i, intermediateStation);
+            map.put(Fields.STATION + i, station);
+            map.put(Fields.SCHEDULE + i, schedule);
+
+            i++;
+        }
+
+        return map;
+    }
+
+    public static Map<String, Entity> getAllIntermediateStationByRoute(Connection connection, int routeId)
+            throws SQLException {
+        Map<String, Entity> map = new LinkedHashMap<>();
+
+        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_GET_ALL_INTERMEDIATE_STATION);
+
+        int i = 1;
+        while (result.next()) {
+            IntermediateStation intermediateStation = new IntermediateStation(result.getInt(Fields.IS_ROUTE_ID),
+                    result.getInt(Fields.IS_STATION_ID), result.getInt(Fields.IS_SCHEDULE_ID));
+
+            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
             station.setId(result.getInt(Fields.IS_STATION_ID));
 
             Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
@@ -849,7 +952,22 @@ public final class DBManager {
 
         ResultSet result = statement.executeQuery();
         if (result.next()) {
-            Station station = new Station(stationName);
+            Station station = new Station(stationName, result.getString(Fields.NAME_RU));
+            station.setId(result.getInt(Fields.ID));
+
+            return station;
+        }
+
+        return null;
+    }
+
+    public static Station findStationByNameRu(Connection connection, String stationNameRu) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_STATION_BY_NAME_RU);
+        statement.setString(1, stationNameRu);
+
+        ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
             station.setId(result.getInt(Fields.ID));
 
             return station;
@@ -974,4 +1092,59 @@ public final class DBManager {
         return list;
     }
 
+    public static Pair<Integer, Float> getTicketsInfoByRoute(Connection connection, int routeId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_TICKETS_INFO_BY_ROUTE);
+        statement.setInt(1, routeId);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            return new Pair<>(result.getInt(Fields.COUNT_TICKETS), result.getFloat(Fields.TICKET_PRICE));
+        }
+
+        return null;
+    }
+
+    public static int getAmountStationByRoute(Connection connection, int routeId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_AMOUNT_STATION_BY_ROUTE);
+        statement.setInt(1, routeId);
+
+        ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            return result.getInt(1) + 2;
+        }
+
+        return 0;
+    }
+
+//    public static int getAmountStationByRouteAndStation
+//            (Connection connection, int routeId, Station departureStation, Station arrivalStation) throws SQLException {
+//        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_AMOUNT_STATION_BY_ROUTE_AND_STATION);
+//        statement.setInt(1, routeId);
+//        statement.setInt(2, routeI);
+//        statement.setInt(3, routeId);
+//
+//
+//        ResultSet result = statement.executeQuery();
+//        if (result.next()) {
+//            return result.getInt(1) + 2;
+//        }
+//
+//        return 0;
+//    }
+
+    public static List<IntermediateStation> getIntermediateStationsByRoute(Connection connection, int routeId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_ALL_INTERMEDIATE_STATION_BY_ROUTE);
+        statement.setInt(1, routeId);
+
+        List<IntermediateStation> list = new LinkedList<>();
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            list.add(new IntermediateStation(routeId, result.getInt(Fields.IS_STATION_ID),
+                    result.getInt(Fields.IS_SCHEDULE_ID)));
+        }
+
+        return list;
+    }
 }

@@ -4,6 +4,8 @@ import ua.nure.usik.SummaryTask4.db.DBManager;
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.Schedule;
 import ua.nure.usik.SummaryTask4.db.entity.Station;
+import ua.nure.usik.SummaryTask4.utils.TranslatorUtils;
+import ua.nure.usik.SummaryTask4.utils.constants.Language;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/addIntermediateStation")
 public class AddIntermediateStationServlet extends HttpServlet {
@@ -28,6 +32,8 @@ public class AddIntermediateStationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection connection = MyUtils.getStoredConnection(request);
 
+        request.setCharacterEncoding("UTF-8");
+
         String addInterStation = "";
 
         int routeId = Integer.parseInt(request.getParameter("routeId"));
@@ -36,6 +42,19 @@ public class AddIntermediateStationServlet extends HttpServlet {
 
         LocalDateTime depTime = LocalDateTime.parse(request.getParameter("depTime"));
         LocalDateTime arrTime = LocalDateTime.parse(request.getParameter("arrTime"));
+
+
+        String language = MyUtils.getStoredLanguage(request);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        if (language.equals("ru")) {
+            stationName = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, stationName);
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         try {
             Station station = DBManager.findStationByName(connection, stationName);
@@ -46,18 +65,19 @@ public class AddIntermediateStationServlet extends HttpServlet {
                 int scheduleId = DBManager.getLastScheduleId(connection);
 
                 if (DBManager.insertIntermediateStation(connection, routeId, station.getId(), scheduleId)) {
-                    addInterStation += "Add successful";
+                    addInterStation += bundle.getString("add.successful");
                 } else {
-                    addInterStation += "Not add!";
+                    addInterStation += bundle.getString("add.error");
                 }
 
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            addInterStation += e.getMessage();
+            addInterStation += bundle.getString("add.error.inter_stat");
+
         }
 
-        response.sendRedirect(request.getContextPath() + "/adminPage?addInterStationStatus=" + addInterStation);
+        request.getSession().setAttribute("addInterStationStatus", addInterStation);
+        response.sendRedirect(request.getContextPath() + "/adminPage");
     }
 }

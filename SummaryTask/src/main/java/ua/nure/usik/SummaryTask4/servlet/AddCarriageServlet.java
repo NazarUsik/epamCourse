@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/addCarriage")
 public class AddCarriageServlet extends HttpServlet {
@@ -37,6 +39,8 @@ public class AddCarriageServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = MyUtils.getStoredConnection(request);
 
+        request.setCharacterEncoding("UTF-8");
+
         int trainId = Integer.parseInt(request.getParameter("trainId"));
         String carriageType = request.getParameter("type");
         int countSeats = Integer.parseInt(request.getParameter("countSeats"));
@@ -48,6 +52,14 @@ public class AddCarriageServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        String language = MyUtils.getStoredLanguage(request);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         try {
             if (DBManager.insertCarriage(connection,
@@ -66,21 +78,20 @@ public class AddCarriageServlet extends HttpServlet {
                     }
                 }
 
-                addCarriage += "Add successful";
+                addCarriage += bundle.getString("add.successful");
             } else {
-                addCarriage += "Error in query!";
+                addCarriage += bundle.getString("error.query");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            addCarriage += e.getMessage();
+            addCarriage += bundle.getString("add.error.carriage");
         }
         try {
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
-
-        response.sendRedirect(request.getContextPath() + "/adminPage?addCarriageStatus=" + addCarriage);
+        request.getSession().setAttribute("addCarriageStatus", addCarriage);
+        response.sendRedirect(request.getContextPath() + "/adminPage");
 
 
     }

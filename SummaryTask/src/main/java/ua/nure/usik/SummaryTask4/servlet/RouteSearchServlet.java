@@ -2,8 +2,10 @@ package ua.nure.usik.SummaryTask4.servlet;
 
 import ua.nure.usik.SummaryTask4.db.DBManager;
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
-import ua.nure.usik.SummaryTask4.db.entity.Entity;
-import ua.nure.usik.SummaryTask4.db.entity.User;
+import ua.nure.usik.SummaryTask4.db.constats.Fields;
+import ua.nure.usik.SummaryTask4.db.entity.*;
+import ua.nure.usik.SummaryTask4.utils.RouteUtils;
+import ua.nure.usik.SummaryTask4.utils.constants.RouteType;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,41 +16,68 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet("/routeSearch")
 public class RouteSearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/routeSearchView.jsp");
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
 
         dispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
         Connection connection = MyUtils.getStoredConnection(req);
 
-        String stationFromName = req.getParameter("stationFrom");
-        String stationToName = req.getParameter("stationTo");
-        String startDate = req.getParameter("startDate");
+        String dep_station = req.getParameter("dep_station");
+        String arr_station = req.getParameter("arr_station");
+        String date = req.getParameter("date");
 
-        Map<String, Entity> map = null;
-        String errorString = null;
+        Map<String, Entity> map;
+        String errorString = "";
 
-        try{
-            map = DBManager.findRouteByStation(connection, stationFromName, stationToName, startDate);
-        } catch (SQLException e){
-            errorString = e.getMessage();
+        try {
+            map = RouteUtils.convertIdToEntity(connection,
+                    RouteUtils.getRoutesByStation(connection, dep_station, arr_station, date, language),
+                    dep_station, arr_station, language);
+        } catch (SQLException e) {
+            errorString = bundle.getString("error.query");
+            req.setAttribute("errorString", errorString);
+            RequestDispatcher dispatcher = req.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/routeListView.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
+
+        if (map.isEmpty()) {
+            errorString = bundle.getString("not_found.route");
+            req.setAttribute("errorString", errorString);
+            RequestDispatcher dispatcher = req.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/routeListView.jsp");
+            dispatcher.forward(req, resp);
+            return;
         }
 
         req.setAttribute("errorString", errorString);
-        req.setAttribute("routeList", map);
+        req.setAttribute("routeMap", map);
+
+        MyUtils.storeDepartureFoundStation(req.getSession(), dep_station);
+        MyUtils.storeArrivalFoundStation(req.getSession(), arr_station);
 
 
         User user = MyUtils.getLoginedUser(req.getSession());
 
-        if(user != null){
+        if (user != null) {
             req.setAttribute("user", user);
         }
 

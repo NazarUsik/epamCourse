@@ -1,0 +1,93 @@
+
+* {
+    font-family: Direct, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+.bgIm {
+    background-image: url("../images/home_banner2.jpg");
+    width: 100%;
+    height: 536px;
+}
+
+.crumb {
+    width: 100%;
+    height: 40px;
+    background-color: rgba(31, 41, 77, 0.75);
+}
+
+.search {
+    color: white;
+    border-radius: 4px;
+    font-size: 18px;
+    background-color: rgba(31, 41, 77, 0.36);
+    width: 65%;
+    height: 170px;
+    margin: 143px 17.5%;
+}
+
+.search p {
+    margin: 0;
+    padding: 11px 0 0 15px;
+}
+
+/*_______________________Search field and button_______________________*/
+
+
+.row_line {
+    margin-left: 15px;
+    margin-top: 32px;
+}
+
+.row_line .field {
+    width: 100%;
+    height: 40px;
+    border: 0;
+    border-radius: 4px;
+}
+
+.row_line .departure {
+    width: 19%;
+    float: left;
+}
+
+.row_line .swap {
+    margin-top: 8px;
+    margin-left: 5px;
+    float: left;
+}
+
+.row_line .swap:hover {
+    cursor: pointer;
+}
+
+
+.row_line .arrival {
+    margin-left: 5px;
+    width: 19%;
+    float: left;
+}
+
+.row_line .date_start {
+    margin-left: 26px;
+    width: 18%;
+    float: left;
+}
+
+.row_line input[type=text], .row_line input[type=date]{
+    padding: 12px;
+}
+
+.row_line .button_search {
+    margin-left: 125px;
+    width: 18%;
+    float: left;
+}
+
+.row_line .button_wrapper {
+    background-color: #1F294D;
+    color: white;
+}
+
+
+/*_____________________________________________________________________*/

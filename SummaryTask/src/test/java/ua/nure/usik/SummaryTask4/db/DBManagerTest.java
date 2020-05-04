@@ -1,16 +1,18 @@
 package ua.nure.usik.SummaryTask4.db;
 
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 import ua.nure.usik.SummaryTask4.db.connection.ConnectionUtils;
-import ua.nure.usik.SummaryTask4.db.entity.Entity;
-import ua.nure.usik.SummaryTask4.db.entity.Station;
-import ua.nure.usik.SummaryTask4.db.entity.Train;
+import ua.nure.usik.SummaryTask4.db.entity.*;
+import ua.nure.usik.SummaryTask4.utils.RouteUtils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DBManagerTest {
 
@@ -24,54 +26,17 @@ public class DBManagerTest {
         }
     }
 
-
     @Test
-    public void findRouteRyStation() throws SQLException {
-        String depS = "Vinnitsa";
-        String arrS = "Kiev";
-        String date = "2020-01-12";
-
-        Map<String, Entity> map1 = DBManager.findRouteByStation(connection, depS, arrS, date);
-        Map<String, Entity> map2 = null;
-
-//        if (map1 != null) {
-//            for (Entity entity : map1.values()) {
-//                System.out.println(entity);
-//            }
-//        } else {
-//            map1 = DBManager.findIntermediateStation(connection, depS, date);
-//            map2 = DBManager.findIntermediateStation(connection, arrS, date);
-//
-//            if (map1 != null && map2 != null) {
-//                int routeId1 = map1.get("Route").getId();
-//                int routeId2 = map2.get("Route").getId();
-//
-//                Schedule schedule1 = (Schedule) map1.get("Schedule");
-//                Schedule schedule2 = (Schedule) map2.get("Schedule");
-//
-//
-//                if (routeId1 == routeId2  && schedule1.getTravelTime() < schedule2.getTravelTime()) {
-//
-//                    for (Entity entity : map1.values()) {
-//                        System.out.println(entity);
-//                    }
-//
-//                    for (Entity entity : map2.values()) {
-//                        System.out.println(entity);
-//                    }
-//                } else {
-//                    System.out.println("Route no found");
-//                }
-//            } else {
-//                System.out.println("Route not found");
-//            }
-//        }
-
+    public void findUser() throws SQLException {
 
     }
 
     @Test
-    public void findUser() {
+    public void findRouteRyStation() throws SQLException {
+        String depS = "Kiev";
+        String arrS = "Vinnitsa";
+        String date = "2020-01-12";
+        System.out.println(RouteUtils.getRoutesByStation(connection, depS, arrS, date, "en"));
     }
 
     @Test
@@ -236,7 +201,7 @@ public class DBManagerTest {
 
     @Test
     public void getAllTrain() throws SQLException {
-        for (Pair<String, Train> pair : DBManager.getAllTrain(connection)) {
+        for (Pair<String, Train> pair : DBManager.getAllTrain(connection, "en")) {
             System.out.println(pair.getKey());
             System.out.println(pair.getValue());
         }
@@ -350,7 +315,7 @@ public class DBManagerTest {
     @Test
     public void getAllAvailableTicketsByRoute() throws SQLException {
         Map<Pair<Integer, Float>, Pair<Integer, Integer>> map = DBManager.getAllTickets(connection);
-        for(Map.Entry<Pair<Integer, Float>, Pair<Integer, Integer>> entry: map.entrySet()){
+        for (Map.Entry<Pair<Integer, Float>, Pair<Integer, Integer>> entry : map.entrySet()) {
             System.out.println(entry.getKey().getKey());
             System.out.println(entry.getKey().getValue());
             System.out.println(entry.getValue().getKey());
@@ -360,5 +325,38 @@ public class DBManagerTest {
 
     @Test
     public void getAllNotAvailableTicketsByRoute() {
+    }
+
+    @Test
+    public void getStationById() {
+    }
+
+    @Test
+    public void getScheduleById() {
+    }
+
+    @Test
+    public void findTrain() {
+    }
+
+    @Test
+    public void findStationByNameRu() {
+    }
+
+    @Test
+    public void getAllTickets() {
+    }
+
+    @Test
+    public void getAllTicketIdByRoute() {
+    }
+
+    @Test
+    public void getAllUsers() {
+    }
+
+    @Test
+    public void getTicketsInfoByRoute() throws SQLException {
+        System.out.println(DBManager.getTicketsInfoByRoute(connection, 5));
     }
 }

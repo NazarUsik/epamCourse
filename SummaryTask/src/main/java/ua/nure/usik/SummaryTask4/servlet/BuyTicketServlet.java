@@ -21,10 +21,12 @@ public class BuyTicketServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = MyUtils.getStoredConnection(req);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection connection = MyUtils.getStoredConnection(request);
 
-        User user = MyUtils.getLoginedUser(req.getSession());
+        request.setCharacterEncoding("UTF-8");
+
+        User user = MyUtils.getLoginedUser(request.getSession());
 
 
     }

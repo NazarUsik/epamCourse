@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/deleteIntermediateStation")
 public class DeleteInterStationServlet extends HttpServlet {
@@ -21,26 +23,37 @@ public class DeleteInterStationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = MyUtils.getStoredConnection(req);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection connection = MyUtils.getStoredConnection(request);
 
-        int routeId = Integer.parseInt(req.getParameter("route_id"));
-        int stationId = Integer.parseInt(req.getParameter("station_id"));
+        request.setCharacterEncoding("UTF-8");
+
+        int routeId = Integer.parseInt(request.getParameter("route_id"));
+        int stationId = Integer.parseInt(request.getParameter("station_id"));
 
         String delStatus = "";
 
-        try {
-            if (DBManager.deleteIntermediateStation(connection, routeId, stationId)) {
-                delStatus += "Delete successful!";
-            } else {
-                delStatus += "Not deleted!";
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            delStatus += e.getMessage();
+        String language = MyUtils.getStoredLanguage(request);
+
+        if (language == null) {
+            language = "en";
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?delIntStatus=" + delStatus);
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
+        try {
+            if (DBManager.deleteIntermediateStation(connection, routeId, stationId)) {
+                delStatus += bundle.getString("del.successful");
+
+            } else {
+                delStatus += bundle.getString("del.not");
+            }
+        } catch (SQLException e) {
+            delStatus += bundle.getString("del.error");
+        }
+
+        request.getSession().setAttribute("delIntStatus", delStatus);
+        response.sendRedirect(request.getContextPath() + "/adminPage?delIntStatus=" + delStatus);
     }
 
 }

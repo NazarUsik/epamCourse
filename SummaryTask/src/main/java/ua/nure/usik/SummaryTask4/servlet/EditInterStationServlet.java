@@ -6,6 +6,8 @@ import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.IntermediateStation;
 import ua.nure.usik.SummaryTask4.db.entity.Route;
 import ua.nure.usik.SummaryTask4.db.entity.Station;
+import ua.nure.usik.SummaryTask4.utils.TranslatorUtils;
+import ua.nure.usik.SummaryTask4.utils.constants.Language;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +21,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @WebServlet("/editIntermediateStation")
 public class EditInterStationServlet extends HttpServlet {
@@ -35,6 +39,8 @@ public class EditInterStationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Connection connection = MyUtils.getStoredConnection(req);
 
+        req.setCharacterEncoding("UTF-8");
+
         String edStatus = "";
 
         int routeId = Integer.parseInt(req.getParameter("route_id"));
@@ -42,22 +48,35 @@ public class EditInterStationServlet extends HttpServlet {
         long trvTime = Long.parseLong(req.getParameter("trv_time"));
         String stationName = req.getParameter("station_name");
 
-        LocalDateTime depTime = null;
-        LocalDateTime arrTime = null;
+        LocalDateTime depTime;
+        LocalDateTime arrTime;
+
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+//        if (language.equals("ru")) {
+//            stationName = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, stationName);
+//        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         try {
             depTime = LocalDateTime.parse(req.getParameter("dep_time").replace(' ', 'T'));
             arrTime = LocalDateTime.parse(req.getParameter("arr_time").replace(' ', 'T'));
         } catch (DateTimeParseException ex) {
-            edStatus += "Incorrect date!";
-            resp.sendRedirect(req.getContextPath() + "/adminPage?editIntStatus=" + edStatus);
+            edStatus += bundle.getString("edit.incorrect.date");
+            req.getSession().setAttribute("editIntStatus", edStatus);
+            resp.sendRedirect(req.getContextPath() + "/adminPage");
             return;
         }
 
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
 
         try {
@@ -66,9 +85,10 @@ public class EditInterStationServlet extends HttpServlet {
             if (intermediateStation != null) {
                 boolean updateStation = false;
 
-                Station station;
+                Station station = language.equals("en") ? DBManager.findStationByName(connection, stationName) :
+                        DBManager.findStationByNameRu(connection, stationName);
 
-                if ((station = DBManager.findStationByName(connection, stationName)) != null) {
+                if (station != null) {
                     updateStation = DBManager.updateIntermediateStationByStation
                             (connection, routeId, station.getId(), intermediateStation.getScheduleId());
                 }
@@ -78,34 +98,34 @@ public class EditInterStationServlet extends HttpServlet {
                         depTime.toString(), arrTime.toString(), trvTime);
 
                 if (updateStation && updateSchedule) {
-                    edStatus += "Edit successful!";
+                    edStatus += bundle.getString("edit.successful");
                     connection.commit();
                 } else {
                     ConnectionUtils.rollbackQuietly(connection);
-                    edStatus += getEditStatus(updateStation, updateSchedule);
+                    edStatus += getEditStatus(updateStation, updateSchedule, bundle);
                 }
 
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             edStatus += e.getMessage();
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?editIntStatus=" + edStatus);
+        req.getSession().setAttribute("editIntStatus", edStatus);
+        resp.sendRedirect(req.getContextPath() + "/adminPage");
     }
 
-    private String getEditStatus(boolean updateStation, boolean updateSchedule) {
-        StringBuilder retStr = new StringBuilder("Incorrect ");
+    private String getEditStatus(boolean updateStation, boolean updateSchedule, ResourceBundle bundle) {
+        StringBuilder retStr = new StringBuilder(bundle.getString("edit.incorrect"));
 
         if (!updateStation) {
-            retStr.append("departure station, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.stat"));
         }
         if (!updateSchedule) {
-            retStr.append("date, ");
+            retStr.append(bundle.getString("edit.incorrect.rout.value"));
         }
 
-        retStr.append("enter the correct values!");
+        retStr.append(bundle.getString("edit.incorrect.rout.enter"));
 
         return retStr.toString();
     }

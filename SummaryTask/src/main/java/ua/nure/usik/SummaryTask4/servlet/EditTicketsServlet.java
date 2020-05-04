@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/editTickets")
 public class EditTicketsServlet extends HttpServlet {
@@ -26,6 +28,8 @@ public class EditTicketsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Connection connection = MyUtils.getStoredConnection(req);
 
+        req.setCharacterEncoding("UTF-8");
+
         String edStatus = "";
 
         int routeId = Integer.parseInt(req.getParameter("route_id"));
@@ -33,17 +37,25 @@ public class EditTicketsServlet extends HttpServlet {
 
         List<Integer> ticketsId = null;
 
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
         try {
             ticketsId = DBManager.getAllTicketIdByRoute(connection, routeId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
 
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         if (ticketsId != null) {
             try {
@@ -52,22 +64,23 @@ public class EditTicketsServlet extends HttpServlet {
 
                     if (!DBManager.updateTicket(connection, id, price)) {
                         ConnectionUtils.rollbackQuietly(connection);
-                        edStatus = "Price not change!";
+                        edStatus = bundle.getString("edit.incorrect.value");
                     } else {
-                        edStatus = "Edit successful!";
+                        edStatus = bundle.getString("edit.successful");
                     }
                 }
 
                 connection.commit();
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getSQLState());
             }
         } else {
-            edStatus += "Error route_id!";
+            edStatus += bundle.getString("edit.error");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?editTicketsStatus=" + edStatus);
+        req.getSession().setAttribute("editTicketsStatus", edStatus);
+        resp.sendRedirect(req.getContextPath() + "/adminPage");
     }
 
 }

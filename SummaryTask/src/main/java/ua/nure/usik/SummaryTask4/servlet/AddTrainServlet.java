@@ -21,9 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/addTrain")
 public class AddTrainServlet extends HttpServlet {
@@ -43,24 +41,33 @@ public class AddTrainServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = MyUtils.getStoredConnection(request);
 
+        request.setCharacterEncoding("UTF-8");
+
         String trainType = request.getParameter("trainType");
         String addTrain = "";
 
+        String language = MyUtils.getStoredLanguage(request);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         int typeId = TrainType.getTrainTypeId(trainType);
         try {
             if (DBManager.insertTrain(connection, new Train(typeId))) {
-                addTrain += "Add successful";
+                addTrain += bundle.getString("add.successful");
             } else {
-                addTrain += "Not add train";
+                addTrain += bundle.getString("add.error");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            addTrain += e.getMessage();
+            addTrain += bundle.getString("add.error.train");
         }
 
-
-        response.sendRedirect(request.getContextPath() + "/adminPage?addTrainStatus=" + addTrain);
+        request.getSession().setAttribute("addTrainStatus", addTrain);
+        response.sendRedirect(request.getContextPath() + "/adminPage");
 
     }
 }

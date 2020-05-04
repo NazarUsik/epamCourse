@@ -4,6 +4,8 @@ import ua.nure.usik.SummaryTask4.db.DBManager;
 import ua.nure.usik.SummaryTask4.db.connection.ConnectionUtils;
 import ua.nure.usik.SummaryTask4.db.connection.MyUtils;
 import ua.nure.usik.SummaryTask4.db.entity.*;
+import ua.nure.usik.SummaryTask4.utils.TranslatorUtils;
+import ua.nure.usik.SummaryTask4.utils.constants.Language;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @WebServlet("/addRoute")
 public class AddRouteServlet extends HttpServlet {
@@ -34,6 +38,8 @@ public class AddRouteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        request.setCharacterEncoding("UTF-8");
+
         Connection connection = MyUtils.getStoredConnection(request);
 
         String addRoute = "";
@@ -43,16 +49,28 @@ public class AddRouteServlet extends HttpServlet {
         String depStationName = request.getParameter("depStation");
         String arrStationName = request.getParameter("arrStation");
 
+        String language = MyUtils.getStoredLanguage(request);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        if (language.equals("ru")) {
+            depStationName = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, depStationName);
+            arrStationName = TranslatorUtils.translate(Language.RUSSIAN, Language.ENGLISH, arrStationName);
+        }
+
         LocalDateTime depTime = LocalDateTime.parse(request.getParameter("depTime"));
         LocalDateTime arrTime = LocalDateTime.parse(request.getParameter("arrTime"));
 
         Duration duration = Duration.between(depTime, arrTime);
 
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
 
         try {
@@ -77,25 +95,25 @@ public class AddRouteServlet extends HttpServlet {
                         }
                     }
 
-                    addRoute += "Add successful";
+                    addRoute +=  bundle.getString("add.successful");
                 } else {
-                    addRoute += "Error in query!";
+                    addRoute +=  bundle.getString("error.query");
                 }
             } else {
-                addRoute += "Station not fount!";
+                addRoute +=  bundle.getString("not_found.station");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            addRoute += e.getMessage();
+            addRoute +=  bundle.getString("add.error.route");
         }
 
         try {
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getSQLState());
         }
 
-        response.sendRedirect(request.getContextPath() + "/adminPage?addRouteStatus=" + addRoute);
+        request.getSession().setAttribute("addRouteStatus", addRoute);
+        response.sendRedirect(request.getContextPath() + "/adminPage");
 
 
     }

@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @WebServlet("/editCarriage")
 public class EditCarriageServlet extends HttpServlet {
@@ -27,6 +29,8 @@ public class EditCarriageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = MyUtils.getStoredConnection(req);
 
+        req.setCharacterEncoding("UTF-8");
+
         int carriageId = Integer.parseInt(req.getParameter("carriageId"));
         int trainId = Integer.parseInt(req.getParameter("trainId"));
 
@@ -35,18 +39,27 @@ public class EditCarriageServlet extends HttpServlet {
         System.out.println(Arrays.toString(req.getParameterValues("carriageId")));
         System.out.println(Arrays.toString(req.getParameterValues("trainId")));
 
+        String language = MyUtils.getStoredLanguage(req);
+
+        if (language == null) {
+            language = "en";
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
+
         try {
             if (DBManager.updateTrainCompositionByCarriage(connection, trainId, carriageId)) {
-                editStatus += "Edit successful!";
+                editStatus += bundle.getString("edit.successful");
             } else {
-                editStatus += "Incorrect values indicated!";
+                bundle.getString("edit.incorrect.value");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            editStatus += e.getMessage();
+            editStatus += bundle.getString("edit.error");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/adminPage?editCarriageStatus=" + editStatus);
+        req.getSession().setAttribute("editCarriageStatus", editStatus);
+        resp.sendRedirect(req.getContextPath() + "/adminPage");
     }
 
 }
