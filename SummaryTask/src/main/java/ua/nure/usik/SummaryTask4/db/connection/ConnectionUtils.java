@@ -8,7 +8,6 @@ public class ConnectionUtils {
     public static Connection getConnection()
             throws ClassNotFoundException, SQLException {
 
-        // Здесь я подключаюсь к MySQL Database.
         return MySQLConnectionUtils.getMySQLConnection();
 
     }

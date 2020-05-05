@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/routePage")
 public class RoutePageServlet extends HttpServlet {
@@ -37,27 +38,14 @@ public class RoutePageServlet extends HttpServlet {
             System.out.println(e.getSQLState());
         }
 
-        if (route == null) {
+        if (route == null || MyUtils.getStoredDepartureFoundStation(req.getSession()) == null ||
+                MyUtils.getStoredArrivalFoundStation(req.getSession()) == null) {
             RequestDispatcher dispatcher = req.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/accessDeniedView.jsp");
             dispatcher.forward(req, resp);
             return;
         }
 
-        Station depStation;
-        Station arrStation;
-
-        try {
-            depStation = DBManager.getStationById(connection, route.getDepartureId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            arrStation = DBManager.getStationById(connection, route.getArrivalId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         List<IntermediateStation> intermediateStations = null;
 
@@ -67,6 +55,14 @@ public class RoutePageServlet extends HttpServlet {
             System.out.println(e.getSQLState());
         }
 
+        Map<String, Integer> trainInfo = null;
+        try {
+            trainInfo = DBManager.getTrainInfo(connection, route.getTrainId(), language);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        req.setAttribute("trainInfo", trainInfo);
         req.setAttribute("route", route);
         try {
             req.setAttribute("listInterStation",
@@ -74,6 +70,7 @@ public class RoutePageServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         RequestDispatcher dispatcher = req.getServletContext()
                 .getRequestDispatcher("/WEB-INF/views/routePageView.jsp");

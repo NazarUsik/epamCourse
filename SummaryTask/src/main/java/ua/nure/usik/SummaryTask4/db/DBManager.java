@@ -195,46 +195,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateDepartureTimeInSchedule(Connection connection, int scheduleId, String departureTime)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_SCHEDULE_BY_DEP_TIME);
-        statement.setString(1, departureTime);
-        statement.setInt(2, scheduleId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
-
-    public static boolean updateArrivalTimeInSchedule(Connection connection, int scheduleId, String arrivalTime)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_SCHEDULE_BY_ARR_TIME);
-        statement.setString(1, arrivalTime);
-        statement.setInt(2, scheduleId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
-    public static boolean deleteSchedule(Connection connection, int scheduleId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_SCHEDULE);
-        statement.setInt(1, scheduleId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static boolean insertRoute(Connection connection, Route route) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_ROUTE);
@@ -294,19 +254,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateScheduleInRoute(Connection connection, int routeId, int scheduleId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_ROUTE_BY_SCHEDULE);
-        statement.setInt(1, scheduleId);
-        statement.setInt(2, routeId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static boolean deleteRoute(Connection connection, int routeId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_ROUTE);
@@ -337,18 +284,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateUser(Connection connection, String password) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_USER);
-        statement.setString(1, password);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
     public static boolean insertTrainComposition(Connection connection, int trainId, int carriageId, int numberCarriage)
             throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_TRAIN_COMPOSITION);
@@ -365,20 +300,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateTrainCompositionByTrain(Connection connection, int oldTrainId, int newTrainId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_TRAIN_COMPOSITION_BY_TRAIN);
-        statement.setInt(1, newTrainId);
-        statement.setInt(2, oldTrainId);
-
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static boolean updateTrainCompositionByCarriage(Connection connection, int trainId, int carriageId)
             throws SQLException {
@@ -395,31 +316,7 @@ public final class DBManager {
         }
     }
 
-    public static boolean deleteTrainCompositionByTrain(Connection connection, int trainId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_TRAIN_COMPOSITION_BY_TRAIN);
-        statement.setInt(1, trainId);
 
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
-    public static boolean deleteTrainCompositionByCarriage(Connection connection, int carriageId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_TRAIN_COMPOSITION_BY_CARRIAGE);
-        statement.setInt(1, carriageId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static boolean insertCarriage(Connection connection, Carriage carriage) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_CARRIAGE);
@@ -477,7 +374,7 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateUser(Connection connection, int seatsId, boolean availableSeats)
+    public static boolean updateSeat(Connection connection, int seatsId, boolean availableSeats)
             throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_SEATS);
         statement.setBoolean(1, availableSeats);
@@ -491,17 +388,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean deleteUser(Connection connection, int seatsId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_SEATS);
-        statement.setInt(1, seatsId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static Train findTrain(Connection connection, int trainId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_TRAIN);
@@ -531,19 +417,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateTrain(Connection connection, int trainId, int typeId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_TRAIN);
-        statement.setInt(1, typeId);
-        statement.setInt(2, trainId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
 
     public static boolean deleteTrain(Connection connection, int trainId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_TRAIN);
@@ -586,18 +459,6 @@ public final class DBManager {
         }
     }
 
-    public static boolean deleteTicket(Connection connection, int ticketId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_TICKET);
-        statement.setInt(1, ticketId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
     public static boolean insertIntermediateStation(Connection connection, int routeId, int stationId, int scheduleId)
             throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_INTERMEDIATE_STATION);
@@ -630,22 +491,7 @@ public final class DBManager {
         }
     }
 
-    public static boolean updateIntermediateStationBySchedule(Connection connection, int routeId,
-                                                              int stationId, int scheduleId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_INTERMEDIATE_STATION_BY_SCHEDULE);
-        statement.setInt(1, scheduleId);
-        statement.setInt(2, routeId);
-        statement.setInt(3, stationId);
 
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 
     public static boolean deleteIntermediateStation(Connection connection, int routeId, int stationId)
             throws SQLException {
@@ -666,35 +512,8 @@ public final class DBManager {
             throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_INSERT_TICKETS_LIST);
         statement.setInt(1, userId);
-        statement.setInt(2, ticketStatusId);
-        statement.setInt(3, ticketId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
-    public static boolean updateTicketsList(Connection connection, int userId, int ticketStatusId)
-            throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_UPDATE_TICKETS_LIST);
-        statement.setInt(1, ticketStatusId);
-        statement.setInt(2, userId);
-
-        try {
-            statement.execute();
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
-    }
-
-    public static boolean deleteTicketsList(Connection connection, int userId, int ticketId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_DELETE_TICKETS_LIST);
-        statement.setInt(1, userId);
         statement.setInt(2, ticketId);
+        statement.setInt(3, ticketStatusId);
 
         try {
             statement.execute();
@@ -703,6 +522,8 @@ public final class DBManager {
             return false;
         }
     }
+
+
 
     public static Route findRouteByStation
             (Connection connection, String departureStation, String arrivalStation, String startDate, String language)
@@ -823,14 +644,7 @@ public final class DBManager {
         return 0;
     }
 
-    public static int getTrainIdLastAdd(Connection connection) throws SQLException {
-        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_LAST_ADD_TRAIN_ID);
 
-        if (result.next()) {
-            return result.getInt(Fields.ID);
-        }
-        return 0;
-    }
 
     public static int getLastCarriageNumberByTrain(Connection connection, int trainId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_LAST_CARRIAGE_NUMBER_BY_TRAIN);
@@ -918,33 +732,7 @@ public final class DBManager {
         return map;
     }
 
-    public static Map<String, Entity> getAllIntermediateStationByRoute(Connection connection, int routeId)
-            throws SQLException {
-        Map<String, Entity> map = new LinkedHashMap<>();
 
-        ResultSet result = connection.createStatement().executeQuery(SQLQuery.SQL_GET_ALL_INTERMEDIATE_STATION);
-
-        int i = 1;
-        while (result.next()) {
-            IntermediateStation intermediateStation = new IntermediateStation(result.getInt(Fields.IS_ROUTE_ID),
-                    result.getInt(Fields.IS_STATION_ID), result.getInt(Fields.IS_SCHEDULE_ID));
-
-            Station station = new Station(result.getString(Fields.NAME), result.getString(Fields.NAME_RU));
-            station.setId(result.getInt(Fields.IS_STATION_ID));
-
-            Schedule schedule = new Schedule(result.getString(Fields.SCHEDULE_DEPARTURE_TIME),
-                    result.getString(Fields.SCHEDULE_ARRIVAL_TIME), result.getInt(Fields.SCHEDULE_TRAVEL_TIME));
-            schedule.setId(result.getInt(Fields.IS_SCHEDULE_ID));
-
-            map.put(Fields.IS + i, intermediateStation);
-            map.put(Fields.STATION + i, station);
-            map.put(Fields.SCHEDULE + i, schedule);
-
-            i++;
-        }
-
-        return map;
-    }
 
     public static Station findStationByName(Connection connection, String stationName) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_FIND_STATION_BY_NAME);
@@ -996,18 +784,7 @@ public final class DBManager {
         return 0;
     }
 
-    public static int getAmountSeatsFromTrain(Connection connection, int trainId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_SUM_ALL_SEATS_FROM_TRAIN);
-        statement.setInt(1, trainId);
 
-        ResultSet result = statement.executeQuery();
-
-        if (result.next()) {
-            return result.getInt(Fields.CARRIAGE_COUNT_SEATS);
-        }
-
-        return 0;
-    }
 
     public static Map<Seats, Carriage> findCarriagesSeatsByTrainId(Connection connection, int trainId)
             throws SQLException {
@@ -1105,33 +882,6 @@ public final class DBManager {
         return null;
     }
 
-    public static int getAmountStationByRoute(Connection connection, int routeId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_AMOUNT_STATION_BY_ROUTE);
-        statement.setInt(1, routeId);
-
-        ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            return result.getInt(1) + 2;
-        }
-
-        return 0;
-    }
-
-//    public static int getAmountStationByRouteAndStation
-//            (Connection connection, int routeId, Station departureStation, Station arrivalStation) throws SQLException {
-//        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_AMOUNT_STATION_BY_ROUTE_AND_STATION);
-//        statement.setInt(1, routeId);
-//        statement.setInt(2, routeI);
-//        statement.setInt(3, routeId);
-//
-//
-//        ResultSet result = statement.executeQuery();
-//        if (result.next()) {
-//            return result.getInt(1) + 2;
-//        }
-//
-//        return 0;
-//    }
 
     public static List<IntermediateStation> getIntermediateStationsByRoute(Connection connection, int routeId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_ALL_INTERMEDIATE_STATION_BY_ROUTE);
@@ -1143,6 +893,81 @@ public final class DBManager {
         while (result.next()) {
             list.add(new IntermediateStation(routeId, result.getInt(Fields.IS_STATION_ID),
                     result.getInt(Fields.IS_SCHEDULE_ID)));
+        }
+
+        return list;
+    }
+
+    public static Map<String, Integer> getTrainInfo(Connection connection, int trainId, String language)
+            throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_INFO_BY_TRAIN);
+        statement.setInt(1, trainId);
+
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            map.put(result.getString(language.equals("en") ? Fields.NAME : Fields.NAME_RU),
+                    result.getInt(Fields.CARRIAGE_COUNT_AVAILABLE_SEATS));
+        }
+
+        return map;
+    }
+
+    public static int getTicketIdByRoute(Connection connection, int routeId, String carriageType) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_TICKET_ID_BY_ROUTE);
+        statement.setInt(1, routeId);
+        statement.setString(2, carriageType);
+
+        ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            return (result.getInt(1));
+        }
+
+        return 0;
+    }
+
+    public static Ticket getTicketById(Connection connection, int tickedId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_TICKET_BY_ID);
+        statement.setInt(1, tickedId);
+
+        ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            Ticket ticket = new Ticket(result.getInt(Fields.IS_ROUTE_ID), result.getFloat(Fields.TICKET_PRICE), result.getInt(Fields.SEATS_CARRIAGE_ID), result.getInt(Fields.TICKET_SEAT_ID));
+            ticket.setId(tickedId);
+            return ticket;
+        }
+
+        return null;
+    }
+
+    public static Carriage getCarriage(Connection connection, int carriageId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_CARRIAGE);
+        statement.setInt(1, carriageId);
+
+        ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            Carriage carriage = new Carriage(result.getInt(Fields.CARRIAGE_TYPE_ID),
+                    result.getInt(Fields.CARRIAGE_COUNT_SEATS), result.getInt(Fields.CARRIAGE_COUNT_AVAILABLE_SEATS),
+                    result.getBoolean(Fields.CARRIAGE_HAVE_REST));
+            carriage.setId(result.getInt(Fields.ID));
+            return carriage;
+        }
+        return null;
+    }
+
+    public static List<Ticket> getTicketsByUser(Connection connection, int userId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(SQLQuery.SQL_GET_ALL_TICKETS_BY_USER);
+        statement.setInt(1, userId);
+
+        List<Ticket> list = new LinkedList<>();
+
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            Ticket ticket = new Ticket(result.getInt(Fields.IS_ROUTE_ID), result.getFloat(Fields.TICKET_PRICE), result.getInt(Fields.SEATS_CARRIAGE_ID), result.getInt(Fields.TICKET_SEAT_ID));
+            ticket.setId(result.getInt(Fields.TICKET_ID));
+
+            list.add(ticket);
         }
 
         return list;

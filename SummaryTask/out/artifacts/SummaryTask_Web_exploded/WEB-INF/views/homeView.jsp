@@ -31,6 +31,14 @@
 
 </c:if>
 
+<c:if test="${errorReg != null}">
+
+    <script>
+        openRegForm()
+    </script>
+
+</c:if>
+
 <jsp:include page="_search.jsp"/>
 
 

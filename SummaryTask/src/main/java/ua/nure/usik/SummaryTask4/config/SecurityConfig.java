@@ -6,8 +6,7 @@ import java.util.*;
 
 public class SecurityConfig {
 
-    // String: Role
-    // List<String>: urlPatterns.
+
     private static final Map<String, List<String>> mapConfig = new HashMap<String, List<String>>();
 
     static {
@@ -29,7 +28,7 @@ public class SecurityConfig {
 
         urlPatterns2.add("/userInfo");
         urlPatterns2.add("/adminPage");
-//        urlPatterns2.add("/addTrain");
+        urlPatterns2.add("/buyTicket");
 
         mapConfig.put(String.valueOf(Role.getRole(1)), urlPatterns2);
     }

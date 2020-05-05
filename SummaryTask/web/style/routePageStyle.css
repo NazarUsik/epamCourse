@@ -25,7 +25,7 @@
 .tab_border{
     position: absolute;
     width: 55%;
-    margin: 21px 0 3px 12.1%;
+    margin: 21px 0 3px 12.5%;
     display: block;
     border-bottom: 1px solid #c3cfdf;
 }
@@ -71,10 +71,124 @@
     height: auto;
 }
 
-.route_page .route_info .tick_type{
-    border: 2px dashed #344212;
+.route_page .route_info .car_type{
+    /* border: 2px dashed #344212; */
 }
 
-.route_page .route_info .car_type{
-    border: 2px dashed #344212;
+.route_page .route_info .radio_type{
+    margin: 15px;
+    padding: 15px 15px 15px 45px;
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(163, 163, 163, 0.65);
+    transition: 0.7s;
 }
+
+.route_page .route_info .radio_type:hover{
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(102, 102, 102, 0.85);
+}
+
+.text{
+    color: #646464;
+    display: initial;
+    text-transform: initial;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 100px;
+}
+
+.seat_price{
+    color: #858585;
+    display: initial;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+#opBtn {
+    transition: 0.3s;
+    box-shadow: 0 0 0 1px rgba(60, 60, 60, 0.1), 0 5px 10px 0 rgba(163, 163, 163, 0.65);
+    line-height: 25px;
+    background-color: #1F294D;
+    border-radius: 5px;
+    color: #fff;
+    float: left;
+    height: 1px;
+    margin: 18px 20px;
+    padding: 7px 14px 33px 14px;
+}
+
+
+#opBtn:hover {
+    cursor: pointer;
+    margin: 18px;
+    padding: 7px 16px 33px 16px;
+}
+
+#buyBtn{
+    display: none;
+}
+
+/*__Radio_Btn__*/
+
+.contain {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+    text-transform: capitalize;
+}
+
+/* Hide the browser's default radio button */
+.contain input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    /* padding: 15px; */
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    transition: 0.7s;
+}
+
+/* On mouse-over, add a grey background color */
+.contain:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.contain input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.contain input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.contain .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+/*_____________*/

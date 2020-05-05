@@ -1,10 +1,6 @@
 package ua.nure.usik.SummaryTask4.db.constats;
 
-/**
- * Holder for fields names of DB tables and beans.
- *
- * @author D.Kolesnikov
- */
+
 public final class Fields {
 
     public static final String ID = "id";
@@ -12,7 +8,6 @@ public final class Fields {
     public static final String NAME_RU = "name_ru";
 
 
-    // entities
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
     public static final String USER_FIRST_NAME = "first_name";
@@ -57,10 +52,12 @@ public final class Fields {
     public static final String SEATS_CARRIAGE_ID = "carriage_id";
     public static final String SEATS_NUMBER = "number";
     public static final String SEATS_AVAILABLE = "available";
+    public static final String SEATS_ID = "seats_id";
 
     public static final String TICKET = "ticket";
     public static final String TICKET_PRICE = "price";
     public static final String TICKET_ID = "ticket_id";
+    public static final String TICKET_SEAT_ID = "seat_id";
     public static final String COUNT_TICKETS = "count_tickets";
 
 }

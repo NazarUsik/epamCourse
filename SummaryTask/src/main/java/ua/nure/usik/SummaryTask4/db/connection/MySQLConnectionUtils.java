@@ -8,7 +8,6 @@ public class MySQLConnectionUtils {
 
     public static Connection getMySQLConnection()
             throws ClassNotFoundException, SQLException {
-        // Примечание: Изменить параметры соединения соответствующе.
         String hostName = "localhost";
         String dbName = "final_project_db";
         String userName = "root";
@@ -22,9 +21,7 @@ public class MySQLConnectionUtils {
 
         Class.forName("com.mysql.jdbc.Driver");
 
-        // Структура URL Connection для MySQL:
-        // Например:
-        // jdbc:mysql://localhost:3306/simplehr
+
         String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName + "?useUnicode=true&serverTimezone=UTC";
 
         Connection conn = DriverManager.getConnection(connectionURL, userName,

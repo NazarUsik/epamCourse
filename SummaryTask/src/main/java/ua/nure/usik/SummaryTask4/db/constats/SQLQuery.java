@@ -29,8 +29,6 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_ROUTE_BY_ARRIVAL_STATION =
             "UPDATE train_route SET arrival_station_id = ? WHERE id = ?";
 
-    public static final String SQL_UPDATE_ROUTE_BY_SCHEDULE =
-            "UPDATE train_route SET schedule_id = ? WHERE id = ?";
 
     public static final String SQL_FIND_SCHEDULE_BY_ID =
             "SELECT * FROM schedule WHERE id = ?";
@@ -42,20 +40,10 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_SCHEDULE =
             "UPDATE schedule SET departure_time = ?, arrival_time = ?, travel_time = ? WHERE id = ?";
 
-    public static final String SQL_UPDATE_SCHEDULE_BY_ARR_TIME =
-            "UPDATE schedule SET arrival_time = ? WHERE id = ?";
-
-    public static final String SQL_UPDATE_SCHEDULE_BY_DEP_TIME =
-            "UPDATE schedule SET departure_time = ? WHERE  id = ?";
-
-    public static final String SQL_DELETE_SCHEDULE =
-            "DELETE FROM schedule WHERE id = ?";
 
     public static final String SQL_INSERT_USER =
             "INSERT INTO user VALUES (DEFAULT, ?, ?, ?, ?, ?);";
 
-    public static final String SQL_UPDATE_USER =
-            "UPDATE user SET password = ? WHERE id = ?";
 
     public static final String SQL_FIND_USER_BY_EMAIL_AND_PASS =
             "SELECT * FROM  final_project_db.user us WHERE us.email = ? AND us.password = ?;";
@@ -76,14 +64,6 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_TRAIN_COMPOSITION_BY_CARRIAGE =
             "UPDATE train_composition SET train_id = ? WHERE carriage_id = ?";
 
-    public static final String SQL_UPDATE_TRAIN_COMPOSITION_BY_TRAIN =
-            "UPDATE train_composition SET carriage_id = ? WHERE train_id = ?";
-
-    public static final String SQL_DELETE_TRAIN_COMPOSITION_BY_TRAIN =
-            "DELETE FROM train_composition WHERE train_id = ?";
-
-    public static final String SQL_DELETE_TRAIN_COMPOSITION_BY_CARRIAGE =
-            "DELETE FROM train_composition WHERE carriage_id = ?";
 
     public static final String SQL_INSERT_CARRIAGE =
             "INSERT INTO carriage VALUES (DEFAULT, ?, ?, ?, ?);";
@@ -100,17 +80,12 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_SEATS =
             "UPDATE seats SET available = ? WHERE id = ?";
 
-    public static final String SQL_DELETE_SEATS =
-            "DELETE FROM seats WHERE id = ?";
 
     public static final String SQL_FIND_TRAIN =
             "SELECT * FROM train WHERE id = ?";
 
     public static final String SQL_INSERT_TRAIN =
             "INSERT INTO train VALUES (DEFAULT, ?);";
-
-    public static final String SQL_UPDATE_TRAIN =
-            "UPDATE train SET type_id = ? WHERE id = ?";
 
     public static final String SQL_DELETE_TRAIN =
             "DELETE FROM train WHERE id = ?";
@@ -121,8 +96,6 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_TICKET =
             "UPDATE ticket SET price = ? WHERE id = ?";
 
-    public static final String SQL_DELETE_TICKET =
-            "DELETE FROM ticket WHERE id = ?";
 
     public static final String SQL_INSERT_INTERMEDIATE_STATION =
             "INSERT INTO intermediate_stations VALUES (?, ?, ?);";
@@ -130,20 +103,11 @@ public final class SQLQuery {
     public static final String SQL_UPDATE_INTERMEDIATE_STATION_BY_STATION =
             "UPDATE intermediate_stations SET station_id = ? WHERE route_id = ? and schedule_id = ?";
 
-    public static final String SQL_UPDATE_INTERMEDIATE_STATION_BY_SCHEDULE =
-            "UPDATE intermediate_stations SET schedule_id = ? WHERE route_id = ? and station_id = ?";
-
     public static final String SQL_DELETE_INTERMEDIATE_STATION =
             "DELETE FROM intermediate_stations WHERE route_id = ? and station_id = ?";
 
     public static final String SQL_INSERT_TICKETS_LIST =
             "INSERT INTO ticketslist VALUES (?, ?, ?);";
-
-    public static final String SQL_UPDATE_TICKETS_LIST =
-            "UPDATE ticketslist SET ticket_status_id = ? WHERE user_id = ?";
-
-    public static final String SQL_DELETE_TICKETS_LIST =
-            "DELETE FROM ticketslist WHERE user_id = ? and ticket_id = ?";
 
     public static final String SQL_FIND_ROUTE_BY_TWO_STATION =
             "SELECT * " +
@@ -196,7 +160,6 @@ public final class SQLQuery {
     public static final String SQL_FIND_ALL_TRAIN =
             "SELECT * FROM train t JOIN train_type tt on t.type_id = tt.id;";
 
-    //language=MySQL
     public static final String SQL_FIND_ALL_CARRIAGE =
             "SELECT *" +
                     " FROM carriage c" +
@@ -210,11 +173,6 @@ public final class SQLQuery {
                     "ORDER BY id DESC\n" +
                     "LIMIT 1;\n";
 
-    public static final String SQL_LAST_ADD_TRAIN_ID =
-            "SELECT id\n" +
-                    "FROM train\n" +
-                    "ORDER BY id DESC\n" +
-                    "LIMIT 1;\n";
 
     public static final String SQL_GET_ALL_STATION =
             "SELECT * FROM station ORDER BY station.name;";
@@ -254,13 +212,6 @@ public final class SQLQuery {
 
     public static final String SQL_GET_LAST_ROUTE_ID =
             "SELECT * FROM train_route ORDER BY id DESC LIMIT 1;";
-
-    public static final String SQL_SUM_ALL_SEATS_FROM_TRAIN =
-            "SELECT SUM(c.count_seats) count_seats " +
-                    "FROM train t " +
-                    "         JOIN train_composition tc on t.id = tc.train_id " +
-                    "         JOIN carriage c on tc.carriage_id = c.id " +
-                    "WHERE t.id = ?;";
 
 
     public static final String SQL_FIND_CARRIAGES_SEATS_BY_TRAIN_ID =
@@ -310,18 +261,40 @@ public final class SQLQuery {
                     "JOIN seats s on t.seat_id = s.id " +
                     "WHERE tr.id = ? AND s.available";
 
-    public static final String SQL_GET_AMOUNT_STATION_BY_ROUTE =
-            "SELECT COUNT(station_id) FROM intermediate_stations WHERE route_id = ?";
-
-    public static final String SQL_GET_AMOUNT_STATION_BY_ROUTE_AND_STATION =
-            "SELECT COUNT(station_id) " +
-                    "FROM intermediate_stations " +
-                    "JOIN schedule s on intermediate_stations.schedule_id = s.id " +
-                    "WHERE route_id = ? AND s.travel_time < ? AND s.travel_time > ?";
-
     public static final String SQL_GET_ALL_INTERMEDIATE_STATION_BY_ROUTE =
             "SELECT * FROM intermediate_stations ins " +
                     "JOIN schedule s on ins.schedule_id = s.id " +
                     "WHERE route_id = ? " +
                     "ORDER BY s.travel_time";
+
+    public static final String SQL_GET_INFO_BY_TRAIN =
+            "SELECT ct.name, ct.name_ru, SUM(c.count_available_seats) count_available_seats " +
+                    "FROM train t " +
+                    "         JOIN train_composition tc on t.id = tc.train_id" +
+                    "         JOIN carriage c on tc.carriage_id = c.id" +
+                    "         JOIN carriage_type ct on c.type_id = ct.id" +
+                    " WHERE t.id = ?" +
+                    " GROUP BY ct.name ORDER BY count_available_seats DESC;";
+
+    public static final String SQL_GET_TICKET_ID_BY_ROUTE =
+            "SELECT t.id " +
+                    "FROM ticket t" +
+                    "         JOIN carriage c on t.carriage_id = c.id" +
+                    "         JOIN carriage_type ct on c.type_id = ct.id" +
+                    "         JOIN seats s on t.seat_id = s.id " +
+                    "WHERE route_id = ?" +
+                    "  and ct.name = ?" +
+                    "  and s.available";
+
+    public static final String SQL_GET_TICKET_BY_ID =
+            "SELECT * FROM ticket WHERE id = ?";
+
+    public static final String SQL_GET_CARRIAGE =
+            "SELECT * FROM carriage where id = ?";
+
+    public static final String SQL_GET_ALL_TICKETS_BY_USER =
+            "SELECT * " +
+                    "FROM ticketslist tl JOIN user u on tl.user_id = u.id " +
+                    "JOIN ticket t on tl.ticket_id = t.id " +
+                    "WHERE u.id = ?";
 }

@@ -1,6 +1,7 @@
 package ua.nure.usik.SummaryTask4.db.connection;
 
 import com.sun.deploy.net.HttpResponse;
+import ua.nure.usik.SummaryTask4.db.entity.Station;
 import ua.nure.usik.SummaryTask4.db.entity.User;
 
 import javax.servlet.ServletRequest;
@@ -60,20 +61,20 @@ public class MyUtils {
     }
 
 
-    public static void storeDepartureFoundStation(HttpSession session, String stationName) {
-        session.setAttribute(ATT_NAME_DEP_STATION, stationName);
+    public static void storeDepartureFoundStation(HttpSession session, Station station) {
+        session.setAttribute(ATT_NAME_DEP_STATION, station);
     }
 
-    public static String getStoredDepartureFoundStation(HttpSession session) {
-       return (String) session.getAttribute(ATT_NAME_DEP_STATION);
+    public static Station getStoredDepartureFoundStation(HttpSession session) {
+        return (Station) session.getAttribute(ATT_NAME_DEP_STATION);
     }
 
-    public static void storeArrivalFoundStation(HttpSession session, String stationName) {
-        session.setAttribute(ATT_NAME_ARR_STATION, stationName);
+    public static void storeArrivalFoundStation(HttpSession session, Station station) {
+        session.setAttribute(ATT_NAME_ARR_STATION, station);
     }
 
-    public static String getStoredArrivalFoundStation(HttpSession session) {
-        return (String) session.getAttribute(ATT_NAME_ARR_STATION);
+    public static Station getStoredArrivalFoundStation(HttpSession session) {
+        return (Station) session.getAttribute(ATT_NAME_ARR_STATION);
     }
 
     // Сохранить информацию пользователя, который вошел в систему (login) в Session.

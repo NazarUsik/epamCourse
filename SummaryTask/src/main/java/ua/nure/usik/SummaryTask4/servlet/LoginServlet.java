@@ -34,7 +34,6 @@ public class LoginServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("warnings", new Locale(language));
 
         req.setAttribute("errorString", bundle.getString("login.first"));
-        // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
         RequestDispatcher dispatcher //
                 = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
 

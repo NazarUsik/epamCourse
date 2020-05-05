@@ -39,6 +39,13 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="final_project_db: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="FinalDB" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="final_project_db: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="ticketslist: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
     </expand>
     <select />
   </component>
@@ -49,8 +56,8 @@
         <option value="HTML File" />
         <option value="JUnit5 Test Class" />
         <option value="JUnit4 Test Class" />
-        <option value="Jsp File" />
         <option value="CSS File" />
+        <option value="Jsp File" />
         <option value="Class" />
       </list>
     </option>
@@ -123,19 +130,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 8.5.51">
-    <configuration name="HexUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.SummaryTask4.utils.HexUtils" />
-      <module name="SummaryTask" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.nure.usik.SummaryTask4.utils.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="RouteUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ua.nure.usik.SummaryTask4.utils.RouteUtils" />
       <module name="SummaryTask" />
@@ -162,7 +156,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBManagerTest.findRouteRyStation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DBManagerTest.getTicketById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SummaryTask" />
       <extension name="coverage">
         <pattern>
@@ -172,7 +166,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="ua.nure.usik.SummaryTask4.db" />
       <option name="MAIN_CLASS_NAME" value="ua.nure.usik.SummaryTask4.db.DBManagerTest" />
-      <option name="METHOD_NAME" value="findRouteRyStation" />
+      <option name="METHOD_NAME" value="getTicketById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -189,6 +183,22 @@
       <option name="PACKAGE_NAME" value="ua.nure.usik.SummaryTask4.db" />
       <option name="MAIN_CLASS_NAME" value="ua.nure.usik.SummaryTask4.db.DBManagerTest" />
       <option name="METHOD_NAME" value="getTicketsInfoByRoute" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DBManagerTest.getTrainInfo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SummaryTask" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ua.nure.usik.SummaryTask4.db.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ua.nure.usik.SummaryTask4.db" />
+      <option name="MAIN_CLASS_NAME" value="ua.nure.usik.SummaryTask4.db.DBManagerTest" />
+      <option name="METHOD_NAME" value="getTrainInfo" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -268,20 +278,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.HexUtils" />
-      <item itemvalue="JUnit.DBManagerTest.findRouteRyStation" />
-      <item itemvalue="Tomcat Server.Tomcat 8.5.51" />
-      <item itemvalue="JUnit.DBManagerTest.getTicketsInfoByRoute" />
       <item itemvalue="Application.RouteUtils" />
       <item itemvalue="Application.ScheduleUtils" />
+      <item itemvalue="JUnit.DBManagerTest.getTicketsInfoByRoute" />
+      <item itemvalue="JUnit.DBManagerTest.getTrainInfo" />
+      <item itemvalue="JUnit.DBManagerTest.getTicketById" />
+      <item itemvalue="Tomcat Server.Tomcat 8.5.51" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DBManagerTest.getTicketById" />
+        <item itemvalue="JUnit.DBManagerTest.getTrainInfo" />
         <item itemvalue="Application.ScheduleUtils" />
         <item itemvalue="Application.RouteUtils" />
         <item itemvalue="JUnit.DBManagerTest.getTicketsInfoByRoute" />
-        <item itemvalue="JUnit.DBManagerTest.findRouteRyStation" />
-        <item itemvalue="Application.HexUtils" />
       </list>
     </recent_temporary>
   </component>
@@ -308,7 +318,12 @@
               <path>
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="root:FinalDB" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@e4ed309" type="9fbbdea:ServiceModel$ServiceNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@7d337093" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:FinalDB" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@1f7bc0b5" type="9fbbdea:ServiceModel$ServiceNode" />
               </path>
             </expand>
             <select />
@@ -354,7 +369,8 @@
       <workItem from="1587833000696" duration="1863000" />
       <workItem from="1587834955220" duration="58766000" />
       <workItem from="1588325545653" duration="26776000" />
-      <workItem from="1588497660158" duration="35952000" />
+      <workItem from="1588497660158" duration="58487000" />
+      <workItem from="1588657560148" duration="5720000" />
     </task>
     <servers />
   </component>
@@ -378,10 +394,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="524" y="235" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.864@0.0.1536.864" timestamp="1588084993650" />
-    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser" timestamp="1588445713644">
+    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser" timestamp="1588662401566">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1588445713644" />
+    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1588662401566" />
     <state x="400" y="121" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1584696139858">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -422,54 +438,54 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="591" y="348" key="Github.CreateGistDialog/0.0.1536.864@0.0.1536.864" timestamp="1586794116204" />
-    <state width="1265" height="334" key="GridCell.Tab.0.bottom" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.0.bottom" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.0.center" timestamp="1588617008821">
+    <state width="1265" height="327" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.0.center" timestamp="1588663775739">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1588617008821" />
-    <state width="1265" height="334" key="GridCell.Tab.0.left" timestamp="1588617008821">
+    <state width="1265" height="327" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1588663775739" />
+    <state width="1265" height="327" key="GridCell.Tab.0.left" timestamp="1588663775739">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1588617008821" />
-    <state width="1265" height="334" key="GridCell.Tab.0.right" timestamp="1588617008821">
+    <state width="1265" height="327" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1588663775739" />
+    <state width="1265" height="327" key="GridCell.Tab.0.right" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1588617008821" />
-    <state width="1265" height="334" key="GridCell.Tab.1.bottom" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.1.bottom" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.1.center" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.1.center" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.1.left" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.1.left" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.1.right" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.1.right" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.2.bottom" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.2.bottom" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.2.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.2.center" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.2.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.2.center" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.2.center/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.2.left" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.2.center/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.2.left" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.2.left/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
-    <state width="1265" height="334" key="GridCell.Tab.2.right" timestamp="1588617008822">
+    <state width="1265" height="327" key="GridCell.Tab.2.left/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
+    <state width="1265" height="327" key="GridCell.Tab.2.right" timestamp="1588663775740">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1265" height="334" key="GridCell.Tab.2.right/0.0.1536.864@0.0.1536.864" timestamp="1588617008822" />
+    <state width="1265" height="327" key="GridCell.Tab.2.right/0.0.1536.864@0.0.1536.864" timestamp="1588663775740" />
     <state width="1023" height="320" key="GridCell.Tab.5.bottom" timestamp="1585650716883">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -526,10 +542,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="566" y="260" width="403" height="346" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.864@0.0.1536.864" timestamp="1587989055879" />
-    <state x="158" y="104" key="com.intellij.database.run.ParametersPanel.Standalone" timestamp="1588585347110">
+    <state x="158" y="104" key="com.intellij.database.run.ParametersPanel.Standalone" timestamp="1588640831397">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="158" y="104" key="com.intellij.database.run.ParametersPanel.Standalone/0.0.1536.864@0.0.1536.864" timestamp="1588585347110" />
+    <state x="158" y="104" key="com.intellij.database.run.ParametersPanel.Standalone/0.0.1536.864@0.0.1536.864" timestamp="1588640831397" />
     <state x="485" y="73" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1587989004708">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -554,14 +570,14 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="475" y="51" key="refactoring.ChangeSignatureDialog/0.0.1536.864@0.0.1536.864" timestamp="1587382538886" />
-    <state x="425" y="197" key="run.anything.popup" timestamp="1588604074319">
+    <state x="425" y="197" key="run.anything.popup" timestamp="1588658243410">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="425" y="197" key="run.anything.popup/0.0.1536.864@0.0.1536.864" timestamp="1588604074319" />
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1588604155808">
+    <state x="425" y="197" key="run.anything.popup/0.0.1536.864@0.0.1536.864" timestamp="1588658243410" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1588639831898">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1588604155808" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1588639831898" />
     <state x="491" y="344" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1587033020923">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

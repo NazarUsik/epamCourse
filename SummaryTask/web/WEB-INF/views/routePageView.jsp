@@ -82,12 +82,43 @@
 
         <div class="choose_tick">
             <fmt:bundle basename="staticInformation" prefix="">
-                <form>
+                <form id="buy_form" action="${pageContext.request.contextPath}/buyTicket" method="post">
                     <div class="numeration"><fmt:message key="numeration"/></div>
-                    
-                    <div class="car_type">
 
+                    <div class="car_type">
+                        <c:set var="price" value="${RouteUtils.calculateTicketPrice(requestScope.connection,
+                                        route.id,sessionScope.dep_station, sessionScope.arr_station)}"/>
+                        <input type="hidden" name="price" value="${price}">
+                        <c:forEach var="tr_inf" items="${trainInfo}">
+                            <c:choose>
+                                <c:when test="${tr_inf.key=='lux' || tr_inf.key=='Люкс'}">
+                                    <c:set var="price" value=" ${price = price * 3}"/>
+                                </c:when>
+                                <c:when test="${tr_inf.key=='coupe' || tr_inf.key=='Купе'}">
+                                    <c:set var="price" value="${price = price * 1.5}"/>
+                                </c:when>
+                            </c:choose>
+
+                            <label class="contain radio_type">${tr_inf.key}
+                                <input type="radio" name="carr_type" checked value="${tr_inf.key}" required>
+                                <span class="checkmark"></span>
+                                <p class="text"><fmt:message key="amount_seats"/></p>
+                                <p class="seat_price"> ${tr_inf.value}</p>
+                                <p class="text"><fmt:message key="price"/></p>
+                                <p class="seat_price"> ${price}</p>
+                            </label>
+                        </c:forEach>
                     </div>
+
+                    <input type="hidden" name="routeId" value="${route.id}">
+                    <c:if test="${sessionScope.loginedUser != null}">
+                        <span id="opBtn" onclick="openBuyForm()"><fmt:message
+                                key="buy"/></span>
+                    </c:if>
+                    <c:if test="${sessionScope.loginedUser == null}">
+                        <span id="opBtn" onclick="openForm()"><fmt:message
+                                key="buy"/></span>
+                    </c:if>
                 </form>
             </fmt:bundle>
         </div>
@@ -96,8 +127,17 @@
 
 </div>
 
-
+<jsp:include page="_tourPaymentView.jsp"/>
 <jsp:include page="_footer.jsp"/>
+
+<script>
+
+    function openBuyForm() {
+        document.getElementById('id02').style.display = 'block';
+    }
+
+
+</script>
 
 </body>
 </html>

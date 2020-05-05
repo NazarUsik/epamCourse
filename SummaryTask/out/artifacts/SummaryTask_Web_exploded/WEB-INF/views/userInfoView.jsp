@@ -17,6 +17,23 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/userAccStyle.css"/>
     <title>Account</title>
 </head>
+<style>
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: rgba(242, 242, 242, 0.56);
+    }
+</style>
 <body>
 
 <jsp:include page="_header.jsp"/>
@@ -28,20 +45,45 @@
     <fmt:bundle basename="staticInformation" prefix="user.page.">
         <button class="tablink" onclick="openPage('Profile', this, '#1F294D')" id="defaultOpen"><fmt:message
                 key="pr"/></button>
-        <button class="tablink" onclick="openPage('Profile', this, '#1F294D')"><fmt:message key="tick"/></button>
-        <button class="tablink" onclick="openPage('Profile', this, '#1F294D')"><fmt:message key="st"/></button>
+        <button class="tablink" onclick="openPage('Tickets', this, '#1F294D')"><fmt:message key="tick"/></button>
     </fmt:bundle>
     <div id="Profile" class="tabcontent">
         <br>
         <br>
 
-        <h3>Hello: ${user.firstName} ${user.lastName}</h3>
-
-        <p>User Name: <b>${user.firstName} ${user.lastName}</b></p>
-        <br/>
-        <p> Email: ${user.email} <br/></p>
+        <div class="user_info">
+            <fmt:bundle basename="staticInformation" prefix="admin.page.us.">
+                <div class="text"><fmt:message key="f_name"/>: ${user.firstName}</div>
+                <div class="text"><fmt:message key="l_name"/>: ${user.lastName}</div>
+                <div class="text"><fmt:message key="email"/>: ${user.email}</div>
+            </fmt:bundle>
+        </div>
     </div>
 
+
+    <div id="Tickets" class="tabcontent">
+        <fmt:bundle basename="staticInformation" prefix="admin.page.">
+            <table>
+                <tr>
+                    <th><fmt:message key="rs.dep_s"/></th>
+                    <th><fmt:message key="rs.arr_s"/></th>
+                    <th><fmt:message key="rs.dep_t"/></th>
+                    <th><fmt:message key="rs.arr_t"/></th>
+                    <th><fmt:message key="tick.price"/></th>
+                </tr>
+
+                <c:forEach items="${ticketsInfo}" var="pair">
+                    <tr>
+                        <td>${language == 'en' ? pair.key.key.name : pair.key.key.nameRu}</td>
+                        <td>${language == 'en' ? pair.key.value.name : pair.key.value.nameRu}</td>
+                        <td>${pair.value.key.departureTime}</td>
+                        <td>${pair.value.key.arrivalTime}</td>
+                        <td>${pair.value.value}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </fmt:bundle>
+    </div>
 
     <script>
         function openPage(pageName, elmnt, color) {

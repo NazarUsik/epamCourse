@@ -71,8 +71,20 @@ public class RouteSearchServlet extends HttpServlet {
         req.setAttribute("errorString", errorString);
         req.setAttribute("routeMap", map);
 
-        MyUtils.storeDepartureFoundStation(req.getSession(), dep_station);
-        MyUtils.storeArrivalFoundStation(req.getSession(), arr_station);
+        try {
+            MyUtils.storeDepartureFoundStation(req.getSession(),
+                    language.equals("en") ? DBManager.findStationByName(connection, dep_station) :
+                            DBManager.findStationByNameRu(connection, dep_station));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            MyUtils.storeArrivalFoundStation(req.getSession(),
+                    language.equals("en") ? DBManager.findStationByName(connection, arr_station) :
+                            DBManager.findStationByNameRu(connection, arr_station));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         User user = MyUtils.getLoginedUser(req.getSession());

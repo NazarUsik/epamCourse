@@ -31,10 +31,13 @@
             </label>
 
             <button type="submit" class="btn"><fmt:message key="button.login"/></button>
+            <button type="button" onclick="openRegForm()" class="btn"><fmt:message key="button.reg"/></button>
             <button type="button" class="btn cancel" onclick="closeForm()"><fmt:message key="button.close"/></button>
         </fmt:bundle>
     </form>
 </div>
+
+<jsp:include page="registerView.jsp"/>
 
 <script>
     function openForm() {
@@ -43,5 +46,15 @@
 
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
+    }
+
+    function openRegForm() {
+        document.getElementById("reg").style.display = "block";
+        closeForm();
+    }
+
+    function closeRegForm() {
+        document.getElementById("reg").style.display = "none";
+        openForm();
     }
 </script>
